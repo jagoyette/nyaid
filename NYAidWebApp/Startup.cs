@@ -58,18 +58,39 @@ namespace NYAidWebApp
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
+            // The 'UseSPA' environment variable is used for development purposes
+            // to control the way the application uses the Angular SPA client. By
+            // default, the project will compile and run the SPA application. This can 
+            // lead to long compile times.
+            // See https://docs.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnetcore-3.1&tabs=visual-studio#run-ng-serve-independently
+            // 
+            // To work around this inconvenience, we use an environment variable to disable
+            // this as needed. The UseSPA can be used in the following way:
+            // UseSPA = "false"     => Completely disables SPA. Useful for backend dev
+            // UseSPA = "external"  => Expects SPA to be served using 'npm start' or 'ng serve' prior to launch
+            // UseSPA = null, missing or anything else => default, project will compile SPA
+            var useSpa = System.Environment.GetEnvironmentVariable("UseSPA");
+
+            // Always enable SPA for production, but allow UseSPA = 'false' in development mode
+            if (env.IsProduction() ||  useSpa != "false")
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
+                app.UseSpa(spa =>
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
-            });
+                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                    // see https://go.microsoft.com/fwlink/?linkid=864501
+
+                    spa.Options.SourcePath = "ClientApp";
+
+                    if (env.IsDevelopment())
+                    {
+                        if (useSpa == "external")
+                            spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+                        else
+                            spa.UseAngularCliServer(npmScript: "start");
+
+                    }
+                });
+            }
         }
     }
 }
