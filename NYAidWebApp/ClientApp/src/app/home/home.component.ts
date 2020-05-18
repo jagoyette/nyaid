@@ -5,4 +5,12 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
+
+  requesthelp() {
+    console.log('requesthelp was called');
+  }
+
+  helpsomeone() {
+    console.log('helpsomeone was called');
+  }    
 }
