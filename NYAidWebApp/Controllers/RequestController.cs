@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NYAidWebApp.DataContext;
 using NYAidWebApp.Models;
 
 namespace NYAidWebApp.Controllers
@@ -12,67 +14,75 @@ namespace NYAidWebApp.Controllers
     [ApiController]
     public class RequestController : ControllerBase
     {
+        private readonly ApiDataContext _context;
+
+        public RequestController(ApiDataContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/request
         // Returns all requests
         [HttpGet]
-        public IEnumerable<Request> Get()
+        public async Task<IEnumerable<Request>> Get()
         {
-            return new Request[]
-            {
-                new Request
-                {
-                    RequestId = "1",
-                    Name = "Fred Flintstone",
-                    Location = "Bedrock",
-                    Phone = "555-555-5555",
-                    Description = "I need someone to pick up a giant rack of ribs. It's heavy!"
-                },
-                new Request
-                {
-                    RequestId = "2",
-                    Name = "Wile E. Coyote",
-                    Location = "The Desert",
-                    Phone = "444-444-4444",
-                    Description = "I am in need of a large anvil. It must be heavy enough to stop a sneaky roadrunner."
-                }
-            };
+            return await _context.Requests.ToArrayAsync();
         }
 
         // GET: api/request/5
         [HttpGet("{id}", Name = "Get")]
-        public Request Get(int id)
+        public async Task<Request> Get(string id)
         {
-            return new Request
-            {
-                RequestId = "1",
-                Name = "Fred Flintstone",
-                Location = "Bedrock",
-                Phone = "555-555-5555",
-                Description = "I need someone to pick up a giant rack of ribs. It's heavy!"
-            };
+            return await _context.Requests
+                .FirstOrDefaultAsync(r => r.RequestId == id);
         }
 
         // POST: api/request
         [HttpPost]
-        public void Post([FromBody] NewRequestInfo requestInfo)
+        public async Task<Request> Post([FromBody] NewRequestInfo requestInfo)
         {
-            // Not implemented
-            throw new NotImplementedException();
+            // Create a new Request object and add it to data store
+            var id = _context.CreateUniqueId();
+            var request = new Request()
+            {
+                RequestId = id,
+                Name = requestInfo.Name,
+                Location = requestInfo.Location,
+                Phone = requestInfo.Phone,
+                Description = requestInfo.Description
+            };
+
+            // Add it to the data store
+            await _context.AddAsync(request);
+            await _context.SaveChangesAsync();
+            return request;
         }
 
         // PUT: api/request/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] NewRequestInfo requestInfo)
+        public async Task<Request> Put(string id, [FromBody] NewRequestInfo requestInfo)
         {
-            // Not implemented
-            throw new NotImplementedException();
+            var request = await _context.Requests
+                .FirstAsync(r => r.RequestId == id);
+
+            request.Name = requestInfo.Name;
+            request.Location = requestInfo.Location;
+            request.Phone = requestInfo.Phone;
+            request.Description = requestInfo.Description;
+
+            _context.Requests.Update(request);
+            await _context.SaveChangesAsync();
+            return request;
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
+            var request = await _context.Requests
+                .FirstAsync(r => r.RequestId == id);
+            _context.Requests.Remove(request);
+            await _context.SaveChangesAsync();
         }
     }
 }

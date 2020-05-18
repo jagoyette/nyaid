@@ -30,6 +30,7 @@ namespace NYAidWebApp.DataContext
 
             context.Requests.Add(request1);
             context.Requests.Add(request2);
+            context.SaveChanges();
         }
     }
 }

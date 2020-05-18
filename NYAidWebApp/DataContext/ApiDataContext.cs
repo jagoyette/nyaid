@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Microsoft.EntityFrameworkCore;
 using NYAidWebApp.Models;
 
@@ -11,7 +12,12 @@ namespace NYAidWebApp.DataContext
         public ApiDataContext(DbContextOptions<ApiDataContext> options) : base(options)
         {
         }
-        
+
+        public string CreateUniqueId()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
         /// <summary>
         /// Collection of requests
         /// </summary>

@@ -24,7 +24,6 @@ namespace NYAidWebApp
         {
             // Add database context
             services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
-           
             services.AddControllersWithViews();
 
             // In production, the Angular files will be served from this directory
@@ -35,12 +34,11 @@ namespace NYAidWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApiDataContext ctx)
         {
             // Seed with sample data
             var seeder = new SampleDataSeeder();
-            var context = app.ApplicationServices.GetService<ApiDataContext>();
-            seeder.AddSampleData(context);
+            seeder.AddSampleData(ctx);
 
             if (env.IsDevelopment())
             {
