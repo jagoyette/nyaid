@@ -37,6 +37,11 @@ namespace NYAidWebApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Seed with sample data
+            var seeder = new SampleDataSeeder();
+            var context = app.ApplicationServices.GetService<ApiDataContext>();
+            seeder.AddSampleData(context);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
