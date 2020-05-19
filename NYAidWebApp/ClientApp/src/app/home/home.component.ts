@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ export class HomeComponent {
 
   public requests: RequestInfo[];
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private router: Router) {
   }
 
   requesthelp() {
@@ -18,8 +19,11 @@ export class HomeComponent {
 
   helpsomeone() {
     console.log('helpsomeone was called');
-    this.http.get<RequestInfo[]>(this.baseUrl + 'api/request').subscribe(result => {
-      this.requests = result;
-    }, error => console.error(error));
-  }    
+    this.goToPage('requests');
+    console.log('going to requests page');
+  }
+  
+  goToPage(pageName:string) {
+    this.router.navigate([`${pageName}`]);
+  }  
 }

@@ -23,7 +23,7 @@ body {
 h1 {
   /* NY Aid text color and family */
   color: #ffffff;
-  font-family: BigApple, arial;
+  font-family: Big Apple NF;
   font-size: 72pt;
   text-align: center;
 }
@@ -33,7 +33,7 @@ p {
   color: #4f4f4f;
   text-align: center;
   font-size: 36pt;
-  font-family: Big Apple NF;
+  font-family: Balthazar;
 }
 
 .textcolor {
