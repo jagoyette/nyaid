@@ -1,10 +1,12 @@
-<!-- <p>requests works!</p> -->
 <h1>Requests</h1>
 
 <div>
-    <ul>
-        <li *ngFor="let request of requests">
-            {{ request.description }} <br> Location: {{ request.location }}
-        </li>
-    </ul>
+    <div class="container">
+        <div class="card m-3 p-2" *ngFor="let request of requests">
+            <div class="card-block">
+                <h3 class="card-title">{{ request.location }}</h3>
+                <p class="card-text">{{ request.description }}</p>
+            </div>
+        </div>
+    </div>
 </div>

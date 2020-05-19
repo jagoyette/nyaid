@@ -1,0 +1,8 @@
+/* Customize Bootstrap card */
+.card {
+    background-color: #f15642;
+}
+
+.card-text {
+    color: white;
+}
