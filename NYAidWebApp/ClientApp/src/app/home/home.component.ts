@@ -15,6 +15,7 @@ export class HomeComponent {
 
   requesthelp() {
     console.log('requesthelp was called');
+    alert('We still need to implement this');
   }
 
   helpsomeone() {
