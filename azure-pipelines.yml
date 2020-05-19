@@ -36,9 +36,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:DeployOnBuild=true /p:Targets=Publish /p:PublishProfile="nyaidPublishProfile.pubxml" /p:Username=$(NYAid_Username) /p:Password=$(NYAid_Password)' 
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    msbuildArgs: '/p:Targets=Publish /p:PublishProfile="nyaidPublishProfile.pubxml" /p:Username=$(NYAid_Username) /p:Password=$(NYAid_Password)' 
 
 - task: PublishBuildArtifacts@1
   inputs:
