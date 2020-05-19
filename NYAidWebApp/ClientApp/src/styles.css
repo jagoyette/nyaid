@@ -55,10 +55,11 @@ p {
 
 .button {
   background-color: #f15642;
-  padding: 14px 70px;
+  padding: 10px 50px;
   margin:0 auto;
   display:block;
   font-size: 25pt;
+  margin: 40px auto;
 }
 
 img {
