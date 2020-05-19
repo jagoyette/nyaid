@@ -28,15 +28,17 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/t:publish /p:PublishProfile="nyaidPublishProfile.pubxml" /p:Username=$(NYAid_Username) /p:Password=$(NYAid_Password)' 
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
 - task: VSTest@2
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArgs: '/p:Targets=Publish /p:PublishProfile="nyaidPublishProfile.pubxml" /p:Username=$(NYAid_Username) /p:Password=$(NYAid_Password)' 
 
 - task: PublishBuildArtifacts@1
   inputs:
