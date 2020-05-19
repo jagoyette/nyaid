@@ -31,7 +31,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/t:publish /p:PublishProfile="nyaidPublishProfile.pubxml" /p:Username=$(NYAid_Username) /p:Password=$(NYAid_Password)' 
+    msbuildArgs: '/p:DeployOnBuild=true /p:PublishProfile="nyaidPublishProfile.pubxml" /p:Username=$(NYAid_Username) /p:Password=$(NYAid_Password)' 
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
