@@ -2,10 +2,10 @@
 
 <div>
     <div class="container">
-        <div class="card m-3 p-2" *ngFor="let request of requests">
+        <div class="card bg-primary m-3 p-2" *ngFor="let request of requests">
             <div class="card-block">
-                <h3 class="card-title">{{ request.location }}</h3>
-                <p class="card-text">{{ request.description }}</p>
+                <p class="card-title lead">{{ request.location }}</p>
+                <p class="card-text text-light">{{ request.description }}</p>
             </div>
         </div>
     </div>

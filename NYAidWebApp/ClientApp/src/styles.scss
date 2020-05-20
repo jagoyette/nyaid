@@ -1,0 +1,40 @@
+/* You can add global styles to this file, and also import other style files */
+
+// Customize Bootstrap theme colors
+$primary:       #f15642; //$blue !default;
+$secondary:     #575757; //$gray-600 !default;
+$success:       #0ed145; //$green !default;
+$info:          #3f48cc; //$cyan !default;
+$warning:       #ffc107; //$yellow !default;
+$danger:        #dc3545; //$red !default;
+$light:         #f8f9fa; //$gray-100 !default;
+$dark:          #343a40; //$gray-800 !default;
+
+// Custom theme color - This will result in classes
+// like btn-highlight that we can use as needed
+$highlight: #b83dba;
+
+// Override Bootstrap theme colors
+$theme-colors: (
+  primary: $primary,
+  secondary: $secondary,
+  success: $success,
+  info: $info,
+  warning: $warning,
+  danger: $danger,
+  light: $light,
+  dark: $dark,
+  highlight: $highlight
+);
+
+// Customize Fonts
+$font-family-base: Balthazar, Big Apple NF, Roboto, "Segoe UI" !default;
+$font-size-base: 1rem !default;
+$line-height-base:  1.5 !default;
+
+// Override default body styles
+$body-bg: #bcbcbc;
+$body-color: black;
+
+// Import Bootstrap and its default variables
+@import "node_modules/bootstrap/scss/bootstrap";
