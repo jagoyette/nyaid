@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
@@ -18,10 +18,10 @@ export class NewRequestComponent implements OnInit {
 
     // Initialize the form data
     this.newRequestForm = this.formBuilder.group({
-      name: '',
-      location: '',
-      phone: '',
-      description: ''
+      name: ['', Validators.required],
+      location: ['', Validators.required],
+      phone: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
 
