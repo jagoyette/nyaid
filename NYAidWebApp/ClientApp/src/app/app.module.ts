@@ -9,6 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { RequestsComponent } from './requests/requests.component';
 import { NewRequestComponent } from './new-request/new-request.component';
+import { UpdaterequestComponent } from './updaterequest/updaterequest.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NewRequestComponent } from './new-request/new-request.component';
     NavMenuComponent,
     HomeComponent,
     RequestsComponent,
-    NewRequestComponent
+    NewRequestComponent,
+    UpdaterequestComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -26,6 +28,7 @@ import { NewRequestComponent } from './new-request/new-request.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'requests/new', component: NewRequestComponent },
+      { path: 'request/update', component: UpdaterequestComponent },
       { path: 'requests', component: RequestsComponent },
       { path: '**', component: HomeComponent }
     ])

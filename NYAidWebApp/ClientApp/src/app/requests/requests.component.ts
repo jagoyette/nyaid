@@ -11,6 +11,7 @@ import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-servic
 export class RequestsComponent implements OnInit {
 
   public requests: RequestInfo[];
+  requestInfo: RequestInfo;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -22,6 +23,17 @@ export class RequestsComponent implements OnInit {
       this.requests = data;
       console.log('Found ' + this.requests.length + ' requests');
     });
+  }
+
+  onSelectRequest(request: RequestInfo): void {
+    this.requestInfo = request;
+    console.log('onSelectRequest called');
+    this.goToPage('request/update');
+    console.log('going to update request page');
+  }
+
+  goToPage(pageName: string) {
+    this.router.navigate([`${pageName}`]);
   }
 
 }
