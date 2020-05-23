@@ -13,7 +13,7 @@ namespace NYAidWebApp
 {
     public class Startup
     {
-        private IHostEnvironment _hostEnvironment;
+        private readonly IHostEnvironment _hostEnvironment;
 
         public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
@@ -34,12 +34,6 @@ namespace NYAidWebApp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
-            });
-
-            services.AddAuthentication().AddFacebook(facebookOptions =>
-            {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
             services.AddAuthentication(options =>
