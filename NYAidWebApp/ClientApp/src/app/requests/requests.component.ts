@@ -11,7 +11,6 @@ import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-servic
 export class RequestsComponent implements OnInit {
 
   public requests: RequestInfo[];
-  requestInfo: RequestInfo;
 
   constructor(private http: HttpClient,
     private router: Router,
@@ -26,7 +25,7 @@ export class RequestsComponent implements OnInit {
   }
 
   onSelectRequest(request: RequestInfo): void {
-    this.requestInfo = request;
+    this.nyaidApiService.setData(request);
     console.log('onSelectRequest called');
     this.goToPage('request/update');
     console.log('going to update request page');
