@@ -22,11 +22,11 @@ export class UpdaterequestComponent implements OnInit {
   ngOnInit() {
     this.data = this.nyaidApiService.getData();
 
-    this.name = this.data.name;
+/*     this.name = this.data.name;
     this.location = this.data.location;
     this.phone = this.data.phone;
     this.description = this.data.description;
-
+ */
     // Initialize the form data
     this.newRequestForm = this.formBuilder.group({
       name: [this.name, Validators.required],
