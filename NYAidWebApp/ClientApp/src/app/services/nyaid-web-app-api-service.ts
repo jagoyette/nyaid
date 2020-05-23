@@ -40,4 +40,18 @@ export class NyaidWebAppApiService {
     return this.http.post<Request>(url, requestInfo);
   }
 
+  /**
+   * Put Request information of a given requestId
+   *
+   * @param requestId - The ID of the request
+   * @param requestInfo - `Request` object with new request info
+   *
+   * @return An `Observable` of `Request` object.
+   *
+   */
+  updateRequest(requestId: string, requestInfo: Request): Observable<Request> {
+    const url = this.baseUrl + 'api/request' + '/' + requestId;
+    return this.http.put<Request>(url, requestInfo);
+  }
+
 }
