@@ -54,4 +54,17 @@ export class NyaidWebAppApiService {
     return this.http.put<Request>(url, requestInfo);
   }
 
+  /**
+   * Delete Request for a given requestId
+   *
+   * @param requestId - The ID of the request
+   *
+   * @return An `Observable` of type void.
+   *
+   */
+  deleteRequest(requestId: string): Observable<void> {
+    const url = this.baseUrl + 'api/request' + '/' + requestId;
+    return this.http.delete<void>(url);
+  }
+
 }
