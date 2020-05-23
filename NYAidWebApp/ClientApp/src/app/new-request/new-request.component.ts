@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-service';
 
 @Component({
   selector: 'app-new-request',
@@ -13,8 +14,8 @@ export class NewRequestComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
-              @Inject('BASE_URL') private baseUrl: string,
-              private router: Router) {
+              private router: Router,
+              private nyaidApiService: NyaidWebAppApiService) {
 
     // Initialize the form data
     this.newRequestForm = this.formBuilder.group({
@@ -30,7 +31,7 @@ export class NewRequestComponent implements OnInit {
 
   onSubmit(formData) {
     console.log('Submitting new help request: ' + JSON.stringify(formData));
-    this.http.post(this.baseUrl + 'api/request', formData).subscribe(data => {
+    this.nyaidApiService.createRequest(formData).subscribe(data => {
       console.log('New request submitted');
       this.router.navigate(['/']);
     });

@@ -9,7 +9,9 @@ import { Inject } from '@angular/core';
 
 export class NyaidWebAppApiService {
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string,) { }
+  constructor(private http: HttpClient,
+    @Inject('BASE_URL') private baseUrl: string,) {
+    }
 
   /**
    * API Methods
@@ -24,4 +26,18 @@ export class NyaidWebAppApiService {
     const url = this.baseUrl + 'api/request';
     return this.http.get<RequestInfo[]>(url);
   }  
+
+  /**
+   * Post request
+   *
+   * @param requestInfo - `Request` containing info for request
+   *
+   * @return An `Observable` of `Request` object.
+   *
+   */
+  createRequest(requestInfo: Request): Observable<Request> {
+    const url = this.baseUrl + 'api/request';
+    return this.http.post<Request>(url, requestInfo);
+  }
+
 }

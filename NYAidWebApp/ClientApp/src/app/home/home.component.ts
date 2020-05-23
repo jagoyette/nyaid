@@ -11,7 +11,8 @@ export class HomeComponent {
 
   public requests: RequestInfo[];
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private router: Router) {
+  constructor(private http: HttpClient,
+    private router: Router) {
   }
 
   requesthelp() {
