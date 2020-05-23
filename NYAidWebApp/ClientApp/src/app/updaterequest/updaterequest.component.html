@@ -1,7 +1,7 @@
 <div>
     <h1>Update Help Record</h1>
 
-    <form [formGroup]="newRequestForm" (ngSubmit)="onSubmit(newRequestForm.value)">
+    <form [formGroup]="updateRequestForm" (ngSubmit)="onUpdate(updateRequestForm.value)">
         <div class="form-group">
             <label for="name">Your Name</label>
             <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter your name">
@@ -19,6 +19,6 @@
             <textarea class="form-control" id="description" formControlName="description" rows="3" placeholder="What do you need help with?"></textarea>
         </div>
 
-        <button [disabled]="newRequestForm.invalid" type="submit" class="btn btn-primary">Submit</button>
+        <button [disabled]="updateRequestForm.invalid" type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>

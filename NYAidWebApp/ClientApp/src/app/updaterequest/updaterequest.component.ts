@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./updaterequest.component.css']
 })
 export class UpdaterequestComponent implements OnInit {
-  public newRequestForm;
+  public updateRequestForm;
 
   private name: string;
   private location: string;
@@ -29,7 +29,7 @@ export class UpdaterequestComponent implements OnInit {
     this.description = this.data.description;
  */
     // Initialize the form data
-    this.newRequestForm = this.formBuilder.group({
+    this.updateRequestForm = this.formBuilder.group({
       name: [this.name, Validators.required],
       location: [this.location, Validators.required],
       phone: [this.phone, Validators.required],
@@ -39,7 +39,7 @@ export class UpdaterequestComponent implements OnInit {
   }
 
 
-  onSubmit(formData) {
+  onUpdate(formData) {
     console.log('Submitting new help request: ' + JSON.stringify(formData));
     this.nyaidApiService.createRequest(formData).subscribe(data => {
       console.log('New request submitted');
