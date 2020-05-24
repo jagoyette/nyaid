@@ -19,7 +19,7 @@ export class NyaidWebAppApiService {
       this.requestData = requestData;
     }
   
-    getData(){
+    getData(): any {
       let temp = this.requestData;
       this.clearData();
       return temp;
