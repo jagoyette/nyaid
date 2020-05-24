@@ -10,12 +10,19 @@ import { Router } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
   currentUser: UserInfo;
+  accessToken: any;
 
   constructor(private userService: NyaidUserService, private router: Router) { }
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe(data => {
       this.currentUser = data;
+      console.log('UserInfo: ' + JSON.stringify(data));
+    });
+
+    this.userService.getUserAccessToken().subscribe(data => {
+      this.accessToken = data;
+      console.log('Access Token: ' + JSON.stringify(data));
     });
   }
 }
