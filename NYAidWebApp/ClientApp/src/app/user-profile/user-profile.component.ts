@@ -20,9 +20,10 @@ export class UserProfileComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logout().subscribe(data => {
-      this.currentUser = null;
-      this.router.navigate(['/login']);
-    });
+    // this.userService.logout().subscribe(data => {
+    //   this.currentUser = null;
+    //   this.router.navigate(['/login']);
+    // });
+    this.router.navigateByUrl('/.auth/logout');
   }
 }

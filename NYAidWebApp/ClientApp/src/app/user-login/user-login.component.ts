@@ -14,6 +14,6 @@ export class UserLoginComponent implements OnInit {
   }
 
   loginWithFacebook() {
-    this.router.navigateByUrl('/.auth/login/facebook?post_login_redirect_url=/');
+    this.router.navigateByUrl('/.auth/login/facebook');
   }
 }
