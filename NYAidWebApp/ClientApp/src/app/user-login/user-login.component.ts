@@ -12,8 +12,4 @@ export class UserLoginComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  loginWithFacebook() {
-    this.router.navigateByUrl('/.auth/login/facebook');
-  }
 }

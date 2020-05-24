@@ -6,8 +6,8 @@
             <p>Name: {{currentUser?.name}}</p>
             <p>Email: {{currentUser?.email}}</p>
         </div>
-        <button class="btn btn-primary btn-lg" (click)="logout()">
+        <a class="btn btn-primary btn-lg" href="/.auth/logout?post_logout_redirect_uri=/login">
             Sign Out
-        </button>
+        </a>
     </div>
 </div>

@@ -18,12 +18,4 @@ export class UserProfileComponent implements OnInit {
       this.currentUser = data;
     });
   }
-
-  logout() {
-    // this.userService.logout().subscribe(data => {
-    //   this.currentUser = null;
-    //   this.router.navigate(['/login']);
-    // });
-    this.router.navigateByUrl('/.auth/logout');
-  }
 }
