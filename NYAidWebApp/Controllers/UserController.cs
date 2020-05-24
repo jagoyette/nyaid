@@ -17,6 +17,8 @@ namespace NYAidWebApp.Controllers
     {
         private readonly string ClaimTypeNameIdentifier = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
         private readonly string ClaimTypeEmailAddress = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
+        private readonly string ClaimsTypeName = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+        private readonly string ClaimsTypeNameAlt = "name";
 
         [HttpGet]
         [Authorize]
@@ -37,7 +39,8 @@ namespace NYAidWebApp.Controllers
             {
                 Id = claims.FirstOrDefault(c => c.Type == ClaimTypeNameIdentifier)?.Value,
                 Email = claims.FirstOrDefault(c => c.Type == ClaimTypeEmailAddress)?.Value,
-                Name = User.Identity.Name,
+                Name = User.Identity.Name ?? 
+                       (claims.FirstOrDefault(c => c.Type == ClaimsTypeName || c.Type == ClaimsTypeNameAlt)?.Value),
                 IsAuthenticated = User.Identity.IsAuthenticated
             };
         }
