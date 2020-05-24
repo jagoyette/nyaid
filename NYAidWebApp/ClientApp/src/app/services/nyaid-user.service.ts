@@ -33,6 +33,6 @@ export class NyaidUserService {
   }
 
   logout(): Observable<any> {
-    return this.http.get('/.auth/me?post_logout_redirect_uri=/');
+    return this.http.get('/.auth/logout');
   }
 }
