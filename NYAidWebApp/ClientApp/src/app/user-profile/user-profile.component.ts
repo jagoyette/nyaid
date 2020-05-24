@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NyaidUserService } from '../services/nyaid-user.service';
-import { UserInfo } from '../models/user-info';
+import { UserInfo, UserDetails } from '../models/user-info';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
   currentUser: UserInfo;
-  accessToken: any;
+  currentUserDetails: UserDetails;
 
   constructor(private userService: NyaidUserService, private router: Router) { }
 
@@ -20,9 +20,9 @@ export class UserProfileComponent implements OnInit {
       console.log('UserInfo: ' + JSON.stringify(data));
     });
 
-    this.userService.getUserAccessToken().subscribe(data => {
-      this.accessToken = data;
-      console.log('Access Token: ' + JSON.stringify(data));
+    this.userService.getUserDetails().subscribe(data => {
+      this.currentUserDetails = data;
+      console.log('UserDetail: ' + JSON.stringify(data));
     });
   }
 }

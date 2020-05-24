@@ -17,10 +17,11 @@ export class NavMenuComponent implements OnInit {
     this.fetchCurrentUser();
   }
 
-  fetchCurrentUser() {
+  private fetchCurrentUser() {
+    this.currentUser = null;
     this.userService.getUserInfo().subscribe(data => {
-      console.log('received current user: ' + JSON.stringify(data));
       this.currentUser = data;
+      console.log('Current user: ' + this.currentUser.name);
     });
   }
 
