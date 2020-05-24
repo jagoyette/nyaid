@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NyaidUserService } from '../services/nyaid-user.service';
 import { UserInfo } from '../models/user-info';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,7 +11,7 @@ import { UserInfo } from '../models/user-info';
 export class UserProfileComponent implements OnInit {
   currentUser: UserInfo;
 
-  constructor(private userService: NyaidUserService) { }
+  constructor(private userService: NyaidUserService, private router: Router) { }
 
   ngOnInit() {
     this.userService.getUserInfo().subscribe(data => {
@@ -21,6 +22,7 @@ export class UserProfileComponent implements OnInit {
   signout() {
     this.userService.logout().subscribe(data => {
       this.currentUser = null;
+      this.router.navigate(['/login']);
     });
   }
 }

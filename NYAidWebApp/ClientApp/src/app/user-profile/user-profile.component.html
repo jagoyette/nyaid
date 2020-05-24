@@ -1,10 +1,10 @@
-<div class="text-center">
+<div class="container">
     <h1>User Profile</h1>
 
     <div>
         <div>
-            <p>Name: {{currentUser.name}}</p>
-            <p>Email: {{currentUser.email}}</p>
+            <p>Name: {{currentUser?.name}}</p>
+            <p>Email: {{currentUser?.email}}</p>
         </div>
         <button class="btn btn-primary btn-lg" (click)="signout()">
             Sign Out
