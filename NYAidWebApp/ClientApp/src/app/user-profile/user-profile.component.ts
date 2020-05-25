@@ -25,4 +25,42 @@ export class UserProfileComponent implements OnInit {
       console.log('UserDetail: ' + JSON.stringify(data));
     });
   }
+
+  getProviderName(userDetails: UserDetails): string {
+    let providerName = 'Unknown';
+    if (userDetails) {
+      switch (userDetails.provider_name) {
+        case 'facebook':
+          providerName = 'Facebook';
+          break;
+        case 'google':
+          providerName = 'Google';
+          break;
+        case 'microsoftaccount':
+          providerName = 'Microsoft';
+          break;
+      }
+    }
+
+    return providerName;
+  }
+
+  getProviderLogo(userDetails: UserDetails): string {
+    let providerLogoUrl = '';
+    if (userDetails) {
+      switch (userDetails.provider_name) {
+        case 'facebook':
+          providerLogoUrl = '/assets/facebook_logo.png';
+          break;
+        case 'google':
+          providerLogoUrl = '/assets/google_logo.png';
+          break;
+        case 'microsoftaccount':
+          providerLogoUrl = '/assets/microsoft_logo.png';
+          break;
+      }
+    }
+
+    return providerLogoUrl;
+  }
 }
