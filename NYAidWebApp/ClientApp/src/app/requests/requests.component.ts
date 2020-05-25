@@ -30,7 +30,11 @@ export class RequestsComponent implements OnInit {
     this.goToPage('request/update');
     console.log('going to update request page');
   }
-
+  
+  onAssignRequest(request: RequestInfo): void {
+    console.log('onAssignRequest called');
+  }
+  
   goToPage(pageName: string) {
     this.router.navigate([`${pageName}`]);
   }
