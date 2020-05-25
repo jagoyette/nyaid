@@ -1,0 +1,24 @@
+<div>
+    <h1>Update Help Record</h1>
+
+    <form [formGroup]="updateRequestForm" (ngSubmit)="onUpdate(updateRequestForm.value)">
+        <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label for="location">Your Location</label>
+            <input type="text" class="form-control" id="location" formControlName="location" placeholder="Where do you need help?">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="Enter a contact number">
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" formControlName="description" rows="3" placeholder="What do you need help with?"></textarea>
+        </div>
+
+        <button [disabled]="updateRequestForm.invalid" type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>

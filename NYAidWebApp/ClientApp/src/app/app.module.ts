@@ -9,6 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { RequestsComponent } from './requests/requests.component';
 import { NewRequestComponent } from './new-request/new-request.component';
+import { UpdaterequestComponent } from './updaterequest/updaterequest.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
@@ -19,6 +20,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     HomeComponent,
     RequestsComponent,
     NewRequestComponent,
+    UpdaterequestComponent,
     UserLoginComponent,
     UserProfileComponent
   ],
@@ -32,6 +34,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
       { path: 'login', component: UserLoginComponent },
       { path: 'profile', component: UserProfileComponent },
       { path: 'requests/new', component: NewRequestComponent },
+      { path: 'request/update', component: UpdaterequestComponent },
       { path: 'requests', component: RequestsComponent },
       { path: '**', component: HomeComponent }
     ])

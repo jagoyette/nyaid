@@ -13,6 +13,22 @@ export class NyaidWebAppApiService {
     @Inject('BASE_URL') private baseUrl: string,) {
     }
 
+    private requestData: RequestInfo;
+
+    setData(requestData: RequestInfo){
+      this.requestData = requestData;
+    }
+  
+    getData(): any {
+      let temp = this.requestData;
+      this.clearData();
+      return temp;
+    }
+  
+    clearData(){
+      this.requestData = undefined;
+    }
+
   /**
    * API Methods
    */

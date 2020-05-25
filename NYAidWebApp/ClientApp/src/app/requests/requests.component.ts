@@ -24,4 +24,15 @@ export class RequestsComponent implements OnInit {
     });
   }
 
+  onSelectRequest(request: RequestInfo): void {
+    this.nyaidApiService.setData(request);
+    console.log('onSelectRequest called');
+    this.goToPage('request/update');
+    console.log('going to update request page');
+  }
+
+  goToPage(pageName: string) {
+    this.router.navigate([`${pageName}`]);
+  }
+
 }
