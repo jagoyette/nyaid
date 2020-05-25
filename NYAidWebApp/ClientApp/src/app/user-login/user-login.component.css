@@ -1,4 +1,23 @@
 .btn-facebook {
     background-color: #4267b2;
     color: white;
+    border: 1px solid #4267b2;
+}
+
+.btn-google {
+    background-color: #4285F4;
+    color: white;
+    border: 1px solid #4285F4;
+}
+
+.btn-microsoft {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+.logo {
+    width: 32px;
+    height: 32px;
+    margin-right: 12px;
 }
