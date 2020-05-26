@@ -91,26 +91,6 @@ namespace NYAidWebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
-
-                if (env.IsDevelopment())
-                {
-                    // Serve JSON file in development mode when /.auth/me is requested
-                    endpoints.MapGet("/.auth/me", async context =>
-                    {
-                        // Check for .auth/me.json file
-                        var fileInfo = env.WebRootFileProvider.GetFileInfo("/.auth/me.json");
-                        if (fileInfo.Exists)
-                        {
-                            context.Response.ContentLength = fileInfo.Length;
-                            context.Response.ContentType = "application/json";
-                            await context.Response.SendFileAsync(fileInfo);
-                        }
-                        else
-                        {
-                            context.Response.StatusCode = StatusCodes.Status404NotFound;
-                        }
-                    });
-                }
             });
 
             // The 'UseSPA' environment variable is used for development purposes
