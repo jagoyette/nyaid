@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 // Customize Bootstrap theme colors
+// Refer to https://getbootstrap.com/docs/4.1/getting-started/theming/
+
 $primary:       #f15642; //$blue !default;
 $secondary:     #575757; //$gray-600 !default;
 $success:       #0ed145; //$green !default;
@@ -28,6 +30,16 @@ $theme-colors: (
 );
 
 // Customize Fonts
+@font-face {
+  font-family: "BigAppleNF";
+  src: url("/assets/fonts/BigAppleNF.ttf");
+}
+
+@font-face {
+  font-family: "Balthazar";
+  src: url("/assets/fonts/Balthazar-Regular.ttf");
+}
+
 $font-family-base: Balthazar;
 $font-size-base: 1rem;
 $line-height-base:  1.5;
