@@ -10,9 +10,9 @@ import { RequestInfo } from '../models/request-info';
 export class RequestComponent implements OnInit {
   public request: RequestInfo;
   private requestId: string;
-  public location: string;
+/*   public location: string;
   public description: string;
-
+ */
   constructor(private nyaidApiService: NyaidWebAppApiService) {
   }
 
@@ -22,9 +22,9 @@ export class RequestComponent implements OnInit {
     this.nyaidApiService.getRequest(this.requestId).subscribe(data => {
       request = data;
       this.request = request;
-      this.location = request.location;
+/*       this.location = request.location;
       this.description = request.description;
-      console.log('Found ' + this.request + ' request');
+ */      console.log('Found ' + this.request + ' request');
     });    
   }
 
