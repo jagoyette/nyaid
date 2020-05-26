@@ -1,7 +1,9 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-secondary box-shadow mb-3">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">NY Aid</a>
+      <a class="navbar-brand" [routerLink]="['/']" (click)="collapse()">
+        <img class="logo" src="/assets/app_icon_large.jpg">
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
         aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
@@ -9,10 +11,10 @@
       <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/requests/new']" (click)="toggle()">Ask for Help</a>
+            <a class="nav-link text-light" [routerLink]="['/requests/new']" (click)="collapse()">Ask for Help</a>
           </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-light" [routerLink]="['/requests']" (click)="toggle()">Help Someone</a>
+            <a class="nav-link text-light" [routerLink]="['/requests']" (click)="collapse()">Help Someone</a>
           </li>
         </ul>
         <div>
