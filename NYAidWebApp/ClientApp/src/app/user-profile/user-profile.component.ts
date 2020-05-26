@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NyaidUserService } from '../services/nyaid-user.service';
-import { UserInfo, UserDetails } from '../models/user-info';
+import { UserInfo } from '../models/user-info';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class UserProfileComponent implements OnInit {
   currentUser: UserInfo;
-  currentUserDetails: UserDetails;
 
   constructor(private userService: NyaidUserService, private router: Router) { }
 
@@ -19,17 +18,12 @@ export class UserProfileComponent implements OnInit {
       this.currentUser = data;
       console.log('UserInfo: ' + JSON.stringify(data));
     });
-
-    this.userService.getUserDetails().subscribe(data => {
-      this.currentUserDetails = data;
-      console.log('UserDetail: ' + JSON.stringify(data));
-    });
   }
 
-  getProviderName(userDetails: UserDetails): string {
+  getProviderDisplayName(userInfo: UserInfo): string {
     let providerName = 'Unknown';
-    if (userDetails) {
-      switch (userDetails.provider_name) {
+    if (userInfo) {
+      switch (userInfo.providerName) {
         case 'facebook':
           providerName = 'Facebook';
           break;
@@ -45,10 +39,10 @@ export class UserProfileComponent implements OnInit {
     return providerName;
   }
 
-  getProviderLogo(userDetails: UserDetails): string {
+  getProviderLogoUrl(userInfo: UserInfo): string {
     let providerLogoUrl = '';
-    if (userDetails) {
-      switch (userDetails.provider_name) {
+    if (userInfo) {
+      switch (userInfo.providerName) {
         case 'facebook':
           providerLogoUrl = '/assets/facebook_logo.png';
           break;

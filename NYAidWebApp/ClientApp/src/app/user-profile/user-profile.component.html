@@ -13,9 +13,9 @@
             </div>
             <div class="form-group row">
                 <label for="provider" class="col-4 col-form-label">Provider:</label>
-                <div class="col-8 form-control-plaintext" [hidden]="!currentUserDetails">
-                    <img class="logo" [src]="getProviderLogo(currentUserDetails)">
-                    <span>{{getProviderName(currentUserDetails)}}</span>
+                <div class="col-8 form-control-plaintext" [hidden]="!currentUser">
+                    <img class="logo" [src]="getProviderLogoUrl(currentUser)">
+                    <span>{{getProviderDisplayName(currentUser)}}</span>
                 </div>
             </div>
         </form>

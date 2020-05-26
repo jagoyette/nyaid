@@ -1,17 +1,9 @@
 export class UserInfo {
-    id: string;
+    uid: string;
+    providerName: string;
+    providerId: string;
     name: string;
-    email: string;
-}
-
-export class UserDetails {
-    id: string;
-    name: string;
+    givenName: string;
     surname: string;
-    givenname: string;
     email: string;
-    provider_name: string;
-    user_id: string;
-    access_token: string;
-    expires_on: Date;
 }

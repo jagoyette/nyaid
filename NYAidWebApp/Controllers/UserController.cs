@@ -19,7 +19,10 @@ namespace NYAidWebApp.Controllers
         private readonly string ClaimTypeNameIdentifier = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
         private readonly string ClaimTypeEmailAddress = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";
         private readonly string ClaimsTypeName = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
+        private readonly string ClaimsTypeGivenName = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname";
+        private readonly string ClaimsTypeSurname = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname";
         private readonly string ClaimsTypeNameAlt = "name";
+        private readonly string ClaimsTypeProviderName = "provider_name";
 
         private readonly ILogger _log;
 
@@ -43,6 +46,7 @@ namespace NYAidWebApp.Controllers
                 return null;
 
             var headers = this.Request.Headers;
+            _log.LogInformation("All Headers:");
             foreach (var header in headers)
             {
                 _log.LogInformation($"{header.Key}: {header.Value}");
@@ -51,13 +55,41 @@ namespace NYAidWebApp.Controllers
             // Get all claims
             var claims = User.Claims.ToArray();
 
+            _log.LogInformation("All Claims:");
+            foreach (var claim in claims)
+            {
+                _log.LogInformation($"typ: {claim.Type}, val: {claim.Value}");
+            }
+
+            // We form a Uid by combining the Provider name with the
+            // Providers user id
+            var providerName = ExtractUserClaim(claims, ClaimsTypeProviderName);
+            var providerId = ExtractUserClaim(claims, ClaimTypeNameIdentifier);
+            var uid = $"{providerName}-{providerId}";
+
             return new UserInfo
             {
-                Id = claims.FirstOrDefault(c => c.Type == ClaimTypeNameIdentifier)?.Value,
+                Uid = uid,
+                ProviderName = providerName,
+                ProviderId = providerId,
                 Email = claims.FirstOrDefault(c => c.Type == ClaimTypeEmailAddress)?.Value,
                 Name = User.Identity.Name ?? 
-                       (claims.FirstOrDefault(c => c.Type == ClaimsTypeName || c.Type == ClaimsTypeNameAlt)?.Value)
+                        ExtractUserClaim(claims, ClaimsTypeName) ??
+                            ExtractUserClaim(claims, ClaimsTypeNameAlt),
+                GivenName = ExtractUserClaim(claims, ClaimsTypeGivenName),
+                Surname = ExtractUserClaim(claims, ClaimsTypeSurname)
             };
+        }
+
+        /// <summary>
+        /// Helper method to extract a claim and return value.
+        /// </summary>
+        /// <param name="claims">The array of user claims</param>
+        /// <param name="claimType">The claim type to extract</param>
+        /// <returns>The value of the claim or null if not found</returns>
+        private string ExtractUserClaim(Claim[] claims, string claimType)
+        {
+            return claims.FirstOrDefault(c => c.Type == claimType)?.Value;
         }
     }
 }
