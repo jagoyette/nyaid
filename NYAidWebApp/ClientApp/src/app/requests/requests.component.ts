@@ -30,7 +30,13 @@ export class RequestsComponent implements OnInit {
     this.goToPage('request/update');
     console.log('going to update request page');
   }
-
+  
+  onAssignRequest(request: RequestInfo): void {
+    this.nyaidApiService.setData(request);
+    console.log('onAssignRequest called');
+    this.goToPage('request');
+  }
+  
   goToPage(pageName: string) {
     this.router.navigate([`${pageName}`]);
   }

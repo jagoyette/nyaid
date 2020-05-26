@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RequestsComponent } from './requests/requests.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { UpdaterequestComponent } from './updaterequest/updaterequest.component';
+import { RequestComponent } from './request/request.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
@@ -21,8 +22,9 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     RequestsComponent,
     NewRequestComponent,
     UpdaterequestComponent,
+    UserProfileComponent,
+    RequestComponent,
     UserLoginComponent,
-    UserProfileComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -33,6 +35,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: UserLoginComponent },
       { path: 'profile', component: UserProfileComponent },
+      { path: 'request', component: RequestComponent },
       { path: 'requests/new', component: NewRequestComponent },
       { path: 'request/update', component: UpdaterequestComponent },
       { path: 'requests', component: RequestsComponent },

@@ -46,29 +46,41 @@ export class NyaidWebAppApiService {
   /**
    * Post request
    *
-   * @param requestInfo - `Request` containing info for request
+   * @param requestInfo - `RequestInfo` containing info for request
    *
-   * @return An `Observable` of `Request` object.
+   * @return An `Observable` of `RequestInfo` object.
    *
    */
-  createRequest(requestInfo: Request): Observable<Request> {
+  createRequest(requestInfo: RequestInfo): Observable<RequestInfo> {
     const url = this.baseUrl + 'api/request';
-    return this.http.post<Request>(url, requestInfo);
+    return this.http.post<RequestInfo>(url, requestInfo);
   }
 
   /**
-   * Put Request information of a given requestId
+   * Put RequestInfo of a given requestId
    *
    * @param requestId - The ID of the request
-   * @param requestInfo - `Request` object with new request info
+   * @param requestInfo - `RequestInfo` object with new request info
    *
-   * @return An `Observable` of `Request` object.
+   * @return An `Observable` of `RequestInfo` object.
    *
    */
-  updateRequest(requestId: string, requestInfo: Request): Observable<Request> {
+  updateRequest(requestId: string, requestInfo: RequestInfo): Observable<RequestInfo> {
     const url = this.baseUrl + 'api/request' + '/' + requestId;
-    return this.http.put<Request>(url, requestInfo);
+    return this.http.put<RequestInfo>(url, requestInfo);
   }
+
+  /**
+   * Retrieve summary of a RequestInfo
+   *
+   * @param requestId - The ID of the request
+   *
+   *  @return An `Observable` of `RequestInfo` object
+   */
+  getRequest(requestId: string): Observable<RequestInfo> {
+    const url = this.baseUrl + 'api/request' + '/' + requestId;
+    return this.http.get<RequestInfo>(url);
+  }  
 
   /**
    * Delete Request for a given requestId

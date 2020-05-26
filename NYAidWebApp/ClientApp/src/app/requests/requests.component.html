@@ -2,10 +2,14 @@
 
 <div>
     <div class="container">
-        <div class="card bg-primary m-3 p-2" *ngFor="let request of requests" (click)="onSelectRequest(request)">
+        <div class="card bg-primary m-3 p-2" *ngFor="let request of requests">
             <div class="card-block">
                 <p class="card-title lead">{{ request.location }}</p>
                 <p class="card-text text-light">{{ request.description }}</p>
+            </div>
+            <div class="card-footer text-center">
+                <button type="button" class="btn btn-primary btn-md float-left" (click)="onSelectRequest(request)">Edit</button>
+                <button type="button" class="btn btn-primary btn-md float-right" (click)="onAssignRequest(request)">Assign Request</button>
             </div>
         </div>
     </div>
