@@ -14,7 +14,7 @@ $dark:          #343a40; //$gray-800 !default;
 
 // Custom theme color - This will result in classes
 // like btn-highlight that we can use as needed
-$highlight: #b83dba;
+$highlight:     #b83dba;
 
 // Override Bootstrap theme colors
 $theme-colors: (
@@ -45,7 +45,7 @@ $font-size-base: 1rem;
 $line-height-base:  1.5;
 
 // Override default body styles
-$body-bg: #bcbcbc;
+$body-bg: #eee;
 $body-color: black;
 
 // Import Bootstrap and its default variables

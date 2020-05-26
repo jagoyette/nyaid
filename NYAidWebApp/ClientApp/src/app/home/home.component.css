@@ -1,3 +1,14 @@
+.app-title-container {
+    background-image: url("/assets/AdobeStock_331259671.jpeg");
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: contain;
+    min-height: 40vw;
+}
 .app-title {
     font-family: BigAppleNF;
+}
+
+.btn-title {
+    border-radius: 17.5px;
 }
