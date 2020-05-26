@@ -71,17 +71,16 @@ export class NyaidWebAppApiService {
   }
 
   /**
-   * Get Request information of a given requestId
+   * Retrieve summary of a request
    *
    * @param requestId - The ID of the request
    *
-   * @return An `Observable` of `RequestInfo` object.
-   *
+   *  @return An `Observable` of `RequestInfo` object
    */
   getRequest(requestId: string): Observable<RequestInfo> {
     const url = this.baseUrl + 'api/request' + '/' + requestId;
-    return this.http.get<RequestInfo>(url);  
-  }
+    return this.http.get<RequestInfo>(url);
+  }  
 
   /**
    * Delete Request for a given requestId
