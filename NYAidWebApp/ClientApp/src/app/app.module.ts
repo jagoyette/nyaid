@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RequestsComponent } from './requests/requests.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { UpdaterequestComponent } from './updaterequest/updaterequest.component';
+import { RequestComponent } from './request/request.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { UpdaterequestComponent } from './updaterequest/updaterequest.component'
     HomeComponent,
     RequestsComponent,
     NewRequestComponent,
-    UpdaterequestComponent
+    UpdaterequestComponent,
+    RequestComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -27,6 +29,7 @@ import { UpdaterequestComponent } from './updaterequest/updaterequest.component'
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'request', component: RequestComponent },
       { path: 'requests/new', component: NewRequestComponent },
       { path: 'request/update', component: UpdaterequestComponent },
       { path: 'requests', component: RequestsComponent },

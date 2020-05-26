@@ -32,7 +32,9 @@ export class RequestsComponent implements OnInit {
   }
   
   onAssignRequest(request: RequestInfo): void {
+    this.nyaidApiService.setData(request);
     console.log('onAssignRequest called');
+    this.goToPage('request');
   }
   
   goToPage(pageName: string) {
