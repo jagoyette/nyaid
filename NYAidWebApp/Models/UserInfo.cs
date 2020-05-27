@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace NYAidWebApp.Models
 {
@@ -7,6 +7,7 @@ namespace NYAidWebApp.Models
         /// <summary>
         /// A unique Id (UID) for this user
         /// </summary>
+        [Key]
         public string Uid { get; set; }
 
         /// <summary>

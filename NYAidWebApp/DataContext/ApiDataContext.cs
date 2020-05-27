@@ -23,5 +23,10 @@ namespace NYAidWebApp.DataContext
         /// </summary>
         public DbSet<Request> Requests { get; set; }
 
+        /// <summary>
+        /// Collection of known users
+        /// </summary>
+        public DbSet<UserInfo> Users { get; set; }
+
     }
 }
