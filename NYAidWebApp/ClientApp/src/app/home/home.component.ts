@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  public readonly title = AppComponent.title;
 
   public requests: RequestInfo[];
 
@@ -30,3 +32,4 @@ export class HomeComponent {
     this.router.navigate([`${pageName}`]);
   }
 }
+

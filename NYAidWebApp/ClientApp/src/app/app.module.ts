@@ -11,6 +11,9 @@ import { RequestsComponent } from './requests/requests.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { UpdaterequestComponent } from './updaterequest/updaterequest.component';
 import { RequestComponent } from './request/request.component';
+import { UserLoginComponent } from './user-login/user-login.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,9 @@ import { RequestComponent } from './request/request.component';
     RequestsComponent,
     NewRequestComponent,
     UpdaterequestComponent,
-    RequestComponent
+    UserProfileComponent,
+    RequestComponent,
+    UserLoginComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,10 +34,12 @@ import { RequestComponent } from './request/request.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'request', component: RequestComponent },
-      { path: 'requests/new', component: NewRequestComponent },
-      { path: 'request/update', component: UpdaterequestComponent },
-      { path: 'requests', component: RequestsComponent },
+      { path: 'login', component: UserLoginComponent },
+      { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
+      { path: 'request', component: RequestComponent, canActivate: [AuthGuardService] },
+      { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
+      { path: 'request/update', component: UpdaterequestComponent, canActivate: [AuthGuardService]},
+      { path: 'requests', component: RequestsComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],

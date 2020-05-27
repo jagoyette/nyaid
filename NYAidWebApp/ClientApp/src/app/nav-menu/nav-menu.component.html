@@ -8,7 +8,7 @@
         aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex" [ngClass]="{ show: isExpanded }">
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-light" [routerLink]="['/requests/new']" (click)="collapse()">Ask for Help</a>
@@ -17,6 +17,16 @@
             <a class="nav-link text-light" [routerLink]="['/requests']" (click)="collapse()">Help Someone</a>
           </li>
         </ul>
+        <div>
+          <a class="nav-link text-light" [hidden]="!userService?.currentUser" 
+            [routerLink]="['/profile']" (click)="toggle()">
+          {{ userService?.currentUser?.name }}
+          </a>
+          <a class="nav-link text-light" [hidden]="userService?.currentUser" 
+            [routerLink]="['/login']" (click)="toggle()">
+          Sign In
+          </a>
+        </div>
       </div>
     </div>
   </nav>
