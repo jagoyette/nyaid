@@ -13,6 +13,7 @@ import { UpdaterequestComponent } from './updaterequest/updaterequest.component'
 import { RequestComponent } from './request/request.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -34,11 +35,11 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: UserLoginComponent },
-      { path: 'profile', component: UserProfileComponent },
-      { path: 'request', component: RequestComponent },
-      { path: 'requests/new', component: NewRequestComponent },
-      { path: 'request/update', component: UpdaterequestComponent },
-      { path: 'requests', component: RequestsComponent },
+      { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
+      { path: 'request', component: RequestComponent, canActivate: [AuthGuardService] },
+      { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
+      { path: 'request/update', component: UpdaterequestComponent, canActivate: [AuthGuardService]},
+      { path: 'requests', component: RequestsComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],
