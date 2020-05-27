@@ -9,7 +9,7 @@ import { NyaidUserService } from '../services/nyaid-user.service';
 export class NavMenuComponent implements OnInit {
   isExpanded = false;
 
-  constructor(private userService: NyaidUserService) {}
+  constructor(public userService: NyaidUserService) {}
 
   ngOnInit(): void {
   }
