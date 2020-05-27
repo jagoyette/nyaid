@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-user-login',
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
 export class UserLoginComponent implements OnInit {
 
   constructor(private router: Router) { }
+
+  public appTitle = AppComponent.title;
 
   ngOnInit() {
   }
