@@ -14,10 +14,6 @@ export class NavMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  isUserSignedIn(): boolean {
-    return this.userService.currentUser != null;
-  }
-
   collapse() {
     this.isExpanded = false;
   }

@@ -15,6 +15,7 @@ export class NyaidUserService {
   }
 
   // Refresh the cuurentUser property
+  // Call this function after logging in or logging out to refresh user info
   public refreshUserInfo(): void {
     this.currentUser = null;
     this.getUserInfo().subscribe(data => this.currentUser = data, error => this.currentUser = null);
