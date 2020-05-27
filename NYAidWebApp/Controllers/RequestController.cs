@@ -24,11 +24,17 @@ namespace NYAidWebApp.Controllers
         }
 
         // GET: api/request
-        // Returns all requests
+        // Returns all requests by default
+        // Query parameters may be used to filter the response data
+        //   creatorUid={uid}  => returns only requests created by user
+        //   assignedUid={uid} => returns only requests assigned to user
         [HttpGet]
-        public async Task<IEnumerable<Request>> Get()
+        public async Task<IEnumerable<Request>> Get(string creatorUid, string assignedUid)
         {
-            return await _context.Requests.ToArrayAsync();
+            return await _context.Requests
+                .Where(r => string.IsNullOrEmpty(creatorUid) || r.CreatorUid == creatorUid)
+                .Where(r => string.IsNullOrEmpty(assignedUid) || r.AssignedUid == assignedUid)
+                .ToArrayAsync();
         }
 
         // GET: api/request/5
