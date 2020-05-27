@@ -9,15 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  currentUser: UserInfo;
 
   constructor(private userService: NyaidUserService, private router: Router) { }
 
   ngOnInit() {
-    this.userService.getUserInfo().subscribe(data => {
-      this.currentUser = data;
-      console.log('UserInfo: ' + JSON.stringify(data));
-    });
   }
 
   getProviderDisplayName(userInfo: UserInfo): string {

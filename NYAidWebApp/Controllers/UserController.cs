@@ -45,21 +45,8 @@ namespace NYAidWebApp.Controllers
             if (User == null)
                 return null;
 
-            var headers = this.Request.Headers;
-            _log.LogInformation("All Headers:");
-            foreach (var header in headers)
-            {
-                _log.LogInformation($"{header.Key}: {header.Value}");
-            }
-
             // Get all claims
             var claims = User.Claims.ToArray();
-
-            _log.LogInformation("All Claims:");
-            foreach (var claim in claims)
-            {
-                _log.LogInformation($"typ: {claim.Type}, val: {claim.Value}");
-            }
 
             // We form a Uid by combining the Provider name with the
             // Providers user id

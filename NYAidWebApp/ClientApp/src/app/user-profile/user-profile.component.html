@@ -5,17 +5,17 @@
         <form class="form">
             <div class="form-group row">
                 <label for="name" class="col-4 col-form-label">Name:</label>
-                <input id="name" class="col-8 form-control-plaintext" readonly value="{{currentUser?.name}}">
+                <input id="name" class="col-8 form-control-plaintext" readonly value="{{userService?.currentUser?.name}}">
             </div>
             <div class="form-group row">
                 <label for="email" class="col-4 col-form-label">Email:</label>
-                <input id="email" class="col-8 form-control-plaintext" readonly value="{{currentUser?.email}}">
+                <input id="email" class="col-8 form-control-plaintext" readonly value="{{userService?.currentUser?.email}}">
             </div>
             <div class="form-group row">
                 <label for="provider" class="col-4 col-form-label">Provider:</label>
-                <div class="col-8 form-control-plaintext" [hidden]="!currentUser">
-                    <img class="logo" [src]="getProviderLogoUrl(currentUser)">
-                    <span>{{getProviderDisplayName(currentUser)}}</span>
+                <div class="col-8 form-control-plaintext" [hidden]="!userService?.currentUser">
+                    <img class="logo" [src]="getProviderLogoUrl(userService?.currentUser)">
+                    <span>{{getProviderDisplayName(userService?.currentUser)}}</span>
                 </div>
             </div>
         </form>

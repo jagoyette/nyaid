@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs';
 import { NyaidUserService } from './nyaid-user.service';
 
 @Injectable({
@@ -12,22 +11,14 @@ export class AuthGuardService implements CanActivate {
 
   // canActivate checks if we have a signed in user and can be used
   // to prevent route navigation to a protected resource.
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-    return new Promise<boolean>((resolve, reject) => {
+    // Reroute to Login screen if user is not logged in
+    if (!this.userService.currentUser) {
+      this.router.navigate(['/login']);
+    }
 
-      // Check for an authenticated user
-      this.userService.getUserInfo().subscribe(data => {
-        if (!data) {
-          // No user, go to login
-          this.router.navigate(['login']);
-          resolve(false);
-        }
-
-        // valid user, allow navigation to proceed
-        resolve(true);
-      });
-    });
+    return this.userService.currentUser != null;
   }
 
 }

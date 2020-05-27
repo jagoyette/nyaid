@@ -8,8 +8,17 @@ import { UserInfo } from '../models/user-info';
   providedIn: 'root'
 })
 export class NyaidUserService {
+  public currentUser: UserInfo;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {}
+  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+    this.refreshUserInfo();
+  }
+
+  // Refresh the cuurentUser property
+  public refreshUserInfo(): void {
+    this.currentUser = null;
+    this.getUserInfo().subscribe(data => this.currentUser = data, error => this.currentUser = null);
+  }
 
   // Retrieve info for logged in user from backend api service
   public getUserInfo(): Observable<UserInfo> {

@@ -18,11 +18,11 @@
           </li>
         </ul>
         <div>
-          <a class="nav-link text-light" [hidden]="!isUserSignedIn()" 
+          <a class="nav-link text-light" [hidden]="!userService?.currentUser" 
             [routerLink]="['/profile']" (click)="toggle()">
-          {{ currentUser?.name}}
+          {{ userService?.currentUser?.name }}
           </a>
-          <a class="nav-link text-light" [hidden]="isUserSignedIn()" 
+          <a class="nav-link text-light" [hidden]="userService?.currentUser" 
             [routerLink]="['/login']" (click)="toggle()">
           Sign In
           </a>
