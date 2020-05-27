@@ -340,4 +340,4 @@ ASALocalRun/
 healthchecksdb
 
 # Ignore debug authorization token
-/NYAidWebApp/wwwroot/.auth/me.json
+/NYAidWebApp/wwwroot/.auth/
