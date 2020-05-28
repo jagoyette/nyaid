@@ -52,4 +52,13 @@ export class UserProfileComponent implements OnInit {
 
     return providerLogoUrl;
   }
-}
+  
+  onMyRequests(): void {
+    console.log('onMyRequests called');
+    this.goToPage('user/requests');
+    console.log('going to user requests page');
+  }
+  
+  goToPage(pageName: string) {
+    this.router.navigate([`${pageName}`]);
+  }}

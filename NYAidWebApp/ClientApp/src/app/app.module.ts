@@ -14,6 +14,7 @@ import { RequestComponent } from './request/request.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { UserRequestsComponent } from './user-requests/user-requests.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AuthGuardService } from './services/auth-guard.service';
     UserProfileComponent,
     RequestComponent,
     UserLoginComponent,
+    UserRequestsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,6 +36,7 @@ import { AuthGuardService } from './services/auth-guard.service';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'user/requests', component: UserRequestsComponent },
       { path: 'login', component: UserLoginComponent },
       { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
       { path: 'request', component: RequestComponent, canActivate: [AuthGuardService] },

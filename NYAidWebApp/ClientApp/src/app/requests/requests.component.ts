@@ -23,14 +23,7 @@ export class RequestsComponent implements OnInit {
       console.log('Found ' + this.requests.length + ' requests');
     });
   }
-
-  onSelectRequest(request: RequestInfo): void {
-    this.nyaidApiService.setData(request);
-    console.log('onSelectRequest called');
-    this.goToPage('request/update');
-    console.log('going to update request page');
-  }
-  
+ 
   onAssignRequest(request: RequestInfo): void {
     this.nyaidApiService.setData(request);
     console.log('onAssignRequest called');
