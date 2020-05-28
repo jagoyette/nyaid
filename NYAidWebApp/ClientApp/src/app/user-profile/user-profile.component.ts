@@ -55,10 +55,9 @@ export class UserProfileComponent implements OnInit {
   
   onMyRequests(): void {
     console.log('onMyRequests called');
-    this.goToPage('user/requests');
+    this.router.navigate(['user/requests']);
+    // TODO: Add query params
+    // this.router.navigate(['user/requests'], { queryParams: { string: 'creatorUid' } });
     console.log('going to user requests page');
   }
-  
-  goToPage(pageName: string) {
-    this.router.navigate([`${pageName}`]);
-  }}
+}
