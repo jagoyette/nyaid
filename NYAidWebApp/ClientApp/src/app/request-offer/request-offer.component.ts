@@ -5,11 +5,11 @@ import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
 
 @Component({
-  selector: 'app-request',
-  templateUrl: './request.component.html',
-  styleUrls: ['./request.component.css']
+  selector: 'app-request-offer',
+  templateUrl: './request-offer.component.html',
+  styleUrls: ['./request-offer.component.css']
 })
-export class RequestComponent implements OnInit {
+export class RequestOfferComponent implements OnInit {
   request: RequestInfo;
 
   constructor(private nyaidApiService: NyaidWebAppApiService, private route: ActivatedRoute) {
@@ -21,7 +21,6 @@ export class RequestComponent implements OnInit {
     const requestId = this.route.snapshot.paramMap.get('Id');
     this.nyaidApiService.getRequest(requestId).subscribe(data => {
       this.request = data;
-      console.log('Found ' + this.request + ' request');
     });
   }
 }

@@ -26,7 +26,7 @@ export class RequestsComponent implements OnInit {
   }
 
   onAssignRequest(request: RequestInfo): void {
-    this.router.navigate(['requests', request.requestId]);
+    this.router.navigate(['requests', request.requestId, 'offer']);
   }
 
 }

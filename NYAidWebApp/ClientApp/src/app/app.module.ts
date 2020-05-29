@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { RequestsComponent } from './requests/requests.component';
 import { NewRequestComponent } from './new-request/new-request.component';
 import { UpdateRequestComponent } from './update-request/update-request.component';
-import { RequestComponent } from './request/request.component';
+import { RequestOfferComponent } from './request-offer/request-offer.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AuthGuardService } from './services/auth-guard.service';
@@ -25,7 +25,7 @@ import { UserRequestsComponent } from './user-requests/user-requests.component';
     NewRequestComponent,
     UpdateRequestComponent,
     UserProfileComponent,
-    RequestComponent,
+    RequestOfferComponent,
     UserLoginComponent,
     UserRequestsComponent,
   ],
@@ -42,7 +42,7 @@ import { UserRequestsComponent } from './user-requests/user-requests.component';
       { path: 'requests', component: RequestsComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
       { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/update', component: UpdateRequestComponent, canActivate: [AuthGuardService] },
-      { path: 'requests/:Id', component: RequestComponent, canActivate: [AuthGuardService] },
+      { path: 'requests/:Id/offer', component: RequestOfferComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],
