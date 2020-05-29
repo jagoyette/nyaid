@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-service';
+import { ActivatedRoute } from '@angular/router';
+
+import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
 
 @Component({
@@ -8,20 +10,18 @@ import { RequestInfo } from '../models/request-info';
   styleUrls: ['./request.component.css']
 })
 export class RequestComponent implements OnInit {
-  public request: RequestInfo;
-  private requestId: string;
+  request: RequestInfo;
 
-  constructor(private nyaidApiService: NyaidWebAppApiService) {
+  constructor(private nyaidApiService: NyaidWebAppApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    let request = this.nyaidApiService.getData();
-    this.requestId = request.requestId;
-    this.nyaidApiService.getRequest(this.requestId).subscribe(data => {
-      request = data;
-      this.request = request;
+    // The desired route Id should be extracted from query params
+    // and used to populate this.request
+    const requestId = this.route.snapshot.paramMap.get('Id');
+    this.nyaidApiService.getRequest(requestId).subscribe(data => {
+      this.request = data;
       console.log('Found ' + this.request + ' request');
     });
   }
-
 }

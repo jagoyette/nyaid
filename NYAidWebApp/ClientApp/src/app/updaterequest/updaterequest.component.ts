@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-service';
 import { FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
 
 @Component({
@@ -24,7 +25,7 @@ export class UpdaterequestComponent implements OnInit {
     private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    const request = this.nyaidApiService.getData();
+    const request = null;
     this.requestId = request.requestId;
 
     // populate the old RequesrInfo data

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-service';
 import { Router } from '@angular/router';
+
+import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
+import { RequestInfo } from '../models/request-info';
 
 @Component({
   selector: 'app-user-requests',
@@ -21,7 +23,6 @@ export class UserRequestsComponent implements OnInit {
   }
 
   onUpdateRequest(request: RequestInfo): void {
-    this.nyaidApiService.setData(request);
     console.log('onUpdateRequest called');
     this.goToPage('request/update');
   }

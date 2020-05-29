@@ -39,10 +39,9 @@ import { UserRequestsComponent } from './user-requests/user-requests.component';
       { path: 'user/requests', component: UserRequestsComponent },
       { path: 'login', component: UserLoginComponent },
       { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
-      { path: 'request', component: RequestComponent, canActivate: [AuthGuardService] },
+      { path: 'requests', component: RequestsComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
       { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
-      { path: 'request/update', component: UpdaterequestComponent, canActivate: [AuthGuardService]},
-      { path: 'requests', component: RequestsComponent, canActivate: [AuthGuardService] },
+      { path: 'requests/:Id', component: RequestComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],

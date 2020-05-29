@@ -1,7 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-service';
+
+import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
+import { RequestInfo } from '../models/request-info';
 
 @Component({
   selector: 'app-requests',
@@ -20,18 +22,11 @@ export class RequestsComponent implements OnInit {
   ngOnInit() {
     this.nyaidApiService.getAllRequests().subscribe(data => {
       this.requests = data;
-      console.log('Found ' + this.requests.length + ' requests');
     });
   }
 
   onAssignRequest(request: RequestInfo): void {
-    this.nyaidApiService.setData(request);
-    console.log('onAssignRequest called');
-    this.goToPage('request');
-  }
-
-  goToPage(pageName: string) {
-    this.router.navigate([`${pageName}`]);
+    this.router.navigate(['requests', request.requestId]);
   }
 
 }

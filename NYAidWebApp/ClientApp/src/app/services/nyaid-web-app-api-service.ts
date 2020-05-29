@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Inject } from '@angular/core';
 
+import { RequestInfo } from '../models/request-info';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -11,22 +13,6 @@ export class NyaidWebAppApiService {
 
   constructor(private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string) {
-    }
-
-    private requestData: RequestInfo;
-
-    setData(requestData: RequestInfo) {
-      this.requestData = requestData;
-    }
-
-    getData(): any {
-      const temp = this.requestData;
-      this.clearData();
-      return temp;
-    }
-
-    clearData() {
-      this.requestData = undefined;
     }
 
   /**

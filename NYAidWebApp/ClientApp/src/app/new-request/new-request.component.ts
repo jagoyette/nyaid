@@ -2,7 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-service';
+
+import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 
 @Component({
   selector: 'app-new-request',
