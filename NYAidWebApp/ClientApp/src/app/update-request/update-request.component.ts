@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
@@ -22,24 +22,32 @@ export class UpdateRequestComponent implements OnInit {
   private request: RequestInfo;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
-    private formBuilder: FormBuilder, private router: Router) { }
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
-    const request = null;
-    this.requestId = request.requestId;
+    // The desired route Id should be extracted from query params
+    // and used to populate this.request
+    const requestId = this.route.snapshot.paramMap.get('Id');
+    this.nyaidApiService.getRequest(requestId).subscribe(data => {
+      this.request = data;
 
-    // populate the old RequesrInfo data
-    this.name = request.name;
-    this.location = request.location;
-    this.phone = request.phone;
-    this.description = request.description;
+      // Update the form data
+      this.updateRequestForm = this.formBuilder.group({
+        name: [this.request.name, Validators.required],
+        location: [this.request.location, Validators.required],
+        phone: [this.request.phone, Validators.required],
+        description: [this.request.description, Validators.required]
+      });
+    });
 
     // Initialize the form data
     this.updateRequestForm = this.formBuilder.group({
-      name: [this.name, Validators.required],
-      location: [this.location, Validators.required],
-      phone: [this.phone, Validators.required],
-      description: [this.description, Validators.required]
+      name: ['', Validators.required],
+      location: ['', Validators.required],
+      phone: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
 
