@@ -12,13 +12,6 @@ import { RequestInfo } from '../models/request-info';
 })
 export class UpdateRequestComponent implements OnInit {
   public updateRequestForm;
-
-  private requestId: string;
-  private name: string;
-  private location: string;
-  private phone: string;
-  private description: string;
-
   private request: RequestInfo;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
@@ -53,9 +46,9 @@ export class UpdateRequestComponent implements OnInit {
 
   onUpdate(formData) {
     console.log('Updating new help request: ' + JSON.stringify(formData));
-    this.nyaidApiService.updateRequest(this.requestId, formData).subscribe(data => {
+    this.nyaidApiService.updateRequest(this.request.requestId, formData).subscribe(data => {
       console.log('Update request submitted');
-      this.router.navigate(['/']);
+      this.router.navigate(['profile/myrequests']);
     });
   }
 
