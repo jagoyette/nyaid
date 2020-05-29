@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NyaidWebAppApiService } from 'src/app/services/nyaid-web-app-api-service';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-requests',
@@ -26,7 +25,7 @@ export class UserRequestsComponent implements OnInit {
     console.log('onUpdateRequest called');
     this.goToPage('request/update');
   }
-  
+
   goToPage(pageName: string) {
     this.router.navigate([`${pageName}`]);
   }

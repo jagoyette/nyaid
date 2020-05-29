@@ -52,7 +52,7 @@ export class UserProfileComponent implements OnInit {
 
     return providerLogoUrl;
   }
-  
+
   onMyRequests(): void {
     console.log('onMyRequests called');
     this.router.navigate(['user/requests']);

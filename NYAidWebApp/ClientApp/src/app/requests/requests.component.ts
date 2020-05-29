@@ -23,13 +23,13 @@ export class RequestsComponent implements OnInit {
       console.log('Found ' + this.requests.length + ' requests');
     });
   }
- 
+
   onAssignRequest(request: RequestInfo): void {
     this.nyaidApiService.setData(request);
     console.log('onAssignRequest called');
     this.goToPage('request');
   }
-  
+
   goToPage(pageName: string) {
     this.router.navigate([`${pageName}`]);
   }

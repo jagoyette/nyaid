@@ -10,22 +10,22 @@ import { Inject } from '@angular/core';
 export class NyaidWebAppApiService {
 
   constructor(private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string,) {
+    @Inject('BASE_URL') private baseUrl: string) {
     }
 
     private requestData: RequestInfo;
 
-    setData(requestData: RequestInfo){
+    setData(requestData: RequestInfo) {
       this.requestData = requestData;
     }
-  
+
     getData(): any {
-      let temp = this.requestData;
+      const temp = this.requestData;
       this.clearData();
       return temp;
     }
-  
-    clearData(){
+
+    clearData() {
       this.requestData = undefined;
     }
 
@@ -41,7 +41,7 @@ export class NyaidWebAppApiService {
   getAllRequests(): Observable<RequestInfo[]> {
     const url = this.baseUrl + 'api/request';
     return this.http.get<RequestInfo[]>(url);
-  }  
+  }
 
   /**
    * Post request
@@ -80,7 +80,7 @@ export class NyaidWebAppApiService {
   getRequest(requestId: string): Observable<RequestInfo> {
     const url = this.baseUrl + 'api/request' + '/' + requestId;
     return this.http.get<RequestInfo>(url);
-  }  
+  }
 
   /**
    * Delete Request for a given requestId

@@ -24,7 +24,7 @@ export class UpdaterequestComponent implements OnInit {
     private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    let request = this.nyaidApiService.getData();
+    const request = this.nyaidApiService.getData();
     this.requestId = request.requestId;
 
     // populate the old RequesrInfo data
