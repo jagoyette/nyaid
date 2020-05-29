@@ -9,7 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { RequestsComponent } from './requests/requests.component';
 import { NewRequestComponent } from './new-request/new-request.component';
-import { UpdaterequestComponent } from './updaterequest/updaterequest.component';
+import { UpdateRequestComponent } from './update-request/update-request.component';
 import { RequestComponent } from './request/request.component';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -23,7 +23,7 @@ import { UserRequestsComponent } from './user-requests/user-requests.component';
     HomeComponent,
     RequestsComponent,
     NewRequestComponent,
-    UpdaterequestComponent,
+    UpdateRequestComponent,
     UserProfileComponent,
     RequestComponent,
     UserLoginComponent,
@@ -36,11 +36,12 @@ import { UserRequestsComponent } from './user-requests/user-requests.component';
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'user/requests', component: UserRequestsComponent },
       { path: 'login', component: UserLoginComponent },
-      { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuardService] },
+      { path: 'profile', component: UserProfileComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
+      { path: 'profile/myrequests', component: UserRequestsComponent },
       { path: 'requests', component: RequestsComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
       { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
+      { path: 'requests/:Id/update', component: UpdateRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id', component: RequestComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])

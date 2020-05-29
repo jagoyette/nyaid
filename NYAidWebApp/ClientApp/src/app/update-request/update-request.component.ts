@@ -6,11 +6,11 @@ import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
 
 @Component({
-  selector: 'app-updaterequest',
-  templateUrl: './updaterequest.component.html',
-  styleUrls: ['./updaterequest.component.css']
+  selector: 'app-update-request',
+  templateUrl: './update-request.component.html',
+  styleUrls: ['./update-request.component.css']
 })
-export class UpdaterequestComponent implements OnInit {
+export class UpdateRequestComponent implements OnInit {
   public updateRequestForm;
 
   private requestId: string;

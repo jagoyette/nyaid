@@ -23,11 +23,7 @@ export class UserRequestsComponent implements OnInit {
   }
 
   onUpdateRequest(request: RequestInfo): void {
-    console.log('onUpdateRequest called');
-    this.goToPage('request/update');
+    this.router.navigate(['requests', request.requestId, 'update']);
   }
 
-  goToPage(pageName: string) {
-    this.router.navigate([`${pageName}`]);
-  }
 }
