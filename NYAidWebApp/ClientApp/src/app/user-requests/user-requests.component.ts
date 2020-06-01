@@ -14,20 +14,23 @@ export class UserRequestsComponent implements OnInit {
   public requests: RequestInfo[];
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
-    private router: Router,
-    private userService: NyaidUserService) { }
+    private userService: NyaidUserService,
+    private router: Router) { }
 
   ngOnInit() {
-    const userInfo = this.userService.getUserInfo();
-    const currentUser = this.userService.currentUser;
-    this.nyaidApiService.getAllRequests().subscribe(data => {
-      this.requests = data.filter(r => r.creatorUid == currentUser.uid);
-      console.log('Found ' + this.requests.length + ' requests');
-    });
+    if (this.userService.currentUser) {
+      this.nyaidApiService.getRequestsCreatedByUser(this.userService.currentUser.uid)
+        .subscribe(data => {
+          this.requests = data;
+          console.log('Found ' + this.requests.length + ' requests');
+        });
+    } else {
+      console.log('Unable to retrieve current user');
+      this.router.navigate(['login']);
+    }
   }
 
   onUpdateRequest(request: RequestInfo): void {
     this.router.navigate(['requests', request.requestId, 'update']);
   }
-
 }

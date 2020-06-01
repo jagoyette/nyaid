@@ -30,6 +30,20 @@ export class NyaidWebAppApiService {
   }
 
   /**
+   * Retrieve requests created by the given user
+   *
+   *  @return An `Observable` of an array of `RequestInfo` objects
+   */
+  getRequestsCreatedByUser(creatorUid: string): Observable<RequestInfo[]> {
+    const url = this.baseUrl + 'api/request';
+    return this.http.get<RequestInfo[]>(url, {
+      params: {
+        creatorUid: creatorUid
+      }
+    });
+  }
+
+  /**
    * Post request
    *
    * @param requestInfo - `RequestInfo` containing info for request
