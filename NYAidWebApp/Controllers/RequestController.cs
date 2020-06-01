@@ -31,15 +31,33 @@ namespace NYAidWebApp.Controllers
         }
 
         // GET: api/request
-        // Returns all requests by default
+        // Returns all open requests by default
         // Query parameters may be used to filter the response data
         //   creatorUid={uid}  => returns only requests created by user
         //   assignedUid={uid} => returns only requests assigned to user
+        //   state={state}     => returns only request in given state
         [HttpGet]
-        public async Task<IEnumerable<Request>> Get(string creatorUid, string assignedUid)
+        public async Task<IEnumerable<Request>> Get(string creatorUid, string assignedUid, string stateFilter)
         {
+            // By default, return only open requests
+            bool shouldFilterByState = true;
+            RequestState state = RequestState.Open;
+            if (!string.IsNullOrEmpty(stateFilter))
+            {
+                _log.LogDebug($"Adding state filter: {stateFilter}");
+                if (!Enum.TryParse(stateFilter, ignoreCase: true, out state))
+                {
+                    if (stateFilter == "all")
+                    {
+                        _log.LogInformation("Bypassing state filter and returning all requests");
+                        shouldFilterByState = false;
+                    }
+                }
+            }
+
             _log.LogInformation($"Retrieving all requests using filters (creatorUid: {creatorUid}, assignedUid: {assignedUid}");
             return await _context.Requests
+                .Where(r => !shouldFilterByState || r.State == state)
                 .Where(r => string.IsNullOrEmpty(creatorUid) || r.CreatorUid == creatorUid)
                 .Where(r => string.IsNullOrEmpty(assignedUid) || r.AssignedUid == assignedUid)
                 .ToArrayAsync();
