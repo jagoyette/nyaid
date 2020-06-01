@@ -2,6 +2,16 @@
 
 namespace NYAidWebApp.Models
 {
+    /// <summary>
+    /// State of the request
+    /// </summary>
+    public enum RequestState
+    {
+        Open,
+        InProcess,
+        Closed
+    }
+
     public class Request
     {
         /// <summary>
@@ -19,6 +29,11 @@ namespace NYAidWebApp.Models
         /// Uid of the user that this request is assigned to
         /// </summary>
         public string AssignedUid { get; set; }
+
+        /// <summary>
+        /// The state of the request
+        /// </summary>
+        public RequestState State { get; set; }
 
         /// <summary>
         /// Name of the user that created the request

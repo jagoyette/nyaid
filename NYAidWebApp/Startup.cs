@@ -1,4 +1,6 @@
 using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using KK.AspNetCore.EasyAuthAuthentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,9 +8,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using NYAidWebApp.DataContext;
 using NYAidWebApp.Services;
 
@@ -34,7 +40,13 @@ namespace NYAidWebApp
 
             // Add database context
             services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
-            services.AddControllersWithViews();
+
+            // Add WebAPI controllers
+            services.AddControllersWithViews().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

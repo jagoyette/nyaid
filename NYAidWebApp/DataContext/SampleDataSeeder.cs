@@ -39,7 +39,8 @@ namespace NYAidWebApp.DataContext
                     Name = "Fred Flintstone",
                     Location = "Bedrock",
                     Phone = "555-555-5555",
-                    Description = "I need someone to pick up a giant rack of ribs. It's heavy!"
+                    Description = "I need someone to pick up a giant rack of ribs. It's heavy!",
+                    State = RequestState.Open
                 },
                 new Request
                 {
@@ -48,7 +49,8 @@ namespace NYAidWebApp.DataContext
                     Name = "Wile E. Coyote",
                     Location = "The Desert",
                     Phone = "444-444-4444",
-                    Description = "I am in need of a large anvil. It must be heavy enough to stop a sneaky roadrunner."
+                    Description = "I am in need of a large anvil. It must be heavy enough to stop a sneaky roadrunner.",
+                    State = RequestState.InProcess
                 },
                 new Request
                 {
@@ -57,7 +59,8 @@ namespace NYAidWebApp.DataContext
                     Name = "Fred Flintstone",
                     Location = "Just around the Corner",
                     Phone = "333-333-3333",
-                    Description = "I would like someone to run down to the corner store and buy me some twigs. I need to start a fire."
+                    Description = "I would like someone to run down to the corner store and buy me some twigs. I need to start a fire.",
+                    State = RequestState.Closed
                 },
                 new Request
                 {
