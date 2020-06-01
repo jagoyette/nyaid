@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using NYAidWebApp.DataContext;
 using NYAidWebApp.Models;
+using NYAidWebApp.Services;
 
 namespace NYAidWebApp.Controllers
 {
@@ -16,11 +19,15 @@ namespace NYAidWebApp.Controllers
     [Authorize]
     public class RequestController : ControllerBase
     {
+        private readonly ILogger _log;
         private readonly ApiDataContext _context;
+        private readonly UserService _userService;
 
-        public RequestController(ApiDataContext context)
+        public RequestController(ILoggerFactory loggerFactory, ApiDataContext context, UserService userService)
         {
+            _log = loggerFactory.CreateLogger<RequestController>();
             _context = context;
+            _userService = userService;
         }
 
         // GET: api/request
@@ -31,6 +38,7 @@ namespace NYAidWebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Request>> Get(string creatorUid, string assignedUid)
         {
+            _log.LogInformation($"Retrieving all requests using filters (creatorUid: {creatorUid}, assignedUid: {assignedUid}");
             return await _context.Requests
                 .Where(r => string.IsNullOrEmpty(creatorUid) || r.CreatorUid == creatorUid)
                 .Where(r => string.IsNullOrEmpty(assignedUid) || r.AssignedUid == assignedUid)
@@ -41,6 +49,7 @@ namespace NYAidWebApp.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<Request> Get(string id)
         {
+            _log.LogInformation($"retrieving request id {id}");
             return await _context.Requests
                 .FirstOrDefaultAsync(r => r.RequestId == id);
         }
@@ -49,17 +58,29 @@ namespace NYAidWebApp.Controllers
         [HttpPost]
         public async Task<Request> Post([FromBody] NewRequestInfo requestInfo)
         {
+            _log.LogInformation("Creating a new request...");
+
+            var user = _userService.CreateUserInfoFromClaims(User);
+            if (user == null)
+            {
+                _log.LogError("Failed to obtain current user info");
+                throw new HttpRequestException("Failed to obtain current user info");
+            }
+
             // Create a new Request object and add it to data store
             var id = _context.CreateUniqueId();
             var request = new Request()
             {
                 RequestId = id,
+                CreatorUid = user.Uid,
                 Name = requestInfo.Name,
                 Location = requestInfo.Location,
                 Phone = requestInfo.Phone,
                 Description = requestInfo.Description
             };
 
+            _log.LogInformation($"Creating new request with id: {request.RequestId} for user: {request.CreatorUid}");
+            
             // Add it to the data store
             await _context.AddAsync(request);
             await _context.SaveChangesAsync();
@@ -72,6 +93,21 @@ namespace NYAidWebApp.Controllers
         {
             var request = await _context.Requests
                 .FirstAsync(r => r.RequestId == id);
+
+            // Retrieve current user info
+            var user = _userService.CreateUserInfoFromClaims(User);
+            if (user == null)
+            {
+                _log.LogError("Failed to obtain current user info");
+                throw new HttpRequestException("Failed to obtain current user info");
+            }
+
+            // Make sure current user matched creator Uid
+            if (request.CreatorUid != user.Uid)
+            {
+                _log.LogError($"Current user is not the owner of request id: {request.RequestId}");
+                throw new HttpRequestException($"Current user is not the owner of request id: { request.RequestId }");
+            }
 
             request.Name = requestInfo.Name;
             request.Location = requestInfo.Location;
@@ -89,6 +125,23 @@ namespace NYAidWebApp.Controllers
         {
             var request = await _context.Requests
                 .FirstAsync(r => r.RequestId == id);
+
+
+            // Retrieve current user info
+            var user = _userService.CreateUserInfoFromClaims(User);
+            if (user == null)
+            {
+                _log.LogError("Failed to obtain current user info");
+                throw new HttpRequestException("Failed to obtain current user info");
+            }
+
+            // Make sure current user matched creator Uid
+            if (request.CreatorUid != user.Uid)
+            {
+                _log.LogError($"Current user is not the owner of request id: {request.RequestId}");
+                throw new HttpRequestException($"Current user is not the owner of request id: { request.RequestId }");
+            }
+
             _context.Requests.Remove(request);
             await _context.SaveChangesAsync();
         }
