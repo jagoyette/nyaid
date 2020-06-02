@@ -341,3 +341,4 @@ healthchecksdb
 
 # Ignore debug authorization token
 /NYAidWebApp/wwwroot/.auth/
+/NYAidWebApp/ClientApp/.vscode/launch.json

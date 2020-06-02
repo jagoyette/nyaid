@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
+import { NyaidUserService } from '../services/nyaid-user.service';
 
 @Component({
   selector: 'app-user-requests',
@@ -13,11 +14,14 @@ export class UserRequestsComponent implements OnInit {
   public requests: RequestInfo[];
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
-    private router: Router) { }
+    private router: Router,
+    private userService: NyaidUserService) { }
 
   ngOnInit() {
+    const userInfo = this.userService.getUserInfo();
+    const currentUser = this.userService.currentUser;
     this.nyaidApiService.getAllRequests().subscribe(data => {
-      this.requests = data;
+      this.requests = data.filter(r => r.creatorUid == currentUser.uid);
       console.log('Found ' + this.requests.length + ' requests');
     });
   }
