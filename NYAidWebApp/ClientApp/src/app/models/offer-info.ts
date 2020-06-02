@@ -1,3 +1,5 @@
+import { NoteInfo } from "./note-info";
+
 export class OfferInfo {
     offerId: string;        // Unique identifier of this offer
     requestId: string;      // The unique identifier of the request associated with this offer
@@ -10,5 +12,5 @@ export class OfferInfo {
     state:  'accepted' | 'rejected' | 'submitted ';
     description: string;        // Text indicating how the volunteer can help
     acceptRejectReason: string; // Text indicating why the creator of the request accepted or rejected the offer
-    // notes: [];      // Array of Note objects associated with the offer
+    notes: NoteInfo[];          // Array of Note objects associated with the offer
 }
