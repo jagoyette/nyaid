@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Inject } from '@angular/core';
 
 import { RequestInfo } from '../models/request-info';
+import { OfferInfo } from '../models/offer-info';
 
 @Injectable({
     providedIn: 'root'
@@ -95,4 +96,33 @@ export class NyaidWebAppApiService {
     return this.http.delete<void>(url);
   }
 
+/*
+  Offers API's
+ */
+
+/**
+   * Retrieve an array of all offers to fulfill the request identified by requestId
+   *
+   * @param requestId - The ID of the request
+   *
+   *  @return An `Observable` of an array of `OfferInfo` objects
+   */
+  getAllOffers(requestId: string): Observable<OfferInfo[]> {
+    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers';
+    return this.http.get<OfferInfo[]>(url);
+  }
+
+/**
+   * Retrieve offer to by requestId and offerId
+   *
+   * @param requestId - The ID of the request
+   *
+   * @param offerId - The ID of the offer
+   *
+   *  @return An `Observable` of `OfferInfo` object
+   */
+  getOffer(requestId: string, offerId: string): Observable<OfferInfo> {
+    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId;
+    return this.http.get<OfferInfo>(url);
+  }
 }
