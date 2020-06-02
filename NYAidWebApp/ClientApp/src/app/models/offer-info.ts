@@ -7,7 +7,8 @@ export class OfferInfo {
     // Indicates the state of the offer: submitted - initial state of offer
     // accepted - user accepted offer
     // rejected - user rejected offer
-    state:  'accepted' | 'rejected';
+    state:  'accepted' | 'rejected' | 'submitted ';
     description: string;        // Text indicating how the volunteer can help
     acceptRejectReason: string; // Text indicating why the creator of the request accepted or rejected the offer
+    // notes: [];      // Array of Note objects associated with the offer
 }
