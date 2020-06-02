@@ -5,6 +5,8 @@ import { Inject } from '@angular/core';
 
 import { RequestInfo } from '../models/request-info';
 import { OfferInfo } from '../models/offer-info';
+import { AcceptRejectOfferInfo } from '../models/acceptrejectoffer-info';
+import { NewOfferInfo } from '../models/newoffer-info';
 
 @Injectable({
     providedIn: 'root'
@@ -124,5 +126,33 @@ export class NyaidWebAppApiService {
   getOffer(requestId: string, offerId: string): Observable<OfferInfo> {
     const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId;
     return this.http.get<OfferInfo>(url);
+  }
+
+  /**
+   * Post Offer. Creates a new offer to help
+   *
+   * @param offerInfo - `NewOfferInfo` containing info for Offer to help 
+   *
+   * @return An `Observable` of `OfferInfo` object.
+   *
+   */
+  createOffer(requestId: string): Observable<NewOfferInfo> {
+    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers';
+    return this.http.post<NewOfferInfo>(url, requestId);
+  }
+
+  /**
+   * Post Offer. Changes the state of the Offer to accepted or rejected
+   *
+   * @param requestId - The ID of the request
+   *
+   * @param offerId - The ID of the offer
+   *
+   * @return An `Observable` of `OfferInfo` object.
+   *
+   */
+  changeOfferState(requestId: string, offerId: string): Observable<AcceptRejectOfferInfo> {
+    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId + '/' + 'accept';
+    return this.http.post<AcceptRejectOfferInfo>(url, requestId);
   }
 }
