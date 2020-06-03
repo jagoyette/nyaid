@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
@@ -11,9 +12,16 @@ import { RequestInfo } from '../models/request-info';
 })
 export class RequestOfferComponent implements OnInit {
   request: RequestInfo;
+  public newOfferForm;
 
-  constructor(private nyaidApiService: NyaidWebAppApiService, private route: ActivatedRoute) {
-  }
+  constructor(private nyaidApiService: NyaidWebAppApiService,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder) {
+
+    // Initialize the form data
+      this.newOfferForm = this.formBuilder.group({
+        description: ['', Validators.required]
+      });}
 
   ngOnInit() {
     // The desired route Id should be extracted from query params
@@ -22,5 +30,10 @@ export class RequestOfferComponent implements OnInit {
     this.nyaidApiService.getRequest(requestId).subscribe(data => {
       this.request = data;
     });
+  }
+
+  onSubmit(formData) {
+    console.log('Submitting new help offer: ' + JSON.stringify(formData));
+    console.log('Offer submitted');
   }
 }
