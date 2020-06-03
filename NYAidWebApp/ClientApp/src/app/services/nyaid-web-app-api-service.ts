@@ -7,6 +7,7 @@ import { RequestInfo } from '../models/request-info';
 import { OfferInfo } from '../models/offer-info';
 import { AcceptRejectOfferInfo } from '../models/acceptrejectoffer-info';
 import { NewOfferInfo } from '../models/newoffer-info';
+import { NoteInfo } from '../models/note-info';
 
 @Injectable({
     providedIn: 'root'
@@ -155,4 +156,34 @@ export class NyaidWebAppApiService {
     const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId + '/' + 'accept';
     return this.http.post<AcceptRejectOfferInfo>(url, requestId);
   }
+
+/**
+   * Returns the notes associated with an offer as an array of Note objects
+   *
+   * @param requestId - The ID of the request
+   *
+   * @param offerId - The ID of the offer
+   *
+   *  @return An `Observable` of `NoteInfo` object
+   */
+  getNotes(requestId: string, offerId: string): Observable<NoteInfo> {
+    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId + '/' + 'notes';
+    return this.http.get<NoteInfo>(url);
+  }
+
+  /**
+   * Post Note. Creates a new note associated with the offer to help. 
+   *
+   * @param requestId - The ID of the request
+   *
+   * @param offerId - The ID of the offer
+   *
+   * @return An `Observable` of `NoteInfo` object.
+   *
+   */
+  createNote(requestId: string, offerId: string): Observable<NoteInfo> {
+    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId + '/' + 'notes';
+    return this.http.post<NoteInfo>(url, requestId);
+  }
+
 }
