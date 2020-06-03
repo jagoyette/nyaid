@@ -133,7 +133,7 @@ namespace NYAidWebApp.Controllers
 
         [HttpPost]
         [Route("{offerId}/notes")]
-        public async Task<Note> CreateNote(string requestId, string offerId, [FromBody] NewNote newNote)
+        public async Task<Note> CreateNote(string requestId, string offerId, [FromBody] string noteText)
         {
             // retrieve the offer offer
             var offer = await _context.Offers
@@ -147,10 +147,9 @@ namespace NYAidWebApp.Controllers
             var note = new Note
             {
                 NoteId = id,
-                OfferId = offerId,
                 AuthorUid = user.Uid,
                 Created = DateTime.Now,
-                NoteText = newNote.NoteText
+                NoteText = noteText
             };
 
             // Add note to our note list
