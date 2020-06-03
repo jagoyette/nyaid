@@ -25,6 +25,7 @@ namespace NYAidWebApp.Models
 
         public string AcceptRejectReason { get; set; }
 
+        public Note[] Notes { get; set; }
 
     }
 }
