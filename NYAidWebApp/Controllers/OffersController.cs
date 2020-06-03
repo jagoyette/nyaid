@@ -4,11 +4,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using NYAidWebApp.DataContext;
 using NYAidWebApp.Models;
 using NYAidWebApp.Services;
@@ -84,7 +83,19 @@ namespace NYAidWebApp.Controllers
 
             // retrieve the offer
             var offer = await _context.Offers
-                .FirstOrDefaultAsync(o => o.OfferId == offerId);
+                .FirstAsync(o => o.OfferId == offerId);
+
+            // retrieve the request
+            var request = await _context.Requests
+                .FirstAsync(r => r.RequestId == offer.RequestId);
+
+            // Verify that the current user owns this request
+            var user = _userService.CreateUserInfoFromClaims(User);
+            if (request.CreatorUid != user.Uid)
+            {
+                _log.LogError($"The current user {user.Name} is not the owner {request.CreatorUid} of this request.");
+                throw new HttpRequestException($"The current user {user.Name} is not the owner {request.CreatorUid} of this request.");
+            }
 
             _log.LogInformation($"Offer current state: {offer.State}");
 
@@ -97,14 +108,9 @@ namespace NYAidWebApp.Controllers
             if (offer.State == OfferState.Accepted)
             {
                 _log.LogInformation($"Offer accepted, assigning volunteer to request");
-                var request = await _context.Requests
-                    .FirstOrDefaultAsync(r => r.RequestId == offer.RequestId);
-                if (request != null)
-                {
-                    request.AssignedUid = offer.VolunteerUid;
-                    request.State = RequestState.InProcess;
-                    _context.Requests.Update(request);
-                }
+                request.AssignedUid = offer.VolunteerUid;
+                request.State = RequestState.InProcess;
+                _context.Requests.Update(request);
             }
 
             await _context.SaveChangesAsync();
