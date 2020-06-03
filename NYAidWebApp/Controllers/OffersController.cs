@@ -77,7 +77,8 @@ namespace NYAidWebApp.Controllers
 
         [HttpPost]
         [Route("{offerId}/accept")]
-        public async Task<Offer> AcceptOffer(string requestId, string offerId, [FromBody] AcceptRejectOffer acceptRejectOffer)
+        public async Task<Offer> AcceptOffer(string requestId, string offerId,
+            [FromBody] AcceptRejectOffer acceptRejectOffer)
         {
             _log.LogInformation($"Accept / Reject API called for request {requestId} and offer {offerId}");
 
@@ -94,7 +95,8 @@ namespace NYAidWebApp.Controllers
             if (request.CreatorUid != user.Uid)
             {
                 _log.LogError($"The current user {user.Name} is not the owner {request.CreatorUid} of this request.");
-                throw new HttpRequestException($"The current user {user.Name} is not the owner {request.CreatorUid} of this request.");
+                throw new HttpRequestException(
+                    $"The current user {user.Name} is not the owner {request.CreatorUid} of this request.");
             }
 
             _log.LogInformation($"Offer current state: {offer.State}");
@@ -116,6 +118,50 @@ namespace NYAidWebApp.Controllers
             await _context.SaveChangesAsync();
 
             return offer;
+        }
+
+        [HttpGet]
+        [Route("{offerId}/notes")]
+        public async Task<IEnumerable<Note>> GetNotes(string requestId, string offerId)
+        {
+            // retrieve the offer offer
+            var offer = await _context.Offers
+                .FirstAsync(o => o.OfferId == offerId);
+
+            return offer.Notes.ToArray();
+        }
+
+        [HttpPost]
+        [Route("{offerId}/notes")]
+        public async Task<Note> CreateNote(string requestId, string offerId, [FromBody] NewNote newNote)
+        {
+            // retrieve the offer offer
+            var offer = await _context.Offers
+                .FirstAsync(o => o.OfferId == offerId);
+
+            // retrieve current user
+            var user = _userService.CreateUserInfoFromClaims(User);
+
+            // create the note
+            var id = _context.CreateUniqueId();
+            var note = new Note
+            {
+                NoteId = id,
+                OfferId = offerId,
+                AuthorUid = user.Uid,
+                Created = DateTime.Now,
+                NoteText = newNote.NoteText
+            };
+
+            // Add note to our note list
+            offer.Notes = offer.Notes.Append(note).ToList();
+
+            // save our changes
+            _context.Offers.Update(offer);
+            await _context.SaveChangesAsync();
+
+            // return with the note
+            return note;
         }
 
     }

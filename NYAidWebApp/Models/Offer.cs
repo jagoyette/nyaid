@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NYAidWebApp.Models
 {
@@ -25,7 +26,6 @@ namespace NYAidWebApp.Models
 
         public string AcceptRejectReason { get; set; }
 
-        public Note[] Notes { get; set; }
-
+        public List<Note> Notes { get; set; } = new List<Note>();
     }
 }

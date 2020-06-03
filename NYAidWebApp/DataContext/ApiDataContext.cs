@@ -1,6 +1,8 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using NYAidWebApp.Models;
 
 namespace NYAidWebApp.DataContext
@@ -16,6 +18,17 @@ namespace NYAidWebApp.DataContext
         public string CreateUniqueId()
         {
             return Guid.NewGuid().ToString();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Serialize Notes as a JSON string for storage in the Offers table
+            modelBuilder.Entity<Offer>().Property(p => p.Notes)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<List<Note>>(v));
         }
 
         /// <summary>
