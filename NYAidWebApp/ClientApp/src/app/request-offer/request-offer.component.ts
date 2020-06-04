@@ -25,7 +25,7 @@ export class RequestOfferComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router) {
-    
+
       // Initialize the form data
       this.newOfferForm = this.formBuilder.group({
         description:  ['', Validators.required],
@@ -42,7 +42,7 @@ export class RequestOfferComponent implements OnInit {
     });
 
     // get current user and populate the data
-    this.nyaidUserService.getUserInfo().subscribe(data =>{
+    this.nyaidUserService.getUserInfo().subscribe(data => {
       this.userInfo = data;
       this.nyaidUserService.currentUser = this.userInfo;
     });
