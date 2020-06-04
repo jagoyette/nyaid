@@ -40,12 +40,6 @@ export class RequestOfferComponent implements OnInit {
     this.nyaidApiService.getRequest(requestId).subscribe(data => {
       this.request = data;
     });
-
-    // get current user and populate the data
-    this.nyaidUserService.getUserInfo().subscribe(data => {
-      this.userInfo = data;
-      this.nyaidUserService.currentUser = this.userInfo;
-    });
   }
 
   onSubmit(formData) {

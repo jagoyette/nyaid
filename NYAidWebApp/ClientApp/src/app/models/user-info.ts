@@ -1,9 +1,9 @@
 export class UserInfo {
-    uid: string;
-    providerName: string;
-    providerId: string;
-    name: string;
-    givenName: string;
-    surname: string;
-    email: string;
+    readonly uid: string;
+    readonly providerName: string;
+    readonly providerId: string;
+    readonly name: string;
+    readonly givenName: string;
+    readonly surname: string;
+    readonly email: string;
 }
