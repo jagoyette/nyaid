@@ -18,7 +18,6 @@ import { NewOfferInfo } from '../models/newoffer-info';
 export class RequestOfferComponent implements OnInit {
   request: RequestInfo;
   public newOfferForm;
-  private newOffer: NewOfferInfo = new NewOfferInfo();
   private userInfo: UserInfo;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
@@ -29,7 +28,8 @@ export class RequestOfferComponent implements OnInit {
     
       // Initialize the form data
       this.newOfferForm = this.formBuilder.group({
-        description: ['', Validators.required]
+        description:  ['', Validators.required],
+        volunteerUid: [this.nyaidUserService.currentUser.uid, Validators.required]
       });
     }
 
@@ -50,13 +50,8 @@ export class RequestOfferComponent implements OnInit {
 
   onSubmit(formData) {
     // Populate the new offer
-    // TODO: we need to pass the body of the new offer???
-    // and we need to remove the offer from the list. How???
-    this.newOffer.description = formData;
-    this.newOffer.volunteerUid = this.nyaidUserService.currentUser.uid;
     console.log('Submitting new help offer: ' + JSON.stringify(formData));
     this.nyaidApiService.createOffer(formData).subscribe(data => {
-      this.newOffer = data;
       console.log('New request submitted');
       this.goToPage('requests');
     });
