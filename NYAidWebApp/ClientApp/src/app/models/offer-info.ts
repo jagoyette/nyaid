@@ -1,4 +1,4 @@
-import { NoteInfo } from "./note-info";
+import { NoteInfo } from './note-info';
 
 export class OfferInfo {
     offerId: string;        // Unique identifier of this offer
