@@ -108,10 +108,10 @@ export class NyaidWebAppApiService {
    *
    * @param requestId - The ID of the request
    *
-   *  @return An `Observable` of an array of `OfferInfo` objects
+   * @return An `Observable` of an array of `OfferInfo` objects
    */
   getAllOffers(requestId: string): Observable<OfferInfo[]> {
-    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers';
+    const url = `${this.baseUrl}api/request/${requestId}/offers`;
     return this.http.get<OfferInfo[]>(url);
   }
 
@@ -119,71 +119,72 @@ export class NyaidWebAppApiService {
    * Retrieve offer to by requestId and offerId
    *
    * @param requestId - The ID of the request
-   *
    * @param offerId - The ID of the offer
    *
-   *  @return An `Observable` of `OfferInfo` object
+   * @return An `Observable` of `OfferInfo` object
    */
   getOffer(requestId: string, offerId: string): Observable<OfferInfo> {
-    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId;
+    const url = `${this.baseUrl}api/request/${requestId}/offers/${offerId}`;
     return this.http.get<OfferInfo>(url);
   }
 
   /**
-   * Post Offer. Creates a new offer to help
+   * createOffer creates a new offer to help for a given request.
    *
-   * @param offerInfo - `NewOfferInfo` containing info for Offer to help 
+   * @param requestId - The ID of the request
+   * @param newOfferInfo - `NewOfferInfo` containing info for Offer to help
    *
    * @return An `Observable` of `OfferInfo` object.
    *
    */
-  createOffer(requestId: string): Observable<NewOfferInfo> {
-    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers';
-    return this.http.post<NewOfferInfo>(url, requestId);
+  createOffer(requestId: string, newOfferInfo: NewOfferInfo): Observable<OfferInfo> {
+    const url = `${this.baseUrl}api/request/${requestId}/offers`;
+    return this.http.post<OfferInfo>(url, newOfferInfo);
   }
 
   /**
-   * Post Offer. Changes the state of the Offer to accepted or rejected
+   * acceptOffer either accepts or rejects to given offer
    *
    * @param requestId - The ID of the request
-   *
    * @param offerId - The ID of the offer
+   * @param acceptReject - The `AcceptRejectOfferInfo` indicating acceptance and reason
    *
    * @return An `Observable` of `OfferInfo` object.
    *
    */
-  changeOfferState(requestId: string, offerId: string): Observable<AcceptRejectOfferInfo> {
-    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId + '/' + 'accept';
-    return this.http.post<AcceptRejectOfferInfo>(url, requestId);
+  acceptOffer(requestId: string, offerId: string, acceptReject: AcceptRejectOfferInfo): Observable<OfferInfo> {
+    const url = `${this.baseUrl}api/request/${requestId}/offers/${offerId}/accept`;
+    return this.http.post<OfferInfo>(url, acceptReject);
   }
 
 /**
    * Returns the notes associated with an offer as an array of Note objects
    *
-   * @param requestId - The ID of the request
+   * @deprecated Use the notes property of the `OfferInfo` class instead
    *
+   * @param requestId - The ID of the request
    * @param offerId - The ID of the offer
    *
-   *  @return An `Observable` of `NoteInfo` object
+   * @return An `Observable` of `NoteInfo` object
    */
-  getNotes(requestId: string, offerId: string): Observable<NoteInfo> {
-    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId + '/' + 'notes';
-    return this.http.get<NoteInfo>(url);
+  getNotes(requestId: string, offerId: string): Observable<NoteInfo[]> {
+    const url = `${this.baseUrl}api/request/${requestId}/offers/${offerId}/notes`;
+    return this.http.get<NoteInfo[]>(url);
   }
 
   /**
-   * Post Note. Creates a new note associated with the offer to help. 
+   * createNote creates a new note associated with the offer to help.
    *
    * @param requestId - The ID of the request
-   *
    * @param offerId - The ID of the offer
+   * @param noteText - The text of the note
    *
    * @return An `Observable` of `NoteInfo` object.
    *
    */
-  createNote(requestId: string, offerId: string): Observable<NoteInfo> {
-    const url = this.baseUrl + 'api/request'+ '/' + requestId + '/' + 'offers' + '/' + offerId + '/' + 'notes';
-    return this.http.post<NoteInfo>(url, requestId);
+  createNote(requestId: string, offerId: string, noteText: string): Observable<NoteInfo> {
+    const url = `${this.baseUrl}api/request/${requestId}/offers/${offerId}/notes`;
+    return this.http.post<NoteInfo>(url, noteText);
   }
 
 }

@@ -18,7 +18,6 @@ import { NewOfferInfo } from '../models/newoffer-info';
 export class RequestOfferComponent implements OnInit {
   request: RequestInfo;
   public newOfferForm;
-  private userInfo: UserInfo;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private nyaidUserService: NyaidUserService,
@@ -28,14 +27,13 @@ export class RequestOfferComponent implements OnInit {
 
       // Initialize the form data
       this.newOfferForm = this.formBuilder.group({
-        description:  ['', Validators.required],
-        volunteerUid: [this.nyaidUserService.currentUser.uid, Validators.required]
+        description:  ['', Validators.required]
       });
     }
 
   ngOnInit() {
     // The desired route Id should be extracted from query params
-    // and used to populate this.request
+    // and used to populate this request
     const requestId = this.route.snapshot.paramMap.get('Id');
     this.nyaidApiService.getRequest(requestId).subscribe(data => {
       this.request = data;
@@ -43,12 +41,16 @@ export class RequestOfferComponent implements OnInit {
   }
 
   onSubmit(formData) {
+    // TODO: The createOffer method requires a NewOfferInfo object to
+    // be supplied. use the description from the formData and the uid
+    // of the currentUser to create a NewOfferInfo object.
+
     // Populate the new offer
-    console.log('Submitting new help offer: ' + JSON.stringify(formData));
-    this.nyaidApiService.createOffer(formData).subscribe(data => {
-      console.log('New request submitted');
-      this.goToPage('requests');
-    });
+    // console.log('Submitting new help offer: ' + JSON.stringify(formData));
+    // this.nyaidApiService.createOffer(formData).subscribe(data => {
+    //   console.log('New request submitted');
+    //   this.goToPage('requests');
+    // });
   }
 
   goToPage(pageName: string) {
