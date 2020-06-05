@@ -15,6 +15,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { UserRequestsComponent } from './user-requests/user-requests.component';
+import { UserOffersComponent } from './user-offers/user-offers.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { UserRequestsComponent } from './user-requests/user-requests.component';
     RequestOfferComponent,
     UserLoginComponent,
     UserRequestsComponent,
+    UserOffersComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

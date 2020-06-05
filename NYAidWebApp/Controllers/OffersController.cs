@@ -41,8 +41,22 @@ namespace NYAidWebApp.Controllers
         }
 
         [HttpGet]
+        [Route("/api/request/offers/myoffers")]
+        public async Task<IEnumerable<Offer>> GetMyOffers()
+        {
+            var user = this._userService.CreateUserInfoFromClaims(User);
+
+            _log.LogInformation($"Returning offers for user with id {user.Uid}");
+
+            // return the requested offer
+            return await _context.Offers
+                .Where(o => o.VolunteerUid == user.Uid)
+                .ToArrayAsync();
+        }
+
+        [HttpGet]
         [Route("{offerId}")]
-        public async Task<Offer> GetOffer(string requestId, string offerId)
+        public async Task<Offer> GetMyOffers(string requestId, string offerId)
         {
             _log.LogInformation($"Returning offer with id {offerId}");
 

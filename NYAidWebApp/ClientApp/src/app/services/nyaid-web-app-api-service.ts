@@ -36,6 +36,8 @@ export class NyaidWebAppApiService {
   /**
    * Retrieve requests created by the given user
    *
+   * @param creatorUid - Uid of the user
+   *
    *  @return An `Observable` of an array of `RequestInfo` objects
    */
   getRequestsCreatedByUser(creatorUid: string): Observable<RequestInfo[]> {
@@ -43,6 +45,22 @@ export class NyaidWebAppApiService {
     return this.http.get<RequestInfo[]>(url, {
       params: {
         creatorUid: creatorUid
+      }
+    });
+  }
+
+/**
+   * Retrieve requests assigned to the given user
+   *
+   * @param assignedUid - Uid of the user
+   *
+   *  @return An `Observable` of an array of `RequestInfo` objects
+   */
+  getRequestsAssignedToUser(assignedUid: string): Observable<RequestInfo[]> {
+    const url = this.baseUrl + 'api/request';
+    return this.http.get<RequestInfo[]>(url, {
+      params: {
+        assignedUid: assignedUid
       }
     });
   }
