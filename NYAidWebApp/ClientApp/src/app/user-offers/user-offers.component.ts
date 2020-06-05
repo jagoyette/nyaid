@@ -11,8 +11,8 @@ import { OfferInfo } from '../models/offer-info';
   styleUrls: ['./user-offers.component.css']
 })
 export class UserOffersComponent implements OnInit {
-  private requests: RequestInfo[];
-  private offers: OfferInfo[];
+  public requests: RequestInfo[];
+  public offers: OfferInfo[];
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService) { }
