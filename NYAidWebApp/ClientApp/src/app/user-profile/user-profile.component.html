@@ -1,7 +1,7 @@
 <div class="container">
     <h1>User Profile</h1>
 
-    <div class="col-sm-8">
+    <div class="col-sm-8 col-md-6 col-lg-4">
         <form class="form">
             <div class="form-group row">
                 <label for="name" class="col-4 col-form-label">Name:</label>
@@ -19,9 +19,15 @@
                 </div>
             </div>
         </form>
-        <a class="btn btn-primary btn-lg" href="/.auth/logout?post_logout_redirect_uri=/login">
+
+        <div class="d-flex flex-row justify-content-between">
+            <button type="button" class="btn btn-primary btn-lg text-nowrap" (click)="onMyRequests()">My Requests</button>
+            <button type="button" class="btn btn-primary btn-lg text-nowrap" (click)="onMyOffers()">My Offers</button>
+        </div>
+
+        <a class="mt-4 btn btn-primary btn-lg" href="/.auth/logout?post_logout_redirect_uri=/login">
             Sign Out
         </a>
-        <button type="button" class="btn btn-primary btn-lg float-right" (click)="onMyRequests()">My Requests</button>
+
     </div>
 </div>
