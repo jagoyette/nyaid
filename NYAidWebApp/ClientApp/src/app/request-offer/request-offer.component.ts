@@ -41,19 +41,19 @@ export class RequestOfferComponent implements OnInit {
   }
 
   onSubmit(formData) {
-    // TODO: The createOffer method requires a NewOfferInfo object to
+    // The createOffer method requires a NewOfferInfo object to
     // be supplied. use the description from the formData and the uid
     // of the currentUser to create a NewOfferInfo object.
-
+    const requestId = this.route.snapshot.paramMap.get('Id');
+    const newOffer = new NewOfferInfo();
+      newOffer.description = JSON.stringify(formData);
+      newOffer.volunteerUid = this.nyaidUserService.currentUser.uid;
+  
     // Populate the new offer
-    // console.log('Submitting new help offer: ' + JSON.stringify(formData));
-    // this.nyaidApiService.createOffer(formData).subscribe(data => {
-    //   console.log('New request submitted');
-    //   this.goToPage('requests');
-    // });
-  }
-
-  goToPage(pageName: string) {
-    this.router.navigate([`${pageName}`]);
+    console.log('Submitting new help offer: ' + JSON.stringify(formData));
+    this.nyaidApiService.createOffer(requestId, newOffer).subscribe(data => {
+       console.log('New request submitted');
+       this.router.navigate(['requests']);
+    });
   }
 }
