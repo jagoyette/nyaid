@@ -56,4 +56,8 @@ export class UserProfileComponent implements OnInit {
   onMyRequests(): void {
     this.router.navigate(['profile/myrequests']);
   }
+
+  onMyOffers(): void {
+
+  }
 }
