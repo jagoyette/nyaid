@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NyaidUserService } from '../services/nyaid-user.service';
 import { UserInfo } from '../models/user-info';
 import { Router } from '@angular/router';
+import { OfferInfo } from '../models/offer-info';
 
 @Component({
   selector: 'app-user-profile',
@@ -58,6 +59,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   onMyOffers(): void {
-
+    this.router.navigate(['useroffers']);
   }
 }

@@ -45,6 +45,7 @@ import { UserOffersComponent } from './user-offers/user-offers.component';
       { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/update', component: UpdateRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/offer', component: RequestOfferComponent, canActivate: [AuthGuardService] },
+      { path: 'useroffers', component: UserOffersComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],
