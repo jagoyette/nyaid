@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
 import { NyaidUserService } from '../services/nyaid-user.service';
+import { OfferInfo } from '../models/offer-info';
 
 @Component({
   selector: 'app-user-offers',
@@ -11,6 +12,7 @@ import { NyaidUserService } from '../services/nyaid-user.service';
 })
 export class UserOffersComponent implements OnInit {
   private requests: RequestInfo[];
+  private offers: OfferInfo[];
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService) { }
@@ -23,6 +25,12 @@ export class UserOffersComponent implements OnInit {
           this.requests = data;
           console.log('Found ' + this.requests.length + ' requests');
       });
+
+      this.nyaidApiService.getAllOffers(this.userService.currentUser.uid)
+        .subscribe(data => {
+          this.offers = data;
+          console.log('Found ' + this.offers.length + ' offers');
+      });      
     }
   }
 }
