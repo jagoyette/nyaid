@@ -31,6 +31,42 @@ namespace NYAidWebApp.Controllers
 
         }
 
+        // Returns offers using supplied filters across all requests
+        // Overrides the routing for the controller class because we don't
+        // want to use a requestId in the path
+        // Query parameters may be used to filter the response data
+        //   volunteerUid={uid}  => returns only offers created by user
+        //   state={state}     => returns only offers in given state
+        [HttpGet]
+        [Route("/api/offers")]
+        public async Task<IEnumerable<Offer>> GetOffers(string volunteerUid, string stateFilter)
+        {
+            _log.LogInformation($"Returning offers with filters volunteerUid: {volunteerUid}, stateFilter: {stateFilter}");
+
+            // By default, return only 'submitted' offers
+            bool shouldFilterByState = true;
+            OfferState state = OfferState.Submitted;
+            if (!string.IsNullOrEmpty(stateFilter))
+            {
+                _log.LogDebug($"Adding state filter: {stateFilter}");
+                if (!Enum.TryParse(stateFilter, ignoreCase: true, out state))
+                {
+                    if (stateFilter == "all")
+                    {
+                        _log.LogInformation("Bypassing state filter and returning all offers");
+                        shouldFilterByState = false;
+                    }
+                }
+            }
+
+            // return the requested offer
+            return await _context.Offers
+                .Where(o => !shouldFilterByState || o.State == state)
+                .Where(o => string.IsNullOrEmpty(volunteerUid) ||  o.VolunteerUid == volunteerUid)
+                .ToArrayAsync();
+        }
+
+        // Returns all offers for given requestId
         [HttpGet]
         public async Task<IEnumerable<Offer>> Get(string requestId)
         {
@@ -40,23 +76,11 @@ namespace NYAidWebApp.Controllers
                 .ToArrayAsync();
         }
 
-        [HttpGet]
-        [Route("/api/request/offers/myoffers")]
-        public async Task<IEnumerable<Offer>> GetMyOffers()
-        {
-            var user = this._userService.CreateUserInfoFromClaims(User);
 
-            _log.LogInformation($"Returning offers for user with id {user.Uid}");
-
-            // return the requested offer
-            return await _context.Offers
-                .Where(o => o.VolunteerUid == user.Uid)
-                .ToArrayAsync();
-        }
-
+        // returns single request identified by offerId
         [HttpGet]
         [Route("{offerId}")]
-        public async Task<Offer> GetMyOffers(string requestId, string offerId)
+        public async Task<Offer> GetOffer(string requestId, string offerId)
         {
             _log.LogInformation($"Returning offer with id {offerId}");
 
