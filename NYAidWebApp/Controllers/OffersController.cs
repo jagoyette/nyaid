@@ -77,26 +77,46 @@ namespace NYAidWebApp.Controllers
         }
 
         // Returns all offers for given requestId
+        // Query parameters may be used to filter the response data
+        //   includeRequest      => if true, fills in the request detail for each offer
         [HttpGet]
-        public async Task<IEnumerable<Offer>> Get(string requestId)
+        public async Task<IEnumerable<Offer>> Get(string requestId, bool includeRequest)
         {
             // return all offers for the given request
-            return await _context.Offers
-                .Where(o => o.RequestId == requestId)
-                .ToArrayAsync();
+            var offers = _context.Offers
+                .Where(o => o.RequestId == requestId);
+
+            if (includeRequest)
+            {
+                await offers.ForEachAsync(o =>
+                {
+                    o.RequestDetail = _context.Requests.First(r => r.RequestId == o.RequestId);
+                });
+            }
+
+            return await offers.ToArrayAsync();
         }
 
 
         // returns single request identified by offerId
+        // Query parameters may be used to filter the response data
+        //   includeRequest      => if true, fills in the request detail for the offer
         [HttpGet]
         [Route("{offerId}")]
-        public async Task<Offer> GetOffer(string requestId, string offerId)
+        public async Task<Offer> GetOffer(string requestId, string offerId, bool includeRequest)
         {
             _log.LogInformation($"Returning offer with id {offerId}");
 
             // return the requested offer
-            return await _context.Offers
+            var offer = await _context.Offers
                 .FirstOrDefaultAsync(o => o.OfferId == offerId);
+
+            if (includeRequest)
+            {
+                offer.RequestDetail = await _context.Requests.FirstOrDefaultAsync(r => r.RequestId == offer.RequestId);
+            }
+
+            return offer;
         }
 
         [HttpPost]
