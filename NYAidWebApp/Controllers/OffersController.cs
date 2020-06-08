@@ -36,10 +36,11 @@ namespace NYAidWebApp.Controllers
         // want to use a requestId in the path
         // Query parameters may be used to filter the response data
         //   volunteerUid={uid}  => returns only offers created by user
-        //   state={state}     => returns only offers in given state
+        //   state={state}       => returns only offers in given state
+        //   includeRequest      => if true, fills in the request detail for each offer
         [HttpGet]
         [Route("/api/offers")]
-        public async Task<IEnumerable<Offer>> GetOffers(string volunteerUid, string stateFilter)
+        public async Task<IEnumerable<Offer>> GetOffers(string volunteerUid, string stateFilter, bool includeRequest)
         {
             _log.LogInformation($"Returning offers with filters volunteerUid: {volunteerUid}, stateFilter: {stateFilter}");
 
@@ -60,10 +61,19 @@ namespace NYAidWebApp.Controllers
             }
 
             // return the requested offer
-            return await _context.Offers
+            var offers = _context.Offers
                 .Where(o => !shouldFilterByState || o.State == state)
-                .Where(o => string.IsNullOrEmpty(volunteerUid) ||  o.VolunteerUid == volunteerUid)
-                .ToArrayAsync();
+                .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid);
+
+            if (includeRequest)
+            {
+                await offers.ForEachAsync(o =>
+                {
+                    o.RequestDetail = _context.Requests.First(r => r.RequestId == o.RequestId);
+                });
+            }
+
+            return await offers.ToArrayAsync();
         }
 
         // Returns all offers for given requestId

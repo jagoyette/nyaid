@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace NYAidWebApp.Models
 {
@@ -15,6 +16,9 @@ namespace NYAidWebApp.Models
         public string OfferId { get; set; }
 
         public string RequestId { get; set; }
+
+        [NotMapped]
+        public Request RequestDetail { get; set; }
 
         public string VolunteerUid { get; set; }
 
