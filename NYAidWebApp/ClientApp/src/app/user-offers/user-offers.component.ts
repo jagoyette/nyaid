@@ -14,7 +14,6 @@ export class UserOffersComponent implements OnInit {
   public requests: RequestInfo[];
   public requestsToUser: RequestInfo[];
   public offers: OfferInfo[];
-  public offer: OfferInfo;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService) { }
@@ -33,12 +32,6 @@ export class UserOffersComponent implements OnInit {
           this.offers = data;
           console.log('Found ' + this.offers.length + ' requestsToUser');
       });
-
-/*       this.nyaidApiService.getOffer(this.requests[0].requestId, this.offers[0].offerId)
-        .subscribe(data => {
-          this.offer = data;
-          console.log('Found ' + this.offer.description + ' offers');
-      }); */
     }
   }
 }
