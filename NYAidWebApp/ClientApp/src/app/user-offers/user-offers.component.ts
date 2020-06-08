@@ -12,7 +12,9 @@ import { OfferInfo } from '../models/offer-info';
 })
 export class UserOffersComponent implements OnInit {
   public requests: RequestInfo[];
+  public requestsToUser: RequestInfo[];
   public offers: OfferInfo[];
+  public offer: OfferInfo;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService) { }
@@ -26,11 +28,17 @@ export class UserOffersComponent implements OnInit {
           console.log('Found ' + this.requests.length + ' requests');
       });
 
-      this.nyaidApiService.getAllOffers(this.userService.currentUser.uid)
+      this.nyaidApiService.getOffersCreatedByUser(this.userService.currentUser.uid)
         .subscribe(data => {
           this.offers = data;
-          console.log('Found ' + this.offers.length + ' offers');
-      });      
+          console.log('Found ' + this.offers.length + ' requestsToUser');
+      });
+
+/*       this.nyaidApiService.getOffer(this.requests[0].requestId, this.offers[0].offerId)
+        .subscribe(data => {
+          this.offer = data;
+          console.log('Found ' + this.offer.description + ' offers');
+      }); */
     }
   }
 }
