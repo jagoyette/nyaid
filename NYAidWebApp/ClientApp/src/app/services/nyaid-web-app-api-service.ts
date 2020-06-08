@@ -133,6 +133,22 @@ export class NyaidWebAppApiService {
     return this.http.get<OfferInfo[]>(url);
   }
 
+  /**
+   * Retrieve all offers created by the given user
+   *
+   * @param volunteerUid - Uid of the user
+   *
+   *  @return An `Observable` of an array of `OfferInfo` objects
+   */
+  getOffersCreatedByUser(volunteerUid: string): Observable<OfferInfo[]> {
+    const url = this.baseUrl + 'api/offers';
+    return this.http.get<OfferInfo[]>(url, {
+      params: {
+        volunteerUid: volunteerUid
+      }
+    });
+  }
+
 /**
    * Retrieve offer to by requestId and offerId
    *

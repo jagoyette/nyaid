@@ -46,8 +46,8 @@ export class RequestOfferComponent implements OnInit {
     // of the currentUser to create a NewOfferInfo object.
     const requestId = this.route.snapshot.paramMap.get('Id');
     const newOffer = new NewOfferInfo();
-      newOffer.description = JSON.stringify(formData);
-      newOffer.volunteerUid = this.nyaidUserService.currentUser.uid;
+    newOffer.description = formData.description;
+    newOffer.volunteerUid = this.nyaidUserService.currentUser.uid;
   
     // Populate the new offer
     console.log('Submitting new help offer: ' + JSON.stringify(formData));
