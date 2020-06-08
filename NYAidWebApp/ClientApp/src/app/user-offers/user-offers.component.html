@@ -2,17 +2,12 @@
 
 <div>
     <div class="container">
-        <div class="card bg-primary m-3 p-2" *ngFor="let request of requests">
-            <div class="card-block">
-                <p class="card-title lead">{{ request.location }}</p>
-                <p class="card-text text-light">{{ request.description }}</p>
-                <p class="card-text text-light">{{ request.name }}</p>
-            </div>
-        </div>
         <div class="card bg-primary m-3 p-2" *ngFor="let offer of offers">
             <div class="card-block">
                 <p class="card-text text-light">{{ offer.description }}</p>
-            </div>
+                <p class="card-title lead">{{ offer.requestDetail.location }}</p>
+                <p class="card-text text-light">{{ offer.requestDetail.description }}</p>
+                <p class="card-text text-light">{{ offer.requestDetail.name }}</p>            </div>
         </div>
       </div>
 </div>

@@ -21,13 +21,7 @@ export class UserOffersComponent implements OnInit {
   ngOnInit() {
     // Get all requests created by user first
     if (this.userService.currentUser) {
-      this.nyaidApiService.getRequestsCreatedByUser(this.userService.currentUser.uid)
-        .subscribe(data => {
-          this.requests = data;
-          console.log('Found ' + this.requests.length + ' requests');
-      });
-
-      this.nyaidApiService.getOffersCreatedByUser(this.userService.currentUser.uid)
+      this.nyaidApiService.getOffersCreatedByUser(this.userService.currentUser.uid, 'true')
         .subscribe(data => {
           this.offers = data;
           console.log('Found ' + this.offers.length + ' requestsToUser');

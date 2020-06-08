@@ -140,11 +140,12 @@ export class NyaidWebAppApiService {
    *
    *  @return An `Observable` of an array of `OfferInfo` objects
    */
-  getOffersCreatedByUser(volunteerUid: string): Observable<OfferInfo[]> {
+  getOffersCreatedByUser(volunteerUid: string, includeRequest: string): Observable<OfferInfo[]> {
     const url = this.baseUrl + 'api/offers';
     return this.http.get<OfferInfo[]>(url, {
       params: {
-        volunteerUid: volunteerUid
+        volunteerUid: volunteerUid,
+        includeRequest: includeRequest
       }
     });
   }
