@@ -11,14 +11,28 @@ export class AuthGuardService implements CanActivate {
 
   // canActivate checks if we have a signed in user and can be used
   // to prevent route navigation to a protected resource.
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-    // Reroute to Login screen if user is not logged in
-    if (!this.userService.currentUser) {
-      this.router.navigate(['/login']);
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> | boolean {
+    // If we already have a user, then we can return true immediately
+    if (this.userService.currentUser) {
+      return true;
     }
 
-    return this.userService.currentUser != null;
-  }
+    console.log('Refreshing login status...');
+    return new Promise<boolean>((resolve) => {
+      // attempt to refresh current user
+      this.userService.refreshUserInfo().subscribe(user => {
+        // Now we can resolve the promise and proceed if we have a user
+        resolve(user != null);
 
+        // Reroute to Login screen if user is not logged in
+        if (!user) {
+          console.log('No user siged in, redirecting to sign in screen...');
+          this.router.navigate(['/login']);
+        }
+
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
 }
