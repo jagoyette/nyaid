@@ -1,5 +1,6 @@
 .app-title {
-    font-family: BigAppleNF;
+    max-width: 100%;
+    height: auto;
 }
 
 .btn-facebook {
