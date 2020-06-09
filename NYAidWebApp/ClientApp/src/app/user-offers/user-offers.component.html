@@ -1,18 +1,19 @@
 <h1>My Offers</h1>
 
 <div>
-    <div class="container">
-        <div class="card bg-primary m-3 p-2" *ngFor="let offer of offers">
-            <div class="card-block">
-                <p class="card-text text-light">{{ offer.description }}</p>
-                <p class="card-title lead">{{ offer.requestDetail.location }}</p>
-                <p class="card-text text-light">{{ offer.requestDetail.description }}</p>
-                <p class="card-text text-light">{{ offer.requestDetail.name }}</p>            
-            </div>
+    <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let offer of offers">
+        <div class="card-block">
+            <p class="card-title lead">{{ offer.requestDetail.location }}</p>
+            <p class="card-text text-muted">{{ offer.requestDetail.description }}</p>
+            <p class="card-text text-right blockquote-footer">{{ offer.requestDetail.name }}</p>
+        </div>
+        <div class="card-body">
+            <p class="card-text">Your Offers</p>
+            <p class="card-text text-muted">{{ offer.description }}</p>
             <div class="d-flex flex-row justify-content-between p-2">
-                <button type="button" class="btn btn-outline-light btn-md" (click)="onAcceptOffer(request)">Accept</button>
-                <button type="button" class="btn btn-outline-light btn-md" (click)="onRejectOffer(request)">Reject</button>
-            </div>            
+                <button type="button" class="btn btn-primary btn-md" (click)="onAcceptOffer(request)">Accept</button>
+                <button type="button" class="btn btn-primary btn-md" (click)="onRejectOffer(request)">Reject</button>
+            </div>
         </div>
     </div>
 </div>
