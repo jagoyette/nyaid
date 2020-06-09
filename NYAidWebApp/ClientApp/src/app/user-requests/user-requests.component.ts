@@ -33,18 +33,4 @@ export class UserRequestsComponent implements OnInit {
   onUpdateRequest(request: RequestInfo): void {
     this.router.navigate(['requests', request.requestId, 'update']);
   }
-
-  onAcceptOffer(request: RequestInfo): void {
-    console.log('onAcceptOffer called');
-  /*   TODO: Figure out how to get the offerId for the request???
-    this.nyaidApiService.getOffer(request.requestId, )
-        .subscribe(data => {
-          this.requests = data;
-          console.log('Found ' + this.requests.length + ' requests');
-        });     */
-  }
-
-  onRejectOffer(request: RequestInfo): void {
-    console.log('onRejectOffer called');
-  }
 }

@@ -7,7 +7,12 @@
                 <p class="card-text text-light">{{ offer.description }}</p>
                 <p class="card-title lead">{{ offer.requestDetail.location }}</p>
                 <p class="card-text text-light">{{ offer.requestDetail.description }}</p>
-                <p class="card-text text-light">{{ offer.requestDetail.name }}</p>            </div>
+                <p class="card-text text-light">{{ offer.requestDetail.name }}</p>            
+            </div>
+            <div class="d-flex flex-row justify-content-between p-2">
+                <button type="button" class="btn btn-outline-light btn-md" (click)="onAcceptOffer(request)">Accept</button>
+                <button type="button" class="btn btn-outline-light btn-md" (click)="onRejectOffer(request)">Reject</button>
+            </div>            
         </div>
-      </div>
+    </div>
 </div>
