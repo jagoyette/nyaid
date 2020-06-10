@@ -32,6 +32,12 @@ export class AuthGuardService implements CanActivate {
 
       }, error => {
         resolve(false);
+
+        // Reroute to Login screen we failed due to unauthorized API call
+        if (error.status === 401) {
+          console.log('No user siged in, redirecting to sign in screen...');
+          this.router.navigate(['/login']);
+        }
       });
     });
   }
