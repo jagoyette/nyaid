@@ -44,9 +44,6 @@ export class UserRequestsComponent implements OnInit {
             });
           });
       });
-    } else {
-      console.log('Unable to retrieve current user');
-      this.router.navigate(['login']);
     }
   }
 
