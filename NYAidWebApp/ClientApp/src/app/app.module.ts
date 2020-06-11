@@ -41,11 +41,11 @@ import { UserOffersComponent } from './user-offers/user-offers.component';
       { path: 'login', component: UserLoginComponent },
       { path: 'profile', component: UserProfileComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
       { path: 'profile/myrequests', component: UserRequestsComponent },
+      { path: 'profile/myoffers', component: UserOffersComponent, canActivate: [AuthGuardService] },
       { path: 'requests', component: RequestsComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
       { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/update', component: UpdateRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/offer', component: RequestOfferComponent, canActivate: [AuthGuardService] },
-      { path: 'useroffers', component: UserOffersComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],
