@@ -14,10 +14,7 @@ import { AcceptRejectOfferInfo } from '../models/acceptrejectOffer-info';
 })
 export class UserRequestsComponent implements OnInit {
   public requests: RequestInfo[];
-  public request: RequestInfo;
-  public offers: OfferInfo[];
-  public offer: OfferInfo;
-  public acceptRejectOffer: AcceptRejectOfferInfo = new AcceptRejectOfferInfo();
+
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService,
@@ -25,24 +22,19 @@ export class UserRequestsComponent implements OnInit {
 
   ngOnInit() {
     if (this.userService.currentUser) {
-      this.nyaidApiService.getRequestsCreatedByUser(this.userService.currentUser.uid)
-        .subscribe(data => {
-          this.requests = data;
-          console.log('Found ' + this.requests.length + ' requests');
-        });
+      this.nyaidApiService.getRequestsCreatedByUser(this.userService.currentUser.uid).subscribe(data => {
+        this.requests = data;
+        console.log('Found ' + this.requests.length + ' requests');
 
-        this.nyaidApiService.getOffersCreatedByUser(this.userService.currentUser.uid, 'true')
-        .subscribe(data => {
-          this.offers = data;
-          console.log('Found ' + this.offers.length + ' requestsToUser');
-
-          this.offers.forEach(offer => {
-            console.log(offer);
-            this.nyaidApiService.getRequest(offer.requestId).subscribe(data => {
-              this.request = data;
-              this.offer = offer;
-            });
+        // Retrieve all offers for each request
+        this.requests.forEach(request => {
+          this.nyaidApiService.getAllOffers(request.requestId).subscribe(offers => {
+            console.log(`Request ${request.requestId} has ${offers.length} offers`);
+            if (offers.length > 0) {
+              request['offers'] = offers;
+            }
           });
+        });
       });
     }
   }
@@ -51,19 +43,27 @@ export class UserRequestsComponent implements OnInit {
     this.router.navigate(['requests', request.requestId, 'update']);
   }
 
-  onAcceptOffer(request: RequestInfo): void {
-    console.log('onAcceptOffer called');
-    this.acceptRejectOffer.isAccepted = true;
-    this.nyaidApiService.acceptOffer(request.requestId, this.offer.offerId, this.acceptRejectOffer).subscribe(data => {
-      this.offer = data;
+  onAcceptOffer(offer: OfferInfo): void {
+    const ar: AcceptRejectOfferInfo = {
+      isAccepted: true,
+      reason: ''
+    };
+
+    this.nyaidApiService.acceptOffer(offer.requestId, offer.offerId, ar).subscribe(data => {
+      console.log('Offer was accepted');
+      offer = data;
     });
   }
 
-  onRejectOffer(request: RequestInfo): void {
-    console.log('onRejectOffer called');
-    this.acceptRejectOffer.isAccepted = false;
-    this.nyaidApiService.acceptOffer(request.requestId, this.offer.offerId, this.acceptRejectOffer).subscribe(data => {
-      this.offer = data;
-    });  
+  onRejectOffer(offer: OfferInfo): void {
+    const ar: AcceptRejectOfferInfo = {
+      isAccepted: false,
+      reason: ''
+    };
+
+    this.nyaidApiService.acceptOffer(offer.requestId, offer.offerId, ar).subscribe(data => {
+      console.log('Offer was rejected');
+      offer = data;
+    });
   }
 }
