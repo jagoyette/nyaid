@@ -8,8 +8,19 @@
             <p class="card-text text-right blockquote-footer">{{ offer.requestDetail.name }}</p>
         </div>
         <div class="card-body">
-            <p class="card-text">Your Offers</p>
+            <p class="card-text">You offered to help on {{ offer.created | date }}</p>
             <p class="card-text text-muted">{{ offer.description }}</p>
+            <span class="text-highlight" [ngSwitch]="offer.state">
+                <p *ngSwitchCase="'accepted'">
+                Congratulations! Your offer to help {{ offer.requestDetail.name }} has been accepted.
+                </p>
+                <p *ngSwitchCase="'rejected'">
+                Your offer to help with this request was not accepted.
+                </p>
+                <p *ngSwitchCase="'submitted'">
+                Your offer is still being considered.
+                </p>
+            </span>
         </div>
     </div>
 </div>
