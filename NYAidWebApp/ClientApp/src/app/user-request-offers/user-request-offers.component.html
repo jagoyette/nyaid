@@ -6,6 +6,13 @@
         <p class="card-title lead">{{ request.location }}</p>
         <p class="card-text text-muted">{{ request.description }}</p>
         <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
+        <div class="container" [hidden]="!request['offers']">
+          <p class="card-text">Offers</p>
+          <div class="mb-1" *ngFor="let offer of request['offers']">
+              <hr>
+              <p class="card-text text-muted">{{ offer.description }}</p>
+         </div>
+      </div>  
     </div>
-    </div>
+  </div>
 </div>

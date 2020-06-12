@@ -21,7 +21,14 @@ export class UserRequestOffersComponent implements OnInit {
     const requestId = this.route.snapshot.paramMap.get('Id');
     this.nyaidApiService.getRequest(requestId).subscribe(data => {
       this.request = data;
+
+      // Retrieve all offers for the request
+      this.nyaidApiService.getAllOffers(this.request.requestId).subscribe(offers => {
+        console.log(`Request ${this.request.requestId} has ${offers.length} offers`);
+        if (offers.length > 0) {
+          this.request['offers'] = offers;
+        }
+      });
     });
   }
-
 }
