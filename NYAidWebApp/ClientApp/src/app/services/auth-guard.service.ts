@@ -20,7 +20,7 @@ export class AuthGuardService implements CanActivate {
     console.log('Refreshing login status...');
     return new Promise<boolean>((resolve) => {
       // attempt to refresh current user
-      this.userService.refreshUserInfo().subscribe(user => {
+      this.userService.refreshCurrentUserInfo().subscribe(user => {
         // Now we can resolve the promise and proceed if we have a user
         resolve(user != null);
 
