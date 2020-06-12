@@ -16,6 +16,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { UserRequestsComponent } from './user-requests/user-requests.component';
 import { UserOffersComponent } from './user-offers/user-offers.component';
+import { UserRequestOffersComponent } from './user-request-offers/user-request-offers.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { UserOffersComponent } from './user-offers/user-offers.component';
     UserLoginComponent,
     UserRequestsComponent,
     UserOffersComponent,
+    UserRequestOffersComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,6 +48,7 @@ import { UserOffersComponent } from './user-offers/user-offers.component';
       { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/update', component: UpdateRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/offer', component: RequestOfferComponent, canActivate: [AuthGuardService] },
+      { path: 'request/:Id/offers', component: UserRequestOffersComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],
