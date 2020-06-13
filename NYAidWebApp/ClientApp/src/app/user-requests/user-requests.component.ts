@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
 import { NyaidUserService } from '../services/nyaid-user.service';
-import { OfferInfo } from '../models/offer-info';
-import { AcceptRejectOfferInfo } from '../models/acceptrejectOffer-info';
 
 @Component({
   selector: 'app-user-requests',
@@ -45,29 +43,5 @@ export class UserRequestsComponent implements OnInit {
   
   onShowOffers(request: RequestInfo): void {
     this.router.navigate(['request', request.requestId, 'offers']);
-  }
-
-  onAcceptOffer(offer: OfferInfo): void {
-    const ar: AcceptRejectOfferInfo = {
-      isAccepted: true,
-      reason: ''
-    };
-
-    this.nyaidApiService.acceptOffer(offer.requestId, offer.offerId, ar).subscribe(data => {
-      console.log('Offer was accepted');
-      offer = data;
-    });
-  }
-
-  onRejectOffer(offer: OfferInfo): void {
-    const ar: AcceptRejectOfferInfo = {
-      isAccepted: false,
-      reason: ''
-    };
-
-    this.nyaidApiService.acceptOffer(offer.requestId, offer.offerId, ar).subscribe(data => {
-      console.log('Offer was rejected');
-      offer = data;
-    });
   }
 }
