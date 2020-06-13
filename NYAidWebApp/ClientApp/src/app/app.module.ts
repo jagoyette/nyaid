@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -17,6 +18,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { UserRequestsComponent } from './user-requests/user-requests.component';
 import { UserOffersComponent } from './user-offers/user-offers.component';
 import { UserRequestOffersComponent } from './user-request-offers/user-request-offers.component';
+import { RespondToOfferDlgComponent } from './respond-to-offer-dlg/respond-to-offer-dlg.component';
 
 @NgModule({
   declarations: [
@@ -32,11 +34,13 @@ import { UserRequestOffersComponent } from './user-request-offers/user-request-o
     UserRequestsComponent,
     UserOffersComponent,
     UserRequestOffersComponent,
+    RespondToOfferDlgComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    NgbModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -52,6 +56,9 @@ import { UserRequestOffersComponent } from './user-request-offers/user-request-o
       { path: '**', component: HomeComponent }
     ])
   ],
+  entryComponents:[
+    RespondToOfferDlgComponent
+  ],  
   providers: [],
   bootstrap: [AppComponent]
 })

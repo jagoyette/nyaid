@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h4 class="modal-title">Respond To Offer</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="mb-1">
+        <p class="card-text text-muted">{{ offer.description }}</p>
+        <div class="d-flex flex-row-reverse">
+          <button type="button" class="btn btn-primary btn-sm ml-1"
+              (click)="onAcceptOffer()">Accept</button>
+          <button type="button" class="btn btn-primary btn-sm ml-1"
+              (click)="onRejectOffer()">Reject</button>
+        </div>
+      </div>
+    </div>
+</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>
