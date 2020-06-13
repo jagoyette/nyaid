@@ -59,4 +59,7 @@ export class UserRequestOffersComponent implements OnInit {
     });
   }
 
+  onRespondToOffer(offer: OfferInfo): void {
+    console.log('onRespondToOffer was called');
+  }  
 }
