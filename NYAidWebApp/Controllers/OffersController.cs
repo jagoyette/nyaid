@@ -44,8 +44,8 @@ namespace NYAidWebApp.Controllers
         {
             _log.LogInformation($"Returning offers with filters volunteerUid: {volunteerUid}, stateFilter: {stateFilter}");
 
-            // By default, return only 'submitted' offers
-            bool shouldFilterByState = true;
+            // By default, return all offers
+            bool shouldFilterByState = !string.IsNullOrEmpty(stateFilter);
             OfferState state = OfferState.Submitted;
             if (!string.IsNullOrEmpty(stateFilter))
             {
