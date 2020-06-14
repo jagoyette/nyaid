@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { OfferInfo } from '../models/offer-info';
@@ -14,7 +15,8 @@ export class RespondToOfferDlgComponent implements OnInit {
   public offer: OfferInfo = new OfferInfo();
 
   constructor(public activeModal: NgbActiveModal,
-    private nyaidApiService: NyaidWebAppApiService) { 
+    private nyaidApiService: NyaidWebAppApiService,
+    private modalService: NgbModal) { 
   }
 
   ngOnInit() {
@@ -30,6 +32,9 @@ export class RespondToOfferDlgComponent implements OnInit {
       console.log('Offer was accepted' + ' ' + reason);
       this.offer = data;
     });
+
+    // Close the dialog
+    this.modalService.dismissAll();
   }
 
   onRejectOffer(reason: string): void {
@@ -42,7 +47,10 @@ export class RespondToOfferDlgComponent implements OnInit {
       console.log('Offer was rejected' + ' ' + reason);
       this.offer = data;
     });
-  }
+
+    // Close the dialog
+    this.modalService.dismissAll();
+}
 
   onSubmit(reason: string): void {
     console.log('onSubmit was clicled' + ' ' + reason);

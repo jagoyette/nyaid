@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {NgbModal, ModalDismissReasons, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
 import { OfferInfo } from '../models/offer-info';
-import { AcceptRejectOfferInfo } from '../models/acceptrejectOffer-info';
 import { RespondToOfferDlgComponent } from '../respond-to-offer-dlg/respond-to-offer-dlg.component';
 
 @Component({
@@ -42,6 +41,5 @@ export class UserRequestOffersComponent implements OnInit {
     console.log('onRespondToOffer was called');
     const modalRef = this.modalService.open(RespondToOfferDlgComponent);
     (modalRef.componentInstance as RespondToOfferDlgComponent).offer = offer;
-
   }
 }
