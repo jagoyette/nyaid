@@ -20,7 +20,7 @@ export class RequestsComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.nyaidApiService.getAllRequests().subscribe(data => {
+    this.nyaidApiService.getAllOpenRequests().subscribe(data => {
       this.requests = data;
     });
   }

@@ -39,8 +39,8 @@ namespace NYAidWebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Request>> Get(string creatorUid, string assignedUid, string stateFilter)
         {
-            // By default, return only open requests
-            bool shouldFilterByState = true;
+            // By default, return all requests
+            bool shouldFilterByState = !string.IsNullOrEmpty(stateFilter);
             RequestState state = RequestState.Open;
             if (!string.IsNullOrEmpty(stateFilter))
             {

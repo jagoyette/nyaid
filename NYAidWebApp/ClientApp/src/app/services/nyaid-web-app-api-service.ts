@@ -34,6 +34,20 @@ export class NyaidWebAppApiService {
   }
 
   /**
+   * Retrieve summary of all requests
+   *
+   *  @return An `Observable` of an array of `RequestInfo` objects
+   */
+  getAllOpenRequests(): Observable<RequestInfo[]> {
+    const url = this.baseUrl + 'api/request';
+    return this.http.get<RequestInfo[]>(url, {
+      params: {
+        stateFilter: 'open'
+      }
+    });
+  }
+
+  /**
    * Retrieve requests created by the given user
    *
    * @param creatorUid - Uid of the user
@@ -140,12 +154,12 @@ export class NyaidWebAppApiService {
    *
    *  @return An `Observable` of an array of `OfferInfo` objects
    */
-  getOffersCreatedByUser(volunteerUid: string, includeRequest: string): Observable<OfferInfo[]> {
+  getOffersCreatedByUser(volunteerUid: string, includeRequest: boolean): Observable<OfferInfo[]> {
     const url = this.baseUrl + 'api/offers';
     return this.http.get<OfferInfo[]>(url, {
       params: {
         volunteerUid: volunteerUid,
-        includeRequest: includeRequest
+        includeRequest: includeRequest.toString()
       }
     });
   }
