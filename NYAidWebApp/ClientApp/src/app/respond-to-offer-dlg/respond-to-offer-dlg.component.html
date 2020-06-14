@@ -11,16 +11,18 @@
         <p class="card-text text-muted">Note</p>
         <p><textarea class="md-textarea md-textarea-auto form-control" rows="3" 
             placeholder="Write a note"></textarea></p>
-        <div class="d-flex flex-row-reverse">
-          <button type="button" class="btn btn-primary btn-sm ml-1"
-              (click)="onAcceptOffer()">Accept</button>
-          <button type="button" class="btn btn-primary btn-sm ml-1"
-              (click)="onRejectOffer()">Reject</button>
-          <button type="button" class="btn btn-primary btn-sm ml-1"
-              (click)="onSubmit()">Submit</button>        </div>
       </div>
     </div>
 </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
-</div>
+    <div class="d-flex flex-row-reverse">
+      <button type="button" class="btn btn-primary btn-sm ml-1"
+          (click)="onAcceptOffer()">Accept</button>
+      <button type="button" class="btn btn-primary btn-sm ml-1"
+          (click)="onRejectOffer()">Reject</button>
+      <button type="button" class="btn btn-primary btn-sm ml-1"
+          (click)="onSubmit()">Submit</button>
+      <button type="button" class="btn btn-primary btn-sm ml-1"
+          (click)="activeModal.close('Close click')">Cancel</button>
+    </div>
+  </div>
