@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute } from '@angular/router';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { OfferInfo } from '../models/offer-info';
@@ -15,8 +14,7 @@ export class RespondToOfferDlgComponent implements OnInit {
   public offer: OfferInfo = new OfferInfo();
 
   constructor(public activeModal: NgbActiveModal,
-    private nyaidApiService: NyaidWebAppApiService,
-    private route: ActivatedRoute) { 
+    private nyaidApiService: NyaidWebAppApiService) { 
   }
 
   ngOnInit() {
