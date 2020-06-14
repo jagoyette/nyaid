@@ -48,4 +48,8 @@ export class RespondToOfferDlgComponent implements OnInit {
     });
   }
 
+  onSubmit(): void {
+    console.log('onSubmit was clicled');
+  }
+
 }

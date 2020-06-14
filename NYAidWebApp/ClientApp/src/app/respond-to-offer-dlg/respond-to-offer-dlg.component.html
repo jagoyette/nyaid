@@ -8,12 +8,16 @@
     <div class="container">
       <div class="mb-1">
         <p class="card-text text-muted">{{ offer.description }}</p>
+        <p class="card-text text-muted">Note</p>
+        <p><textarea class="md-textarea md-textarea-auto form-control" rows="3" 
+            placeholder="Write a note"></textarea></p>
         <div class="d-flex flex-row-reverse">
           <button type="button" class="btn btn-primary btn-sm ml-1"
               (click)="onAcceptOffer()">Accept</button>
           <button type="button" class="btn btn-primary btn-sm ml-1"
               (click)="onRejectOffer()">Reject</button>
-        </div>
+          <button type="button" class="btn btn-primary btn-sm ml-1"
+              (click)="onSubmit()">Submit</button>        </div>
       </div>
     </div>
 </div>
