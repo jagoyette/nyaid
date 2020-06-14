@@ -8,20 +8,20 @@
     <div class="container">
       <div class="mb-1">
         <p class="card-text text-muted">{{ offer.description }}</p>
-        <p class="card-text text-muted">Note</p>
-        <p><textarea class="md-textarea md-textarea-auto form-control" rows="3" 
-            placeholder="Write a note"></textarea></p>
+        <p class="card-text text-muted">Reason</p>
+        <p><textarea #reason class="md-textarea md-textarea-auto form-control" id="reason" rows="3" 
+            placeholder="Write your reason"></textarea></p>
       </div>
     </div>
 </div>
   <div class="modal-footer">
     <div class="d-flex flex-row-reverse">
       <button type="button" class="btn btn-primary btn-sm ml-1"
-          (click)="onAcceptOffer()">Accept</button>
+          (click)="onAcceptOffer(reason.value)">Accept</button>
       <button type="button" class="btn btn-primary btn-sm ml-1"
-          (click)="onRejectOffer()">Reject</button>
+          (click)="onRejectOffer(reason.value)">Reject</button>
       <button type="button" class="btn btn-primary btn-sm ml-1"
-          (click)="onSubmit()">Submit</button>
+          (click)="onSubmit(reason.value)">Submit</button>
       <button type="button" class="btn btn-primary btn-sm ml-1"
           (click)="activeModal.close('Close click')">Cancel</button>
     </div>

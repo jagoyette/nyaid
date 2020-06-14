@@ -16,40 +16,43 @@ export class RespondToOfferDlgComponent implements OnInit {
   public request: RequestInfo = new RequestInfo();
   public offers: OfferInfo[] = [];
   public offer: OfferInfo = new OfferInfo();
+  public newOfferForm;
+  public reason;
 
   constructor(public activeModal: NgbActiveModal,
     private nyaidApiService: NyaidWebAppApiService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) { 
+  }
 
   ngOnInit() {
   }
   
-  onAcceptOffer(): void {
+  onAcceptOffer(reason: string): void {
     const ar: AcceptRejectOfferInfo = {
       isAccepted: true,
-      reason: ''
+      reason: reason
     };
 
     this.nyaidApiService.acceptOffer(this.offer.requestId, this.offer.offerId, ar).subscribe(data => {
-      console.log('Offer was accepted');
+      console.log('Offer was accepted' + ' ' + reason);
       this.offer = data;
     });
   }
 
-  onRejectOffer(): void {
+  onRejectOffer(reason: string): void {
     const ar: AcceptRejectOfferInfo = {
       isAccepted: false,
-      reason: ''
+      reason: reason
     };
 
     this.nyaidApiService.acceptOffer(this.offer.requestId, this.offer.offerId, ar).subscribe(data => {
-      console.log('Offer was rejected');
+      console.log('Offer was rejected' + ' ' + reason);
       this.offer = data;
     });
   }
 
-  onSubmit(): void {
-    console.log('onSubmit was clicled');
+  onSubmit(reason: string): void {
+    console.log('onSubmit was clicled' + ' ' + reason);
   }
 
 }
