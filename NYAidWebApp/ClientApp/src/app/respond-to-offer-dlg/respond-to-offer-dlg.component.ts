@@ -3,7 +3,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
-import { RequestInfo } from '../models/request-info';
 import { OfferInfo } from '../models/offer-info';
 import { AcceptRejectOfferInfo } from '../models/acceptrejectOffer-info';
 
@@ -13,11 +12,7 @@ import { AcceptRejectOfferInfo } from '../models/acceptrejectOffer-info';
   styleUrls: ['./respond-to-offer-dlg.component.css']
 })
 export class RespondToOfferDlgComponent implements OnInit {
-  public request: RequestInfo = new RequestInfo();
-  public offers: OfferInfo[] = [];
   public offer: OfferInfo = new OfferInfo();
-  public newOfferForm;
-  public reason;
 
   constructor(public activeModal: NgbActiveModal,
     private nyaidApiService: NyaidWebAppApiService,
