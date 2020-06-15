@@ -91,6 +91,7 @@ namespace NYAidWebApp.Controllers
             {
                 RequestId = id,
                 CreatorUid = user.Uid,
+                Created = DateTime.Now,
                 Name = requestInfo.Name,
                 Location = requestInfo.Location,
                 Phone = requestInfo.Phone,
