@@ -63,7 +63,8 @@ namespace NYAidWebApp.Controllers
             // return the requested offer
             var offers = _context.Offers
                 .Where(o => !shouldFilterByState || o.State == state)
-                .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid);
+                .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
+                .OrderByDescending(o => o.Created);
 
             if (includeRequest)
             {
@@ -84,7 +85,8 @@ namespace NYAidWebApp.Controllers
         {
             // return all offers for the given request
             var offers = _context.Offers
-                .Where(o => o.RequestId == requestId);
+                .Where(o => o.RequestId == requestId)
+                .OrderByDescending(o => o.Created);
 
             if (includeRequest)
             {
@@ -196,7 +198,7 @@ namespace NYAidWebApp.Controllers
             var offer = await _context.Offers
                 .FirstAsync(o => o.OfferId == offerId);
 
-            return offer.Notes.ToArray();
+            return offer.Notes.OrderBy(n => n.Created).ToArray();
         }
 
         [HttpPost]

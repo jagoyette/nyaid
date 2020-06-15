@@ -60,6 +60,7 @@ namespace NYAidWebApp.Controllers
                 .Where(r => !shouldFilterByState || r.State == state)
                 .Where(r => string.IsNullOrEmpty(creatorUid) || r.CreatorUid == creatorUid)
                 .Where(r => string.IsNullOrEmpty(assignedUid) || r.AssignedUid == assignedUid)
+                .OrderByDescending(r => r.Created)
                 .ToArrayAsync();
         }
 
