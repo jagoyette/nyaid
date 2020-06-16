@@ -50,10 +50,7 @@ export class RespondToOfferDlgComponent implements OnInit {
 
     // Close the dialog
     this.modalService.dismissAll();
-}
 
-  onSubmit(reason: string): void {
-    console.log('onSubmit was clicled' + ' ' + reason);
   }
 
 }
