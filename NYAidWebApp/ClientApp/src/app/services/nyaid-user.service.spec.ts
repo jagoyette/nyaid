@@ -6,7 +6,7 @@ describe('NyaidUserService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: NyaidUserService = TestBed.get(NyaidUserService);
+    const service: NyaidUserService = TestBed.inject(NyaidUserService);
     expect(service).toBeTruthy();
   });
 });

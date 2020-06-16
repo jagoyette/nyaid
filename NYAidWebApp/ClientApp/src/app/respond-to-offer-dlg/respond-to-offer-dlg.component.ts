@@ -16,12 +16,12 @@ export class RespondToOfferDlgComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
     private nyaidApiService: NyaidWebAppApiService,
-    private modalService: NgbModal) { 
+    private modalService: NgbModal) {
   }
 
   ngOnInit() {
   }
-  
+
   onAcceptOffer(reason: string): void {
     const ar: AcceptRejectOfferInfo = {
       isAccepted: true,

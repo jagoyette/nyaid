@@ -40,7 +40,7 @@ export class UserRequestsComponent implements OnInit {
   onUpdateRequest(request: RequestInfo): void {
     this.router.navigate(['requests', request.requestId, 'update']);
   }
-  
+
   onShowOffers(request: RequestInfo): void {
     this.router.navigate(['request', request.requestId, 'offers']);
   }

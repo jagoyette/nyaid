@@ -56,9 +56,9 @@ import { RespondToOfferDlgComponent } from './respond-to-offer-dlg/respond-to-of
       { path: '**', component: HomeComponent }
     ])
   ],
-  entryComponents:[
+  entryComponents: [
     RespondToOfferDlgComponent
-  ],  
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

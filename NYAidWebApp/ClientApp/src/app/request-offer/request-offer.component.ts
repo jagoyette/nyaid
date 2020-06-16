@@ -48,7 +48,7 @@ export class RequestOfferComponent implements OnInit {
     const newOffer = new NewOfferInfo();
     newOffer.description = formData.description;
     newOffer.volunteerUid = this.nyaidUserService.currentUser.uid;
-  
+
     // Populate the new offer
     console.log('Submitting new help offer: ' + JSON.stringify(formData));
     this.nyaidApiService.createOffer(requestId, newOffer).subscribe(data => {
