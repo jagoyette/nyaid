@@ -9,6 +9,7 @@
         </div>
         <div class="card-body">
             <p class="card-text text-muted">{{ request.description }}</p>
+            The phone is: {{ request.phone }}
             <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
             <div class="d-flex flex-row-reverse">
                 <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
