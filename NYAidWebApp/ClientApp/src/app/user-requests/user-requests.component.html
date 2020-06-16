@@ -2,30 +2,21 @@
 
 <div>
     <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
-        <div class="card-body">
+        <div class="card-header">
             <p class="card-title lead">{{ request.location }}</p>
+            <p class="card-subtitle small">{{ request.created | date }}</p>
+        </div>
+        <div class="card-body">
             <p class="card-text text-muted">{{ request.description }}</p>
             <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
             <div class="d-flex flex-row-reverse">
                 <button type="button" class="btn btn-primary btn-sm ml-2" (click)="onUpdateRequest(request)">Edit this
                     request</button>
-                    <button type="button" class="btn btn-primary btn-sm" [hidden]="!request['offers']" (click)="onShowOffers(request)">Show 
-                        offers</button>
-                </div>
-
-<!--             <div class="container" [hidden]="!request['offers']">
-                <p class="card-text">Offers</p>
-                <div class="mb-1" *ngFor="let offer of request['offers']">
-                    <hr>
-                    <p class="card-text text-muted">{{ offer.description }}</p>
-                    <div class="d-flex flex-row-reverse">
-                        <button type="button" class="btn btn-primary btn-sm ml-1"
-                            (click)="onAcceptOffer(offer)">Accept</button>
-                        <button type="button" class="btn btn-primary btn-sm ml-1"
-                            (click)="onRejectOffer(offer)">Reject</button>
-                    </div>
-                </div>
+                <button type="button" class="btn btn-primary btn-sm" [hidden]="!request['offers']"
+                    (click)="onShowOffers(request)">Show
+                    offers</button>
             </div>
- -->        </div>
+        </div>
 
     </div>
+</div>

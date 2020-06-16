@@ -1,22 +1,24 @@
-<h1>My Request Offers</h1>
+<h1>My Request</h1>
 
 <div>
-    <div class="card bg-transparent border-secondary mb-3 p-2">
-      <div class="card-body">
-        <p class="card-title lead">{{ request.location }}</p>
-        <p class="card-text text-muted">{{ request.description }}</p>
-        <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
-        <div class="container" [hidden]="!offers">
-          <p class="card-text">Offers</p>
-          <div class="mb-1" *ngFor="let offer of offers">
-              <hr>
-              <p class="card-text text-muted">{{ offer.description }}</p>
-              <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-primary btn-sm ml-1"
-                    (click)="onRespondToOffer(offer)">Respond</button>
-              </div>
+  <div class="card bg-transparent border-secondary mb-3 p-2">
+    <div class="card-header">
+      <p class="card-title lead">{{ request.location }}</p>
+      <p class="card-subtitle small">{{ request.created | date }}</p>
+    </div>
+    <div class="card-body">
+      <p class="card-text text-muted">{{ request.description }}</p>
+      <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
+      <div class="container" [hidden]="!offers">
+        <p class="card-text">Offers</p>
+        <div class="mb-1" *ngFor="let offer of offers">
+          <hr>
+          <p class="card-text text-muted">{{ offer.description }}</p>
+          <div class="d-flex flex-row-reverse">
+            <button type="button" class="btn btn-primary btn-sm ml-1" (click)="onRespondToOffer(offer)">Respond</button>
           </div>
-        </div>  
+        </div>
+      </div>
     </div>
   </div>
 </div>
