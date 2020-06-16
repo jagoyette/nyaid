@@ -5,6 +5,7 @@
         <div class="card-header">
             <p class="card-title lead">{{ request.location }}</p>
             <p class="card-subtitle small">{{ request.created | date }}</p>
+            <p class="card-subtitle small">{{ request.state }}</p>
         </div>
         <div class="card-body">
             <p class="card-text text-muted">{{ request.description }}</p>
