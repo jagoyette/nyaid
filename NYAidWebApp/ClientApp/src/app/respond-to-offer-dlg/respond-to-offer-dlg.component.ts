@@ -50,7 +50,6 @@ export class RespondToOfferDlgComponent implements OnInit {
 
     // Close the dialog
     this.modalService.dismissAll();
-
   }
 
 }
