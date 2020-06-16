@@ -160,6 +160,8 @@ namespace NYAidWebApp.Controllers
             var request = await _context.Requests
                 .FirstAsync(r => r.RequestId == offer.RequestId);
 
+            var allOffers = _context.Offers.Where(o => o.RequestId == requestId);
+
             // Verify that the current user owns this request
             var user = _userService.CreateUserInfoFromClaims(User);
             if (request.CreatorUid != user.Uid)
@@ -183,6 +185,17 @@ namespace NYAidWebApp.Controllers
                 request.AssignedUid = offer.VolunteerUid;
                 request.State = RequestState.InProcess;
                 _context.Requests.Update(request);
+
+                _log.LogInformation($"Rejecting all other offers for request {requestId}");
+                await allOffers.ForEachAsync(o =>
+                {
+                    if (o.OfferId != offerId)
+                    {
+                        o.AcceptRejectReason = "Another offer was accepted.";
+                        o.State = OfferState.Rejected;
+                    }
+                });
+                _context.Offers.UpdateRange(allOffers);
             }
 
             await _context.SaveChangesAsync();
