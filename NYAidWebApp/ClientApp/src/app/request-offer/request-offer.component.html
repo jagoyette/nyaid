@@ -15,7 +15,11 @@
                     <textarea class="md-textarea md-textarea-auto form-control" id="description"
                         formControlName="description" rows="3" placeholder="What help can you offer?"></textarea>
                 </div>
-                <button [disabled]="newOfferForm.invalid" type="submit" class="btn btn-primary">Send Offer</button>
+
+                <div class="d-flex flex-row">
+                    <button [disabled]="newOfferForm.invalid" type="submit" class="btn btn-primary">Send Offer</button>
+                    <button class="btn btn-primary btn-sm ml-1">Cancel</button>
+                </div>
             </form>
         </div>
     </div>
