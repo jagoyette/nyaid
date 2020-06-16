@@ -1,26 +1,24 @@
 <div class="modal-header">
-    <h4 class="modal-title">Respond To Offer</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div class="container">
-      <div class="mb-1">
-        <p class="card-text text-muted">{{ offer.description }}</p>
-        <p class="card-text text-muted">Reason</p>
-        <p><textarea #reason class="md-textarea md-textarea-auto form-control" id="reason" rows="3" 
-            placeholder="Write your reason"></textarea></p>
-      </div>
-    </div>
+  <h4 class="modal-title">Respond To Offer</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
-  <div class="modal-footer">
-    <div class="d-flex flex-row-reverse">
-      <button type="button" class="btn btn-primary btn-sm ml-1"
-          (click)="onAcceptOffer(reason.value)">Accept</button>
-      <button type="button" class="btn btn-primary btn-sm ml-1"
-          (click)="onRejectOffer(reason.value)">Reject</button>
-      <button type="button" class="btn btn-primary btn-sm ml-1"
-          (click)="activeModal.close('Close click')">Cancel</button>
-    </div>
+<div class="modal-body">
+  <p class="card-text text-muted">{{ offer.description }}</p>
+  <label for="reason" class="card-text">Your Response:</label>
+  <textarea #reason id="reason" rows="3" ngbAutofocus class="form-control"
+    placeholder="Enter your response to this offer"></textarea>
+</div>
+<div class="modal-footer justify-content-between">
+  <div>
+    <button type="button" class="btn btn-primary btn-sm ml-1" 
+      (click)="activeModal.close('Close click')">Cancel</button>
   </div>
+  <div>
+    <button type="button" class="btn btn-primary btn-sm ml-2" 
+      (click)="onRejectOffer(reason.value)">Decline Offer</button>
+    <button type="button" class="btn btn-primary btn-sm ml-2" 
+      (click)="onAcceptOffer(reason.value)">Accept Offer</button>
+  </div>
+</div>
