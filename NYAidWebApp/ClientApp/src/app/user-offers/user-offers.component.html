@@ -14,6 +14,7 @@
             <span class="text-highlight" [ngSwitch]="offer.state">
                 <p *ngSwitchCase="'accepted'">
                 Congratulations! Your offer to help {{ offer.requestDetail.name }} has been accepted.
+                <br>The phone is: {{ offer.requestDetail.phone }}
                 </p>
                 <p *ngSwitchCase="'rejected'">
                 Your offer to help with this request was not accepted.
