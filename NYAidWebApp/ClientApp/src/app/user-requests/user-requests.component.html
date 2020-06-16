@@ -10,7 +10,8 @@
             <p class="card-text text-muted">{{ request.description }}</p>
             <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
             <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-primary btn-sm ml-2" (click)="onUpdateRequest(request)">Edit this
+                <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
+                    (click)="onUpdateRequest(request)">Edit this
                     request</button>
                 <button type="button" class="btn btn-primary btn-sm" [hidden]="!request['offers']"
                     (click)="onShowOffers(request)">Show
