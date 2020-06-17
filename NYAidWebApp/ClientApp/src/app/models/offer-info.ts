@@ -1,8 +1,10 @@
 import { NoteInfo } from './note-info';
+import { RequestInfo } from './request-info';
 
 export class OfferInfo {
     offerId: string;        // Unique identifier of this offer
     requestId: string;      // The unique identifier of the request associated with this offer
+    requestDetail: RequestInfo; // The request associated with this offer
     volunteerUid: string;   // Uid of the user submitting the offer
     created: Date;          // Timestamp indicating when the offer was submitted
 
