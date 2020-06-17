@@ -1,25 +1,14 @@
 <h1>My Requests</h1>
 
-<div>
-    <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
-        <div class="card-header">
-            <p class="card-title lead">{{ request.location }}</p>
-            <p class="card-subtitle small">{{ request.created | date }}</p>
-            <p class="card-subtitle small">{{ request.state }}</p>
+<div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
+    <app-request-card [request]="request">
+        <div class="d-flex flex-row-reverse">
+            <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
+                (click)="onUpdateRequest(request)">Edit this
+                request</button>
+            <button type="button" class="btn btn-primary btn-sm" [hidden]="!request['offers']"
+                (click)="onShowOffers(request)">Show
+                offers</button>
         </div>
-        <div class="card-body">
-            <p class="card-text text-muted">{{ request.description }}</p>
-            The phone is: {{ request.phone }}
-            <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
-            <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
-                    (click)="onUpdateRequest(request)">Edit this
-                    request</button>
-                <button type="button" class="btn btn-primary btn-sm" [hidden]="!request['offers']"
-                    (click)="onShowOffers(request)">Show
-                    offers</button>
-            </div>
-        </div>
-
-    </div>
+    </app-request-card>
 </div>

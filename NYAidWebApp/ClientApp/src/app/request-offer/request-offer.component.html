@@ -2,16 +2,10 @@
 
 <div>
     <div class="card bg-transparent border-secondary mb-3 p-2" [hidden]="!request">
-        <div class="card-header">
-            <p class="card-title lead">{{ request?.location }}</p>
-            <p class="card-subtitle small">{{ request?.created | date }}</p>
-        </div>
-        <div class="card-body">
-            <p class="card-text text-muted">{{ request?.description }}</p>
-            <p class="card-text text-right blockquote-footer">{{ request?.name }}</p>
+        <app-request-card [request]="request">
             <form [formGroup]="newOfferForm" (ngSubmit)="onSubmit(newOfferForm.value)">
                 <div class="form-group">
-                    <label for="description">How you can help {{ request?.name }}?</label>
+                    <label for="description">How you can help {{ request.name }}?</label>
                     <textarea class="md-textarea md-textarea-auto form-control" id="description"
                         formControlName="description" rows="3" placeholder="What help can you offer?"></textarea>
                 </div>
@@ -20,7 +14,7 @@
                     <button [disabled]="newOfferForm.invalid" type="submit" class="btn btn-primary">Send Offer</button>
                     <button class="btn btn-primary btn-sm ml-1">Cancel</button>
                 </div>
-            </form>
-        </div>
+            </form>            
+        </app-request-card>
     </div>
 </div>

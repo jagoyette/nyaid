@@ -2,13 +2,7 @@
 
 <div>
     <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let offer of offers">
-        <div class="card-header">
-            <p class="card-title lead">{{ offer.requestDetail.location }}</p>
-            <p class="card-subtitle small">{{ offer.requestDetail.created | date }}</p>
-        </div>
-        <div class="card-body">
-            <p class="card-text text-muted">{{ offer.requestDetail.description }}</p>
-            <p class="card-text text-right blockquote-footer">{{ offer.requestDetail.name }}</p>
+        <app-request-card [request]="offer.requestDetail">
             <p class="card-text">You offered to help on {{ offer.created | date }}</p>
             <p class="card-text text-muted">{{ offer.description }}</p>
             <span class="text-highlight" [ngSwitch]="offer.state">
@@ -34,6 +28,6 @@
                 Your offer is still being considered.
                 </p>
             </span>
-        </div>
+        </app-request-card>
     </div>
 </div>

@@ -2,16 +2,11 @@
 
 <div>
     <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
-        <div class="card-header">
-            <p class="card-title lead">{{ request.location }}</p>
-            <p class="card-subtitle small">{{ request.created | date }}</p>
-        </div>
-        <div class="card-body">
-            <p class="card-text text-muted">{{ request.description }}</p>
+        <app-request-card [request]="request">
             <div class="text-right">
                 <button type="button" class="btn btn-primary btn-md" (click)="onAssignRequest(request)">I Can Help
                 </button>
             </div>
-        </div>
+        </app-request-card>
     </div>
 </div>
