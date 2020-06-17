@@ -19,6 +19,7 @@ import { UserRequestsComponent } from './user-requests/user-requests.component';
 import { UserOffersComponent } from './user-offers/user-offers.component';
 import { UserRequestOffersComponent } from './user-request-offers/user-request-offers.component';
 import { RespondToOfferDlgComponent } from './respond-to-offer-dlg/respond-to-offer-dlg.component';
+import { RequestCardComponent } from './components/request-card/request-card.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { RespondToOfferDlgComponent } from './respond-to-offer-dlg/respond-to-of
     UserOffersComponent,
     UserRequestOffersComponent,
     RespondToOfferDlgComponent,
+    RequestCardComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

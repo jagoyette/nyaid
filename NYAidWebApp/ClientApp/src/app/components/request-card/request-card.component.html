@@ -1,0 +1,9 @@
+<div class="card-header">
+    <p class="card-title lead">{{ request.location }}</p>
+    <p class="card-subtitle small">{{ request.created | date }}</p>
+</div>
+<div class="card-body">
+    <p class="card-text text-muted">{{ request.description }}</p>
+    <p class="card-text text-right blockquote-footer">{{ request.name }}</p>
+    <ng-content></ng-content>
+</div>
