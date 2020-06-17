@@ -2,7 +2,7 @@
 
 <div>
     <div class="card bg-transparent border-secondary mb-3 p-2" [hidden]="!request">
-        <app-request-card [request]="request">
+        <app-request-card *ngIf="request" [request]="request">
             <form [formGroup]="newOfferForm" (ngSubmit)="onSubmit(newOfferForm.value)">
                 <div class="form-group">
                     <label for="description">How you can help {{ request.name }}?</label>

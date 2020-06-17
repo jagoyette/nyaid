@@ -2,7 +2,7 @@
 
 <div>
   <div class="card bg-transparent border-secondary mb-3 p-2">
-    <app-request-card [request]="request">
+    <app-request-card *ngIf="request" [request]="request">
       <div class="container" [hidden]="!offers">
         <p class="card-text">Offers</p>
         <div class="mb-1" *ngFor="let offer of offers">
