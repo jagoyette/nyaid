@@ -12,6 +12,8 @@ import { OfferInfo } from '../models/offer-info';
 })
 export class UserOffersComponent implements OnInit {
   public offers: OfferInfo[];
+  public showOpen: boolean;
+  public showOpenOffers: string;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService,
@@ -23,8 +25,20 @@ export class UserOffersComponent implements OnInit {
       this.nyaidApiService.getOffersCreatedByUser(this.userService.currentUser.uid, true).subscribe(data => {
         this.offers = data;
         console.log('Found ' + this.offers.length + '  offers');
+        this.showOpen = false;
+        this.showOpenOffers = 'Show All';
       });
     }
   }
-}
 
+  onShowOpenOffes() {
+    this.showOpen = !this.showOpen;
+    if (this.showOpen) {
+      this.showOpenOffers = 'Show Open Only';
+    }
+    else {
+      this.showOpenOffers = 'Show All';
+    }
+  }
+
+}
