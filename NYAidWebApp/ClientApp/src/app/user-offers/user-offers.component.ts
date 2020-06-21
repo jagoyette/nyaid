@@ -52,8 +52,15 @@ export class UserOffersComponent implements OnInit {
   }
 
   getOpenOffers() {
-    // TODO: Implement this method
+    let temp: OfferInfo[] = [];
+
     // Get open offers
-    this.offers = [];
+    this.offers.forEach(offer => {
+      if (offer.state == 'submitted') {
+        temp.push(offer);
+      }
+    });
+    
+    this.offers = temp;
   }
 }
