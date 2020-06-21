@@ -14,31 +14,46 @@ export class UserOffersComponent implements OnInit {
   public offers: OfferInfo[];
   public showOpen: boolean;
   public showOpenOffers: string;
+  private showAll: string;
+  private showOpenOnly: string;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService,
     private router: Router) { }
 
   ngOnInit() {
-    // Get all offers created by user first
-    if (this.userService.currentUser) {
-      this.nyaidApiService.getOffersCreatedByUser(this.userService.currentUser.uid, true).subscribe(data => {
-        this.offers = data;
-        console.log('Found ' + this.offers.length + '  offers');
-        this.showOpen = false;
-        this.showOpenOffers = 'Show All';
-      });
-    }
+    this.showOpenOnly = 'Show Open Only';
+    this.showAll = 'Show All';
+    this.showOpen = true;
+    this.getAllOffers();
+    this.showOpenOffers = this.showOpenOnly;
   }
 
   onShowOpenOffes() {
     this.showOpen = !this.showOpen;
     if (this.showOpen) {
-      this.showOpenOffers = 'Show Open Only';
+      this.showOpenOffers = this.showOpenOnly;
+      this.getAllOffers();
     }
     else {
-      this.showOpenOffers = 'Show All';
+      this.showOpenOffers = this.showAll;
+      this.getOpenOffers();
     }
   }
 
+  getAllOffers() {
+    // Get all offers created by user first
+    if (this.userService.currentUser) {
+      this.nyaidApiService.getOffersCreatedByUser(this.userService.currentUser.uid, true).subscribe(data => {
+        this.offers = data;
+        console.log('Found ' + this.offers.length + '  offers');
+      });
+    }
+  }
+
+  getOpenOffers() {
+    // TODO: Implement this method
+    // Get open offers
+    this.offers = [];
+  }
 }
