@@ -6,9 +6,12 @@
             <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
                 (click)="onUpdateRequest(request)">Edit this
                 request</button>
-            <button type="button" class="btn btn-primary btn-sm" [hidden]="!request['offers']"
+            <button type="button" class="btn btn-primary btn-sm ml-2" [hidden]="!request['offers']"
                 (click)="onShowOffers(request)">Show
                 offers</button>
+            <button type="button" class="btn btn-primary btn-sm" [hidden]="!request"
+                (click)="onCloseRequest(request)">Close
+                request</button>
         </div>
     </app-request-card>
 </div>

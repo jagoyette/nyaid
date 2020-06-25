@@ -44,4 +44,12 @@ export class UserRequestsComponent implements OnInit {
   onShowOffers(request: RequestInfo): void {
     this.router.navigate(['request', request.requestId, 'offers']);
   }
+
+  onCloseRequest(request: RequestInfo): void {
+    request.state = 'closed';
+    // TODO: Implement a method to persist the state
+/*     this.nyaidApiService.updateRequest(request.requestId, request).subscribe(data => {
+      console.log('Update request submitted');
+    }); */
+  }
 }
