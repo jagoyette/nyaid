@@ -3,7 +3,13 @@
         <p class="card-title lead">{{ request.location }}</p>
         <p class="card-subtitle small">
             <span>{{ request.created | date }} </span>
-            <span [hidden]="!displayState" class="float-right">{{ getRequestStateString(request) }}</span>
+            <span [hidden]="!displayState"
+                class="float-right" 
+                [ngClass]="{'text-highlight': request.state === 'open',
+                            'text-success': request.state === 'inProcess',
+                            'text-danger': request.state === 'closed'}">
+                {{ getRequestStateString(request) }}
+            </span>
         </p>
     </div>
     <div class="card-body">
