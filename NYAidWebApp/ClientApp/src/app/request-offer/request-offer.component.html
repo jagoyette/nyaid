@@ -12,7 +12,7 @@
 
                 <div class="d-flex flex-row">
                     <button [disabled]="newOfferForm.invalid" type="submit" class="btn btn-primary">Send Offer</button>
-                    <button class="btn btn-primary btn-sm ml-1" (click)="onCancel()">Cancel</button>
+                    <button class="btn btn-primary btn-sm ml-1" (click)="onCancel(newOfferForm.value)">Cancel</button>
                 </div>
             </form>            
         </app-request-card>
