@@ -6,31 +6,33 @@
     </div>
     <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let offer of offers">
         <app-request-card [request]="offer.requestDetail">
-            <p class="card-text">You offered to help on {{ offer.created | date }}</p>
-            <p class="card-text text-muted">{{ offer.description }}</p>
-            <span class="text-highlight" [ngSwitch]="offer.state">
-                <p *ngSwitchCase="'accepted'">
-                Your offer to help has been accepted.
+            <p class="card-text">
+                You offered to help on {{ offer.created | date }}
                 <br>
-                <span class="p-2 text-muted">
-                    {{ offer.acceptRejectReason}}
-                    <p class="text-right blockquote-footer">{{ offer.requestDetail.name }}</p>
-                </span>
-                <br>Please contact {{ offer.requestDetail.name }} using the phone number 
-                <a href="tel:{{ offer.requestDetail.phone }}">{{ offer.requestDetail.phone }}</a> to work out details.
-                </p>
-                <p *ngSwitchCase="'rejected'">
-                Your offer to help with this request was not accepted.
-                <br>
-                <span class="p-2 text-muted">
-                    {{ offer.acceptRejectReason}}
-                    <p class="text-right blockquote-footer">{{ offer.requestDetail.name }}</p>
-                </span>
-                </p>
-                <p *ngSwitchCase="'submitted'">
-                Your offer is being considered.
-                </p>
-            </span>
+                <span class="text-muted pl-2">{{ offer.description }}</span>
+            </p>
+            <div class="card-footer" [ngSwitch]="offer.state">
+                <div *ngSwitchCase="'accepted'" class="text-success">
+                    <p>Your offer to help has been accepted.
+                        <br>
+                        Please contact {{ offer.requestDetail.name }} using the phone number 
+                        <a href="tel:{{ offer.requestDetail.phone }}">{{ offer.requestDetail.phone }}</a> to work out details.
+                        <br>
+                        <span class="pl-2">{{ offer.acceptRejectReason}}</span>
+                        <span class="text-right blockquote-footer text-success">{{ offer.requestDetail.name }}</span>
+                    </p>
+                </div>
+                <div *ngSwitchCase="'rejected'" class="text-danger">
+                    <p>Your offer to help with this request was declined.
+                        <br>
+                        <span class="pl-2">{{ offer.acceptRejectReason}}</span>
+                        <span class="text-right blockquote-footer text-danger">{{ offer.requestDetail.name }}</span>
+                    </p>
+                </div>
+                <div *ngSwitchCase="'submitted'" class="text-highlight">
+                    <p>Your offer is being considered.</p>
+                </div>
+            </div>
         </app-request-card>
     </div>
 </div>
