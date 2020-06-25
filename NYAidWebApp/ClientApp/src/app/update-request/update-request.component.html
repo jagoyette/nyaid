@@ -18,7 +18,9 @@
             <label for="description">Description</label>
             <textarea class="form-control" id="description" formControlName="description" rows="3" placeholder="What do you need help with?"></textarea>
         </div>
-
-        <button [disabled]="updateRequestForm.invalid" type="submit" class="btn btn-primary">Update</button>
+        <div class="d-flex flex-row">
+            <button [disabled]="updateRequestForm.invalid" type="submit" class="btn btn-primary">Update</button>
+            <button class="btn btn-primary btn-sm ml-1" (click)="onCancel()">Cancel</button>
+        </div>
     </form>
 </div>
