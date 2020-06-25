@@ -11,10 +11,9 @@
                 <br>
                 <span class="text-muted pl-2">{{ offer.description }}</span>
             </p>
-            <div class="card-footer" [ngSwitch]="offer.state">
+            <div class="card-footer shadow" [ngSwitch]="offer.state">
                 <div *ngSwitchCase="'accepted'" class="text-success">
                     <p>Your offer to help has been accepted.
-                        <br>
                         Please contact {{ offer.requestDetail.name }} using the phone number 
                         <a href="tel:{{ offer.requestDetail.phone }}">{{ offer.requestDetail.phone }}</a> to work out details.
                         <br>
