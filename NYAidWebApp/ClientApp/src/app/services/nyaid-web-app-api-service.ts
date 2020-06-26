@@ -119,6 +119,18 @@ export class NyaidWebAppApiService {
   }
 
   /**
+   * Closes the request matching id
+   *
+   * @param requestId - The ID of the request
+   *
+   *  @return An `Observable` of `RequestInfo` object
+   */
+  closeRequest(requestId: string): Observable<RequestInfo> {
+    const url = this.baseUrl + 'api/request' + '/' + requestId + '/' + 'close';
+    return this.http.post<RequestInfo>(url, requestId);
+  }
+
+  /**
    * Delete Request for a given requestId
    *
    * @param requestId - The ID of the request

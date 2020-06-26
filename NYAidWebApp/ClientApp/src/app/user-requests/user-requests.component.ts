@@ -47,9 +47,9 @@ export class UserRequestsComponent implements OnInit {
 
   onCloseRequest(request: RequestInfo): void {
     request.state = 'closed';
-    // TODO: Implement a method to persist the state
-/*     this.nyaidApiService.updateRequest(request.requestId, request).subscribe(data => {
-      console.log('Update request submitted');
-    }); */
+    // persist the state - closed
+    this.nyaidApiService.closeRequest(request.requestId).subscribe(data => {
+      console.log('Close request submitted');
+    });
   }
 }
