@@ -12,32 +12,15 @@ import { OfferInfo } from '../models/offer-info';
 })
 export class UserOffersComponent implements OnInit {
   public offers: OfferInfo[];
-  public showOpen: boolean;
-  public showOpenOffers: string;
-  private showAll: string;
-  private showOpenOnly: string;
+  public showOpenOnly = true;
+
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService,
     private router: Router) { }
 
   ngOnInit() {
-    this.showOpenOnly = 'Show Open Only';
-    this.showAll = 'Show All';
-    this.showOpen = true;
     this.getAllOffers();
-    this.showOpenOffers = this.showOpenOnly;
-  }
-
-  onShowOpenOffes() {
-    this.showOpen = !this.showOpen;
-    if (this.showOpen) {
-      this.showOpenOffers = this.showOpenOnly;
-      this.getAllOffers();
-    } else {
-      this.showOpenOffers = this.showAll;
-      this.getOpenOffers();
-    }
   }
 
   getAllOffers() {
@@ -48,17 +31,5 @@ export class UserOffersComponent implements OnInit {
         console.log('Found ' + this.offers.length + '  offers');
       });
     }
-  }
-
-  getOpenOffers() {
-    const temp: OfferInfo[] = [];
-
-    // Get open offers
-    this.offers.forEach(offer => {
-      if (offer.state === 'submitted') {
-        temp.push(offer);
-      }
-    });
-    this.offers = temp;
   }
 }

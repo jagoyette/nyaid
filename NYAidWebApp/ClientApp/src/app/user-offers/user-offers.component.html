@@ -1,39 +1,41 @@
 <h1>My Offers</h1>
 
 <div>
-    <!-- Default checked -->
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input" id="customSwitch1" (click)="onShowOpenOffes()" checked>
-        <label class="custom-control-label" for="customSwitch1">{{showOpenOffers}}</label>
+    <div class="text-right custom-control custom-switch mb-1">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1" [(ngModel)]="showOpenOnly">
+        <label class="custom-control-label" for="customSwitch1">Show Open Offers Only</label>
     </div>    
-    <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let offer of offers">
-        <app-request-card [request]="offer.requestDetail">
-            <p class="card-text">
-                You offered to help on {{ offer.created | date }}
-                <br>
-                <span class="text-muted pl-2">{{ offer.description }}</span>
-            </p>
-            <div class="card-footer shadow" [ngSwitch]="offer.state">
-                <div *ngSwitchCase="'accepted'" class="text-success">
-                    <p>Your offer to help has been accepted.
-                        Please contact {{ offer.requestDetail.name }} using the phone number 
-                        <a href="tel:{{ offer.requestDetail.phone }}">{{ offer.requestDetail.phone }}</a> to work out details.
-                        <br>
-                        <span class="pl-2">{{ offer.acceptRejectReason}}</span>
-                        <span class="text-right blockquote-footer text-success">{{ offer.requestDetail.name }}</span>
-                    </p>
+    <div *ngFor="let offer of offers">
+        <div class="card bg-transparent border-secondary mb-3 p-2" 
+            [hidden]="showOpenOnly && offer.state !== 'submitted'">
+            <app-request-card [request]="offer.requestDetail">
+                <p class="card-text">
+                    You offered to help on {{ offer.created | date }}
+                    <br>
+                    <span class="text-muted pl-2">{{ offer.description }}</span>
+                </p>
+                <div class="card-footer shadow" [ngSwitch]="offer.state">
+                    <div *ngSwitchCase="'accepted'" class="text-success">
+                        <p>Your offer to help has been accepted.
+                            Please contact {{ offer.requestDetail.name }} using the phone number 
+                            <a href="tel:{{ offer.requestDetail.phone }}">{{ offer.requestDetail.phone }}</a> to work out details.
+                            <br>
+                            <span class="pl-2">{{ offer.acceptRejectReason}}</span>
+                            <span class="text-right blockquote-footer text-success">{{ offer.requestDetail.name }}</span>
+                        </p>
+                    </div>
+                    <div *ngSwitchCase="'rejected'" class="text-danger">
+                        <p>Your offer to help with this request was declined.
+                            <br>
+                            <span class="pl-2">{{ offer.acceptRejectReason}}</span>
+                            <span class="text-right blockquote-footer text-danger">{{ offer.requestDetail.name }}</span>
+                        </p>
+                    </div>
+                    <div *ngSwitchCase="'submitted'" class="text-highlight">
+                        <p>Your offer is being considered.</p>
+                    </div>
                 </div>
-                <div *ngSwitchCase="'rejected'" class="text-danger">
-                    <p>Your offer to help with this request was declined.
-                        <br>
-                        <span class="pl-2">{{ offer.acceptRejectReason}}</span>
-                        <span class="text-right blockquote-footer text-danger">{{ offer.requestDetail.name }}</span>
-                    </p>
-                </div>
-                <div *ngSwitchCase="'submitted'" class="text-highlight">
-                    <p>Your offer is being considered.</p>
-                </div>
-            </div>
-        </app-request-card>
+            </app-request-card>
+        </div>
     </div>
 </div>
