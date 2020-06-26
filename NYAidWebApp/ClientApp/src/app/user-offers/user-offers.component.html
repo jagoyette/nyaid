@@ -1,9 +1,11 @@
 <h1>My Offers</h1>
 
 <div>
-    <div class="d-flex flex-row-reverse">
-        <button type="button" class="btn btn-primary btn-sm ml-1" (click)="onShowOpenOffes()">{{showOpenOffers}}</button>
-    </div>
+    <!-- Default checked -->
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1" (click)="onShowOpenOffes()" checked>
+        <label class="custom-control-label" for="customSwitch1">{{showOpenOffers}}</label>
+    </div>    
     <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let offer of offers">
         <app-request-card [request]="offer.requestDetail">
             <p class="card-text">
