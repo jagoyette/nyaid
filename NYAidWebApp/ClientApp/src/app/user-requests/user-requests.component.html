@@ -9,7 +9,7 @@
             <button type="button" class="btn btn-primary btn-sm ml-2" [hidden]="!request['offers']"
                 (click)="onShowOffers(request)">Show
                 offers</button>
-            <button type="button" class="btn btn-primary btn-sm" [hidden]="!request"
+            <button type="button" class="btn btn-primary btn-sm" [disabled]="(request.state != 'open')"
                 (click)="onCloseRequest(request)">Close
                 request</button>
         </div>
