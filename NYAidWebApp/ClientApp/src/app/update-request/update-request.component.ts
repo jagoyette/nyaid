@@ -55,5 +55,5 @@ export class UpdateRequestComponent implements OnInit {
   onCancel(formData) {
     console.log('Cancelong new help request: ' + JSON.stringify(formData));
     this.router.navigate(['profile/myrequests']);
-  }  
+  }
 }

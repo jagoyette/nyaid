@@ -34,8 +34,7 @@ export class UserOffersComponent implements OnInit {
     if (this.showOpen) {
       this.showOpenOffers = this.showOpenOnly;
       this.getAllOffers();
-    }
-    else {
+    } else {
       this.showOpenOffers = this.showAll;
       this.getOpenOffers();
     }
@@ -52,15 +51,14 @@ export class UserOffersComponent implements OnInit {
   }
 
   getOpenOffers() {
-    let temp: OfferInfo[] = [];
+    const temp: OfferInfo[] = [];
 
     // Get open offers
     this.offers.forEach(offer => {
-      if (offer.state == 'submitted') {
+      if (offer.state === 'submitted') {
         temp.push(offer);
       }
     });
-    
     this.offers = temp;
   }
 }

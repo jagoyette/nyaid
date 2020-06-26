@@ -60,5 +60,5 @@ export class RequestOfferComponent implements OnInit {
   onCancel(formData) {
     console.log('Cancelong new help offer: ' + JSON.stringify(formData));
     this.router.navigate(['requests']);
-  }  
+  }
 }

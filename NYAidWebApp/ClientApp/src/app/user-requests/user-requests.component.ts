@@ -49,7 +49,7 @@ export class UserRequestsComponent implements OnInit {
     request.state = 'closed';
     // persist the state - closed
     this.nyaidApiService.closeRequest(request.requestId).subscribe(data => {
-      let request = data;
+      request = data;
       console.log('Close request submitted');
     });
   }
