@@ -23,7 +23,7 @@
                     <br>
                     <span class="text-muted pl-2">{{ offer.description }}</span>
                 </p>
-                <div class="card-footer shadow" [ngSwitch]="offer.state">
+                <div class="card-footer shadow-sm" [ngSwitch]="offer.state">
                     <div *ngSwitchCase="'accepted'" class="text-success">
                         <p>Your offer to help has been accepted.
                             Please contact {{ offer.requestDetail.name }} using the phone number 
@@ -33,14 +33,14 @@
                             <span class="text-right blockquote-footer text-success">{{ offer.requestDetail.name }}</span>
                         </p>
                     </div>
-                    <div *ngSwitchCase="'rejected'" class="text-danger">
+                    <div *ngSwitchCase="'rejected'" class="text-highlight">
                         <p>Your offer to help with this request was declined.
                             <br>
                             <span class="pl-2">{{ offer.acceptRejectReason}}</span>
-                            <span class="text-right blockquote-footer text-danger">{{ offer.requestDetail.name }}</span>
+                            <span class="text-right blockquote-footer text-highlight">{{ offer.requestDetail.name }}</span>
                         </p>
                     </div>
-                    <div *ngSwitchCase="'submitted'" class="text-highlight">
+                    <div *ngSwitchCase="'submitted'" class="text-primary">
                         <p>Your offer is being considered.</p>
                     </div>
                 </div>

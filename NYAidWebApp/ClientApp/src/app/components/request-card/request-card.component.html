@@ -5,9 +5,9 @@
             <span>{{ request.created | date }} </span>
             <span [hidden]="!displayState"
                 class="float-right" 
-                [ngClass]="{'text-highlight': request.state === 'open',
+                [ngClass]="{'text-primary': request.state === 'open',
                             'text-success': request.state === 'inProcess',
-                            'text-danger': request.state === 'closed'}">
+                            'text-highlight': request.state === 'closed'}">
                 {{ getRequestStateString(request) }}
             </span>
         </p>
