@@ -1,17 +1,26 @@
 <h1>My Requests</h1>
 
-<div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
-    <app-request-card [request]="request" displayState="true">
-        <div class="d-flex flex-row-reverse">
-            <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
-                (click)="onUpdateRequest(request)">Edit this
-                request</button>
-            <button type="button" class="btn btn-primary btn-sm ml-2" [hidden]="!request['offers']"
-                (click)="onShowOffers(request)">Show
-                offers</button>
-            <button type="button" class="btn btn-primary btn-sm" [disabled]="(request.state != 'open')"
-                (click)="onCloseRequest(request)">Close
-                request</button>
+<div [hidden]="!requests">
+    <!-- Message shown when there are no requests to display-->
+    <div [hidden]="requests?.length > 0">
+        <div class="text-center mt-4 text-secondary">
+            You have no requests for help to display.
         </div>
-    </app-request-card>
+    </div>
+
+    <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
+        <app-request-card [request]="request" displayState="true">
+            <div class="d-flex flex-row-reverse">
+                <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
+                    (click)="onUpdateRequest(request)">Edit this
+                    request</button>
+                <button type="button" class="btn btn-primary btn-sm ml-2" [hidden]="!request['offers']"
+                    (click)="onShowOffers(request)">Show
+                    offers</button>
+                <button type="button" class="btn btn-primary btn-sm" [disabled]="(request.state != 'open')"
+                    (click)="onCloseRequest(request)">Close
+                    request</button>
+            </div>
+        </app-request-card>
+    </div>
 </div>
