@@ -34,6 +34,20 @@ export class NyaidWebAppApiService {
   }
 
   /**
+   * Retrieve summary of all requests
+   *
+   *  @return An `Observable` of an array of `RequestInfo` objects
+   */
+  getAllOpenRequests(): Observable<RequestInfo[]> {
+    const url = this.baseUrl + 'api/request';
+    return this.http.get<RequestInfo[]>(url, {
+      params: {
+        stateFilter: 'open'
+      }
+    });
+  }
+
+  /**
    * Retrieve requests created by the given user
    *
    * @param creatorUid - Uid of the user
@@ -105,6 +119,18 @@ export class NyaidWebAppApiService {
   }
 
   /**
+   * Closes the request matching id
+   *
+   * @param requestId - The ID of the request
+   *
+   *  @return An `Observable` of `RequestInfo` object
+   */
+  closeRequest(requestId: string): Observable<RequestInfo> {
+    const url = this.baseUrl + 'api/request' + '/' + requestId + '/' + 'close';
+    return this.http.post<RequestInfo>(url, requestId);
+  }
+
+  /**
    * Delete Request for a given requestId
    *
    * @param requestId - The ID of the request
@@ -140,12 +166,12 @@ export class NyaidWebAppApiService {
    *
    *  @return An `Observable` of an array of `OfferInfo` objects
    */
-  getOffersCreatedByUser(volunteerUid: string, includeRequest: string): Observable<OfferInfo[]> {
+  getOffersCreatedByUser(volunteerUid: string, includeRequest: boolean): Observable<OfferInfo[]> {
     const url = this.baseUrl + 'api/offers';
     return this.http.get<OfferInfo[]>(url, {
       params: {
         volunteerUid: volunteerUid,
-        includeRequest: includeRequest
+        includeRequest: includeRequest.toString()
       }
     });
   }

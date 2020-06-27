@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace NYAidWebApp.Models
 {
@@ -34,6 +35,11 @@ namespace NYAidWebApp.Models
         /// The state of the request
         /// </summary>
         public RequestState State { get; set; }
+
+        /// <summary>
+        /// Date stamp indicating when the Request was created
+        /// </summary>
+        public DateTime Created { get; set; }
 
         /// <summary>
         /// Name of the user that created the request

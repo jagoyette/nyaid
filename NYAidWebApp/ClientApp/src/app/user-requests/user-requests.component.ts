@@ -12,6 +12,7 @@ import { NyaidUserService } from '../services/nyaid-user.service';
 })
 export class UserRequestsComponent implements OnInit {
   public requests: RequestInfo[];
+  public showOpenOnly = true;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService,
@@ -19,14 +20,20 @@ export class UserRequestsComponent implements OnInit {
 
   ngOnInit() {
     if (this.userService.currentUser) {
-      this.nyaidApiService.getRequestsCreatedByUser(this.userService.currentUser.uid)
-        .subscribe(data => {
-          this.requests = data;
-          console.log('Found ' + this.requests.length + ' requests');
+      this.nyaidApiService.getRequestsCreatedByUser(this.userService.currentUser.uid).subscribe(data => {
+        this.requests = data;
+        console.log('Found ' + this.requests.length + ' requests');
+
+        // Retrieve all offers for each request
+        this.requests.forEach(request => {
+          this.nyaidApiService.getAllOffers(request.requestId).subscribe(offers => {
+            console.log(`Request ${request.requestId} has ${offers.length} offers`);
+            if (offers.length > 0) {
+              request['offers'] = offers;
+            }
+          });
         });
-    } else {
-      console.log('Unable to retrieve current user');
-      this.router.navigate(['login']);
+      });
     }
   }
 
@@ -34,17 +41,16 @@ export class UserRequestsComponent implements OnInit {
     this.router.navigate(['requests', request.requestId, 'update']);
   }
 
-  onAcceptOffer(request: RequestInfo): void {
-    console.log('onAcceptOffer called');
-  /*   TODO: Figure out how to get the offerId for the request???
-    this.nyaidApiService.getOffer(request.requestId, )
-        .subscribe(data => {
-          this.requests = data;
-          console.log('Found ' + this.requests.length + ' requests');
-        });     */
+  onShowOffers(request: RequestInfo): void {
+    this.router.navigate(['request', request.requestId, 'offers']);
   }
 
-  onRejectOffer(request: RequestInfo): void {
-    console.log('onRejectOffer called');
+  onCloseRequest(request: RequestInfo): void {
+    request.state = 'closed';
+    // persist the state - closed
+    this.nyaidApiService.closeRequest(request.requestId).subscribe(data => {
+      request = data;
+      console.log('Close request submitted');
+    });
   }
 }

@@ -1,16 +1,12 @@
 <h1>Help Someone</h1>
 
 <div>
-    <div class="container">
-        <div class="card bg-transparent border-secondary m-3 p-2" *ngFor="let request of requests">
-            <div class="card-block">
-                <p class="card-title lead">{{ request.location }}</p>
-                <p class="card-text text-muted">{{ request.description }}</p>
+    <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
+        <app-request-card [request]="request">
+            <div class="text-right">
+                <button type="button" class="btn btn-primary btn-md" (click)="onAssignRequest(request)">I Can Help
+                </button>
             </div>
-            <div class="p-2 text-right">
-                <button type="button" class="btn btn-primary btn-md" 
-                (click)="onAssignRequest(request)">I Can Help</button>
-            </div>
-        </div>
+        </app-request-card>
     </div>
 </div>

@@ -39,8 +39,8 @@ namespace NYAidWebApp.Controllers
         [HttpGet]
         public async Task<IEnumerable<Request>> Get(string creatorUid, string assignedUid, string stateFilter)
         {
-            // By default, return only open requests
-            bool shouldFilterByState = true;
+            // By default, return all requests
+            bool shouldFilterByState = !string.IsNullOrEmpty(stateFilter);
             RequestState state = RequestState.Open;
             if (!string.IsNullOrEmpty(stateFilter))
             {
@@ -60,6 +60,7 @@ namespace NYAidWebApp.Controllers
                 .Where(r => !shouldFilterByState || r.State == state)
                 .Where(r => string.IsNullOrEmpty(creatorUid) || r.CreatorUid == creatorUid)
                 .Where(r => string.IsNullOrEmpty(assignedUid) || r.AssignedUid == assignedUid)
+                .OrderByDescending(r => r.Created)
                 .ToArrayAsync();
         }
 
@@ -91,6 +92,7 @@ namespace NYAidWebApp.Controllers
             {
                 RequestId = id,
                 CreatorUid = user.Uid,
+                Created = DateTime.Now,
                 Name = requestInfo.Name,
                 Location = requestInfo.Location,
                 Phone = requestInfo.Phone,
@@ -162,6 +164,44 @@ namespace NYAidWebApp.Controllers
 
             _context.Requests.Remove(request);
             await _context.SaveChangesAsync();
+        }
+
+        [HttpPost("{id}/close")]
+        public async Task<Request> CloseRequest(string id)
+        {
+            var request = await _context.Requests
+                .FirstAsync(r => r.RequestId == id);
+
+            // Retrieve current user info
+            var user = _userService.CreateUserInfoFromClaims(User);
+            if (user == null)
+            {
+                _log.LogError("Failed to obtain current user info");
+                throw new HttpRequestException("Failed to obtain current user info");
+            }
+
+            // Make sure current user matched creator Uid
+            if (request.CreatorUid != user.Uid)
+            {
+                _log.LogError($"Current user is not the owner of request id: {request.RequestId}");
+                throw new HttpRequestException($"Current user is not the owner of request id: { request.RequestId }");
+            }
+
+            // Mark this request as closed
+            request.State = RequestState.Closed;
+            _context.Requests.Update(request);
+
+            // Make sure any offers that are still open ('submitted') are updated to
+            // reflect the closed request
+            var offers = _context.Offers.Where(o => o.RequestId == id && o.State == OfferState.Submitted);
+            await offers.ForEachAsync(o =>
+            {
+                o.State = OfferState.Rejected;
+                o.AcceptRejectReason = "This request has been closed";
+            });
+
+            await _context.SaveChangesAsync();
+            return request;
         }
     }
 }

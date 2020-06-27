@@ -44,8 +44,8 @@ namespace NYAidWebApp.Controllers
         {
             _log.LogInformation($"Returning offers with filters volunteerUid: {volunteerUid}, stateFilter: {stateFilter}");
 
-            // By default, return only 'submitted' offers
-            bool shouldFilterByState = true;
+            // By default, return all offers
+            bool shouldFilterByState = !string.IsNullOrEmpty(stateFilter);
             OfferState state = OfferState.Submitted;
             if (!string.IsNullOrEmpty(stateFilter))
             {
@@ -63,7 +63,8 @@ namespace NYAidWebApp.Controllers
             // return the requested offer
             var offers = _context.Offers
                 .Where(o => !shouldFilterByState || o.State == state)
-                .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid);
+                .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
+                .OrderByDescending(o => o.Created);
 
             if (includeRequest)
             {
@@ -84,7 +85,8 @@ namespace NYAidWebApp.Controllers
         {
             // return all offers for the given request
             var offers = _context.Offers
-                .Where(o => o.RequestId == requestId);
+                .Where(o => o.RequestId == requestId)
+                .OrderByDescending(o => o.Created);
 
             if (includeRequest)
             {
@@ -158,6 +160,10 @@ namespace NYAidWebApp.Controllers
             var request = await _context.Requests
                 .FirstAsync(r => r.RequestId == offer.RequestId);
 
+            // Retrieve all offers for this request
+            var allOffers = _context.Offers
+                .Where(o => o.RequestId == requestId);
+
             // Verify that the current user owns this request
             var user = _userService.CreateUserInfoFromClaims(User);
             if (request.CreatorUid != user.Uid)
@@ -181,6 +187,18 @@ namespace NYAidWebApp.Controllers
                 request.AssignedUid = offer.VolunteerUid;
                 request.State = RequestState.InProcess;
                 _context.Requests.Update(request);
+
+                _log.LogInformation($"Rejecting all other offers for request {requestId}");
+                await allOffers.ForEachAsync(o =>
+                {
+                    // Reject all submitted offers except the one we are accepting
+                    if (o.OfferId != offerId && o.State == OfferState.Submitted)
+                    {
+                        o.AcceptRejectReason = "Another offer was accepted.";
+                        o.State = OfferState.Rejected;
+                    }
+                });
+                _context.Offers.UpdateRange(allOffers);
             }
 
             await _context.SaveChangesAsync();
@@ -196,7 +214,7 @@ namespace NYAidWebApp.Controllers
             var offer = await _context.Offers
                 .FirstAsync(o => o.OfferId == offerId);
 
-            return offer.Notes.ToArray();
+            return offer.Notes.OrderBy(n => n.Created).ToArray();
         }
 
         [HttpPost]

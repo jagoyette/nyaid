@@ -1,4 +1,5 @@
-﻿using NYAidWebApp.Models;
+﻿using System;
+using NYAidWebApp.Models;
 
 namespace NYAidWebApp.DataContext
 {
@@ -28,14 +29,15 @@ namespace NYAidWebApp.DataContext
                 ProviderId = "WC-098812733",
                 ProviderName = "SampleDataSeeder"
             };
-            context.AddRange(new UserInfo[] {userFred, userWiley});
+            context.AddRange(userFred, userWiley);
 
-            var requests = new Request[]
+            var requests = new[]
             {
                 new Request
                 {
                     RequestId = "1",
                     CreatorUid = userFred.Uid,
+                    Created = DateTime.Now,
                     Name = "Fred Flintstone",
                     Location = "Bedrock",
                     Phone = "555-555-5555",
@@ -46,6 +48,7 @@ namespace NYAidWebApp.DataContext
                 {
                     RequestId = "2",
                     CreatorUid = userWiley.Uid,
+                    Created = DateTime.Now,
                     Name = "Wile E. Coyote",
                     Location = "The Desert",
                     Phone = "444-444-4444",
@@ -56,6 +59,7 @@ namespace NYAidWebApp.DataContext
                 {
                     RequestId = "3",
                     CreatorUid = userFred.Uid,
+                    Created = DateTime.Now,
                     Name = "Fred Flintstone",
                     Location = "Just around the Corner",
                     Phone = "333-333-3333",
@@ -66,11 +70,12 @@ namespace NYAidWebApp.DataContext
                 {
                     RequestId = "4",
                     CreatorUid = userWiley.Uid,
+                    Created = DateTime.Now,
                     Name = "Wile E. Coyote",
                     Location = "Train station",
                     Phone = "444-444-4444",
                     Description = "I need a reliable schedule for the trains. It seems that every time I chase that roadrunner onto the tracks, a train finds me!"
-                },
+                }
 
             };
 

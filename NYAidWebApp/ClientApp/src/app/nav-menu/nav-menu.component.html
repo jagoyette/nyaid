@@ -17,17 +17,34 @@
             <a class="nav-link text-light" [routerLink]="['/requests']" (click)="collapse()">Help Someone</a>
           </li>
         </ul>
-        <div>
-          <a class="nav-link text-light" [hidden]="!userService?.currentUser" 
-            [routerLink]="['/profile']" (click)="toggle()">
-          {{ userService?.currentUser?.name }}
-          </a>
-          <a class="nav-link text-light" [hidden]="userService?.currentUser" 
-            [routerLink]="['/login']" (click)="toggle()">
-          Sign In
-          </a>
-        </div>
+
+          <!-- Displayed when user is logged in -->
+          <ul class="navbar-nav flex-grow" [hidden]="!userService?.currentUser">
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="nav-link text-light" [hidden]="!userService?.currentUser" [routerLink]="['/profile']"
+                (click)="toggle()">
+                My Profile
+              </a>
+            </li>
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="nav-link text-light" [hidden]="!userService?.currentUser"
+                href="/.auth/logout?post_logout_redirect_uri=/login" (click)="toggle()">
+                Sign Out
+              </a>
+            </li>
+          </ul>
+
+          <!-- Displayed when user is not logged in -->
+          <ul class="navbar-nav flex-grow" [hidden]="userService?.currentUser">
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="nav-link text-light" [routerLink]="['/login']" (click)="toggle()">
+                Sign In
+              </a>
+            </li>
+        </ul>
+
       </div>
+
     </div>
   </nav>
 </header>

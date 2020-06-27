@@ -52,6 +52,14 @@ namespace NYAidWebApp.Controllers
 
             return user;
         }
+        [HttpGet]
+        [Authorize]
+        [Route("{uid}")]
+        public async Task<UserInfo> Get(string uid)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.Uid == uid);
+        }
 
         [HttpGet]
         [Authorize]

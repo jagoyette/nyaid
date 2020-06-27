@@ -1,0 +1,23 @@
+<div *ngIf="request">
+    <div class="card-header shadow-sm">
+        <p class="card-title lead">{{ request.location }}</p>
+        <p class="card-subtitle small">
+            <span>{{ request.created | date }} </span>
+            <span [hidden]="!displayState"
+                class="float-right" 
+                [ngClass]="{'text-primary': request.state === 'open',
+                            'text-success': request.state === 'inProcess',
+                            'text-highlight': request.state === 'closed'}">
+                {{ getRequestStateString(request) }}
+            </span>
+        </p>
+    </div>
+    <div class="card-body">
+        <p class="card-text text-muted">{{ request.description }}</p>
+        <p class="card-text text-right blockquote-footer">
+            {{ request.name }}
+            <span [hidden]="!displayPhone">{{ request.phone }}</span>
+        </p>
+        <ng-content></ng-content>
+    </div>
+</div>

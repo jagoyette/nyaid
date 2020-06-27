@@ -1,20 +1,20 @@
 <h1>Offer to Help</h1>
 
 <div>
-    <div class="container">
-        <div class="card bg-primary m-3 p-2" [hidden]="!request">
-            <div class="card-block">
-                <p class="card-title lead">{{ request?.location }}</p>
-                <p class="card-text text-light">{{ request?.description }}</p>
-                <p class="card-text text-light">{{ request?.name }}</p>
-                <form [formGroup]="newOfferForm" (ngSubmit)="onSubmit(newOfferForm.value)">
-                    <div class="form-group">
-                        <label for="description">Offer description</label>
-                        <textarea class="md-textarea md-textarea-auto form-control" id="description" formControlName="description" rows="3" placeholder="What help can you offer"></textarea>
-                    </div>
-                    <button [disabled]="newOfferForm.invalid" type="submit" class="btn btn-outline-light">Submit Offer</button>
-                </form>
-            </div>
-        </div>
+    <div class="card bg-transparent border-secondary mb-3 p-2" [hidden]="!request">
+        <app-request-card *ngIf="request" [request]="request">
+            <form [formGroup]="newOfferForm" (ngSubmit)="onSubmit(newOfferForm.value)">
+                <div class="form-group">
+                    <label for="description">How you can help {{ request.name }}?</label>
+                    <textarea class="md-textarea md-textarea-auto form-control" id="description"
+                        formControlName="description" rows="3" placeholder="What help can you offer?"></textarea>
+                </div>
+
+                <div class="d-flex flex-row">
+                    <button [disabled]="newOfferForm.invalid" type="submit" class="btn btn-primary">Send Offer</button>
+                    <button class="btn btn-primary btn-sm ml-1" (click)="onCancel(newOfferForm.value)">Cancel</button>
+                </div>
+            </form>            
+        </app-request-card>
     </div>
 </div>
