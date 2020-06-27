@@ -1,10 +1,19 @@
 <h1>My Offers</h1>
 
-<div>
-    <div class="text-right custom-control custom-switch mb-1">
+<div [hidden]="!offers">
+    <!-- Message shown when there are no offers to display-->
+    <div [hidden]="offers?.length > 0">
+        <div class="text-center mt-4 text-secondary">
+            You have no offers to display.
+        </div>
+    </div>
+
+    <!-- Show the toggle switch only if we have offers -->
+    <div [hidden]="offers?.length === 0" class="text-right custom-control custom-switch mb-1">
         <input type="checkbox" class="custom-control-input" id="customSwitch1" [(ngModel)]="showOpenOnly">
         <label class="custom-control-label" for="customSwitch1">Show Open Offers Only</label>
-    </div>    
+    </div>
+    
     <div *ngFor="let offer of offers">
         <div class="card bg-transparent border-secondary mb-3 p-2" 
             [hidden]="showOpenOnly && offer.state !== 'submitted'">
