@@ -5,11 +5,29 @@
     <app-request-card *ngIf="request" [request]="request">
       <div class="container" [hidden]="!offers">
         <p class="card-text">Offers</p>
-        <div class="mb-1" *ngFor="let offer of offers">
-          <hr>
-          <p class="card-text text-muted">{{ offer.description }}</p>
-          <div class="d-flex flex-row-reverse">
-            <button type="button" class="btn btn-primary btn-sm ml-1" (click)="onRespondToOffer(offer)">Respond</button>
+        <div class="card-footer shadow-sm">
+          <div class="mb-1 pb-3 border-bottom border-secondary" *ngFor="let offer of offers">
+            <p class="card-text text-muted">{{ offer.description }}</p>
+            <div [ngSwitch]="offer.state">
+              <p *ngSwitchCase="'submitted'">
+              </p>
+              <p *ngSwitchCase="'rejected'" class="text-highlight">
+                You declined this offer
+                <br>
+                <span class="pl-2">{{ offer.acceptRejectReason}}</span>
+              </p>
+              <p *ngSwitchCase="'accepted'" class="text-success">
+                You accepted this offer.
+                <br>
+                <span class="pl-2">{{ offer.acceptRejectReason}}</span>
+              </p>
+            </div>
+            <div class="d-flex flex-row-reverse">
+              <button type="button" class="btn btn-primary btn-sm ml-1" (click)="onRespondToOffer(offer)">
+                <span [hidden]="offer?.state !== 'submitted'">Respond</span>
+                <span [hidden]="offer?.state === 'submitted'">Change Response</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
