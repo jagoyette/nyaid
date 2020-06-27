@@ -8,19 +8,28 @@
         </div>
     </div>
 
-    <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
-        <app-request-card [request]="request" displayState="true">
-            <div class="d-flex flex-row-reverse">
-                <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
-                    (click)="onUpdateRequest(request)">Edit this
-                    request</button>
-                <button type="button" class="btn btn-primary btn-sm ml-2" [hidden]="!request['offers']"
-                    (click)="onShowOffers(request)">Show
-                    offers</button>
-                <button type="button" class="btn btn-primary btn-sm" [disabled]="(request.state != 'open')"
-                    (click)="onCloseRequest(request)">Close
-                    request</button>
-            </div>
-        </app-request-card>
+    <!-- Show the toggle switch only if we have offers -->
+    <div [hidden]="requests?.length === 0" class="text-right custom-control custom-switch mb-1">
+        <input type="checkbox" class="custom-control-input" id="customSwitch1" [(ngModel)]="showOpenOnly">
+        <label class="custom-control-label" for="customSwitch1">Show Open Requests Only</label>
+    </div>
+
+    <div *ngFor="let request of requests">
+        <div class="card bg-transparent border-secondary mb-3 p-2"
+            [hidden]="showOpenOnly && request.state !== 'open'">
+            <app-request-card [request]="request" displayState="true">
+                <div class="d-flex flex-row-reverse">
+                    <button type="button" class="btn btn-primary btn-sm ml-2" [disabled]="(request.state != 'open')"
+                        (click)="onUpdateRequest(request)">Edit this
+                        request</button>
+                    <button type="button" class="btn btn-primary btn-sm ml-2" [hidden]="!request['offers']"
+                        (click)="onShowOffers(request)">Show
+                        offers</button>
+                    <button type="button" class="btn btn-primary btn-sm" [disabled]="(request.state != 'open')"
+                        (click)="onCloseRequest(request)">Close
+                        request</button>
+                </div>
+            </app-request-card>
+        </div>
     </div>
 </div>

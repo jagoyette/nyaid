@@ -12,7 +12,7 @@ import { NyaidUserService } from '../services/nyaid-user.service';
 })
 export class UserRequestsComponent implements OnInit {
   public requests: RequestInfo[];
-
+  public showOpenOnly = true;
 
   constructor(private nyaidApiService: NyaidWebAppApiService,
     private userService: NyaidUserService,
