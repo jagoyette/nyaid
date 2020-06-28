@@ -4,7 +4,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { OfferInfo } from '../models/offer-info';
-import { AcceptRejectOfferInfo } from '../models/acceptrejectOffer-info';
+import { AcceptRejectOfferInfo } from '../models/acceptrejectoffer-info';
 
 @Component({
   selector: 'app-respond-to-offer-dlg',
