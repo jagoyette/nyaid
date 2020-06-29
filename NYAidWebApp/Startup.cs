@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using NYAidWebApp.DataContext;
+using NYAidWebApp.Interfaces;
 using NYAidWebApp.Services;
 
 namespace NYAidWebApp
@@ -36,7 +37,7 @@ namespace NYAidWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             // Add our services
-            services.AddSingleton<UserService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<EmailService>();
 
             // Add database context

@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 using NYAidWebApp.DataContext;
+using NYAidWebApp.Interfaces;
 using NYAidWebApp.Models;
 using NYAidWebApp.Services;
 
@@ -21,10 +22,10 @@ namespace NYAidWebApp.Controllers
     {
         private readonly ILogger _log;
         private readonly ApiDataContext _context;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
         private readonly EmailService _emailService;
 
-        public OffersController(ILoggerFactory loggerFactory, ApiDataContext context, UserService userService, EmailService emailService)
+        public OffersController(ILoggerFactory loggerFactory, ApiDataContext context, IUserService userService, EmailService emailService)
         {
             _log = loggerFactory.CreateLogger<RequestController>();
             _context = context;

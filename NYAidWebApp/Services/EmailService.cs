@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NYAidWebApp.DataContext;
+using NYAidWebApp.Interfaces;
 using NYAidWebApp.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -14,12 +15,12 @@ namespace NYAidWebApp.Services
         private readonly ILogger _log;
         private readonly IConfiguration _configuration;
         private readonly ApiDataContext _context;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
         private readonly string FROM_EMAIL_ADDRESS = "no-reply@nyaid.azurewebsites.net";
         private readonly string FROM_EMAIL_NAME = "Friendly";
 
-        public EmailService(ILoggerFactory loggerFactory, IConfiguration configuration, ApiDataContext context, UserService userService)
+        public EmailService(ILoggerFactory loggerFactory, IConfiguration configuration, ApiDataContext context, IUserService userService)
         {
             _log = loggerFactory.CreateLogger<EmailService>();
             _configuration = configuration;
