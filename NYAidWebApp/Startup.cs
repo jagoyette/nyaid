@@ -35,8 +35,9 @@ namespace NYAidWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add User Service
+            // Add our services
             services.AddSingleton<UserService>();
+            services.AddTransient<EmailService>();
 
             // Add database context
             services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
