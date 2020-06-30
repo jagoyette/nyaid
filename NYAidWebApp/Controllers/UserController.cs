@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NYAidWebApp.DataContext;
+using NYAidWebApp.Interfaces;
 using NYAidWebApp.Models;
 using NYAidWebApp.Services;
 
@@ -15,9 +16,9 @@ namespace NYAidWebApp.Controllers
     {
         private readonly ILogger _log;
         private readonly ApiDataContext _context;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UserController(ILoggerFactory loggerFactory, ApiDataContext apiDataContext, UserService userService)
+        public UserController(ILoggerFactory loggerFactory, ApiDataContext apiDataContext, IUserService userService)
         {
             _log = loggerFactory.CreateLogger<UserController>();
             _context = apiDataContext;
@@ -52,6 +53,7 @@ namespace NYAidWebApp.Controllers
 
             return user;
         }
+
         [HttpGet]
         [Authorize]
         [Route("{uid}")]

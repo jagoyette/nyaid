@@ -1,11 +1,12 @@
 ﻿
 using System.Linq;
 using System.Security.Claims;
+using NYAidWebApp.Interfaces;
 using NYAidWebApp.Models;
 
 namespace NYAidWebApp.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly string ClaimTypeNameIdentifier = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
         private readonly string ClaimTypeEmailAddress = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress";

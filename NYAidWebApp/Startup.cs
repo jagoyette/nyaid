@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using NYAidWebApp.DataContext;
+using NYAidWebApp.Interfaces;
 using NYAidWebApp.Services;
 
 namespace NYAidWebApp
@@ -35,8 +36,9 @@ namespace NYAidWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add User Service
-            services.AddSingleton<UserService>();
+            // Add our services
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<INotificationService, EmailNotificationProvider>();
 
             // Add database context
             services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
