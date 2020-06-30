@@ -23,14 +23,14 @@ namespace NYAidWebApp.Controllers
         private readonly ILogger _log;
         private readonly ApiDataContext _context;
         private readonly IUserService _userService;
-        private readonly EmailService _emailService;
+        private readonly INotificationService _notificationService;
 
-        public OffersController(ILoggerFactory loggerFactory, ApiDataContext context, IUserService userService, EmailService emailService)
+        public OffersController(ILoggerFactory loggerFactory, ApiDataContext context, IUserService userService, INotificationService notificationService)
         {
             _log = loggerFactory.CreateLogger<RequestController>();
             _context = context;
             _userService = userService;
-            _emailService = emailService;
+            _notificationService = notificationService;
         }
 
         // Returns offers using supplied filters across all requests
@@ -144,7 +144,9 @@ namespace NYAidWebApp.Controllers
             await _context.AddAsync(offer);
             await _context.SaveChangesAsync();
 
-            await _emailService.SendNewOfferNotification(id);
+            _log.LogInformation("Sending notification of new offer");
+            await _notificationService.SendNewOfferNotification(id);
+
             return offer;
         }
 

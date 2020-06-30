@@ -38,7 +38,7 @@ namespace NYAidWebApp
         {
             // Add our services
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<EmailService>();
+            services.AddTransient<INotificationService, EmailNotificationProvider>();
 
             // Add database context
             services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));

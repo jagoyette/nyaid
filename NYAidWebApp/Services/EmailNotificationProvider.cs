@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ using SendGrid.Helpers.Mail;
 
 namespace NYAidWebApp.Services
 {
-    public class EmailService
+    public class EmailNotificationProvider : INotificationService
     {
         private readonly ILogger _log;
         private readonly IConfiguration _configuration;
@@ -20,20 +21,24 @@ namespace NYAidWebApp.Services
         private readonly string FROM_EMAIL_ADDRESS = "no-reply@nyaid.azurewebsites.net";
         private readonly string FROM_EMAIL_NAME = "Friendly";
 
-        public EmailService(ILoggerFactory loggerFactory, IConfiguration configuration, ApiDataContext context, IUserService userService)
+        public EmailNotificationProvider(ILoggerFactory loggerFactory, IConfiguration configuration, ApiDataContext context, IUserService userService)
         {
-            _log = loggerFactory.CreateLogger<EmailService>();
+            _log = loggerFactory.CreateLogger<EmailNotificationProvider>();
             _configuration = configuration;
             _context = context;
             _userService = userService;
         }
 
+        /// <summary>
+        /// Returns the API key authorizing access to SendGrid
+        /// </summary>
+        private string ApiKey => _configuration["SENDGRID_API_KEY"];
+
         public async Task SendTestEmail(UserInfo user)
         {
-            var apiKey = _configuration["SENDGRID_API_KEY"];
-            if (!string.IsNullOrEmpty(apiKey))
+            if (!string.IsNullOrEmpty(ApiKey))
             {
-                var client = new SendGridClient(apiKey);
+                var client = new SendGridClient(ApiKey);
                 var msg = new SendGridMessage()
                 {
                     From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
@@ -46,17 +51,16 @@ namespace NYAidWebApp.Services
             }
         }
 
-        public async Task SendNewOfferNotification(string offerId)
+        public async Task<bool> SendNewOfferNotification(string offerId)
         {
-            var apiKey = _configuration["SENDGRID_API_KEY"];
-            if (!string.IsNullOrEmpty(apiKey))
+            if (!string.IsNullOrEmpty(ApiKey))
             {
                 // retrieve the offer
                 var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == offerId);
                 if (offer == null)
                 {
                     _log.LogError($"Offer {offerId} was not found");
-                    return;
+                    return false;
                 }
 
                 // retrieve request
@@ -64,7 +68,7 @@ namespace NYAidWebApp.Services
                 if (request == null)
                 {
                     _log.LogError($"Request {offer.RequestId} was not found");
-                    return;
+                    return false;
                 }
 
                 // retrieve user who created request
@@ -72,10 +76,10 @@ namespace NYAidWebApp.Services
                 if (user == null)
                 {
                     _log.LogError($"User {request.CreatorUid} was not found");
-                    return;
+                    return false;
                 }
 
-                var client = new SendGridClient(apiKey);
+                var client = new SendGridClient(ApiKey);
                 var msg = new SendGridMessage()
                 {
                     From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
@@ -84,7 +88,13 @@ namespace NYAidWebApp.Services
                 };
                 msg.AddTo(new EmailAddress(user.Email, user.Name));
                 var response = await client.SendEmailAsync(msg);
+
+                // Return true for successful response
+                return response?.StatusCode == HttpStatusCode.Accepted || 
+                       response?.StatusCode == HttpStatusCode.OK;
             }
+
+            return false;
         }
     }
 }
