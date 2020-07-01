@@ -94,7 +94,7 @@ namespace NYAidWebApp.Services
                 <p>
                     <span style=""margin-bottom: .75rem;font-size: 1.25rem;font-weight: 400;"">{request.Location}</span>
                     <br>
-                    <span style=""font-size: 80%;font-weight: 300;"">{request.Created}</span>
+                    <span style=""font-size: 80%;font-weight: 300;"">{request.Created:d}</span>
                  </p>
             </div>
             <div style=""padding: 2px 16px;"">
