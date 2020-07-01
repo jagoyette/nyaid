@@ -201,12 +201,21 @@ namespace NYAidWebApp.Controllers
                     {
                         o.AcceptRejectReason = "Another offer was accepted.";
                         o.State = OfferState.Rejected;
+
+                        // Send notification that offer was rejected
+                        _notificationService.SendOfferDeclinedNotification(o.OfferId);
                     }
                 });
                 _context.Offers.UpdateRange(allOffers);
             }
 
             await _context.SaveChangesAsync();
+
+            // Send notification
+            if (acceptRejectOffer.IsAccepted)
+                await _notificationService.SendOfferAcceptedNotification(offerId);
+            else
+                await _notificationService.SendOfferDeclinedNotification(offerId);
 
             return offer;
         }

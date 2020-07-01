@@ -51,68 +51,176 @@ namespace NYAidWebApp.Services
 
         public async Task<bool> SendNewOfferNotification(string offerId)
         {
-            if (!string.IsNullOrEmpty(ApiKey))
+            // make sure we have an API key for SendGrid
+            if (string.IsNullOrEmpty(ApiKey))
             {
-                // retrieve the offer
-                var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == offerId);
-                if (offer == null)
-                {
-                    _log.LogError($"Offer {offerId} was not found");
-                    return false;
-                }
-
-                // retrieve request
-                var request = await _context.Requests.FirstOrDefaultAsync(r => r.RequestId == offer.RequestId);
-                if (request == null)
-                {
-                    _log.LogError($"Request {offer.RequestId} was not found");
-                    return false;
-                }
-
-                // retrieve user who created request
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.Uid == request.CreatorUid);
-                if (user == null)
-                {
-                    _log.LogError($"User {request.CreatorUid} was not found");
-                    return false;
-                }
-
-                var client = new SendGridClient(ApiKey);
-                var msg = new SendGridMessage()
-                {
-                    From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
-                    Subject = "Someone offered to help you!",
-                    HtmlContent = $@"
-                    <html>
-                        <body>
-                            <p>Someone has offered to help with your request that you submitted on Friendly!</p>
-                            {CreateRequestCardHtml(request)}
-                            <p>The description of the offer is:</p>
-                            <blockquote>{offer.Description}</blockquote>
-                            <p>Please <a href=""{WEBSITE_URL}/request/{request.RequestId}/offers"">respond</a> to this offer on <a href=""{WEBSITE_URL}"">Friendly</a>.</p>
-                        </body>
-                    </html>
-                    "
-                };
-                msg.AddTo(new EmailAddress(user.Email, user.Name));
-                var response = await client.SendEmailAsync(msg);
-
-                // Return true for successful response
-                return response?.StatusCode == HttpStatusCode.Accepted || 
-                       response?.StatusCode == HttpStatusCode.OK;
+                _log.LogWarning($"Email notifications are not enabled and will not be sent.");
+                return false;
             }
 
-            return false;
+            // retrieve the offer
+            var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == offerId);
+            if (offer == null)
+            {
+                _log.LogError($"Offer {offerId} was not found");
+                return false;
+            }
+
+            // retrieve request
+            var request = await _context.Requests.FirstOrDefaultAsync(r => r.RequestId == offer.RequestId);
+            if (request == null)
+            {
+                _log.LogError($"Request {offer.RequestId} was not found");
+                return false;
+            }
+
+            // retrieve user who created request
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Uid == request.CreatorUid);
+            if (user == null)
+            {
+                _log.LogError($"User {request.CreatorUid} was not found");
+                return false;
+            }
+
+            var client = new SendGridClient(ApiKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
+                Subject = "Someone offered to help you!",
+                HtmlContent = $@"
+                <html>
+                    <body>
+                        <p>Someone has offered to help with your request that you submitted on <a href=""{WEBSITE_URL}"">Friendly!</a></p>
+                        {CreateRequestCardHtml(request)}
+                        <p>The description of the offer is:</p>
+                        <blockquote>{offer.Description}</blockquote>
+                        <p>Please <a href=""{WEBSITE_URL}/request/{request.RequestId}/offers"">respond</a> to this offer on <a href=""{WEBSITE_URL}"">Friendly</a>.</p>
+                    </body>
+                </html>
+                "
+            };
+            msg.AddTo(new EmailAddress(user.Email, user.Name));
+            var response = await client.SendEmailAsync(msg);
+
+            // Return true for successful response
+            return response?.StatusCode == HttpStatusCode.Accepted || 
+                   response?.StatusCode == HttpStatusCode.OK;
         }
 
-        public Task<bool> SendOfferDeclinedNotification(string offerId)
+        public async Task<bool> SendOfferDeclinedNotification(string offerId)
         {
-            return Task.FromResult(false);
+            // make sure we have an API key for SendGrid
+            if (string.IsNullOrEmpty(ApiKey))
+            {
+                _log.LogWarning($"Email notifications are not enabled and will not be sent.");
+                return false;
+            }
+
+            // retrieve the offer
+            var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == offerId);
+            if (offer == null)
+            {
+                _log.LogError($"Offer {offerId} was not found");
+                return false;
+            }
+
+            // retrieve request
+            var request = await _context.Requests.FirstOrDefaultAsync(r => r.RequestId == offer.RequestId);
+            if (request == null)
+            {
+                _log.LogError($"Request {offer.RequestId} was not found");
+                return false;
+            }
+
+            // retrieve user who created the offer
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Uid == offer.VolunteerUid);
+            if (user == null)
+            {
+                _log.LogError($"User {offer.VolunteerUid} was not found");
+                return false;
+            }
+
+            var client = new SendGridClient(ApiKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
+                Subject = "Your offer to help was declined",
+                HtmlContent = $@"
+                <html>
+                    <body>
+                        <p>Your offer to help {request.Name} on <a href=""{WEBSITE_URL}"">Friendly</a> has been declined.</p>
+                        {CreateRequestCardHtml(request)}
+                        <p>The information below was provided:</p>
+                        <blockquote>{offer.AcceptRejectReason}</blockquote>
+                        <p>Please consider other <a href=""{WEBSITE_URL}/requests"">requests</a> that you may be able help with on <a href=""{WEBSITE_URL}"">Friendly</a>.</p>
+                    </body>
+                </html>
+                "
+            };
+            msg.AddTo(new EmailAddress(user.Email, user.Name));
+            var response = await client.SendEmailAsync(msg);
+
+            // Return true for successful response
+            return response?.StatusCode == HttpStatusCode.Accepted ||
+                   response?.StatusCode == HttpStatusCode.OK;
         }
 
-        public Task<bool> SendOfferAcceptedNotification(string offerId)
+        public async Task<bool> SendOfferAcceptedNotification(string offerId)
         {
-            return Task.FromResult(false);
+            // make sure we have an API key for SendGrid
+            if (string.IsNullOrEmpty(ApiKey))
+            {
+                _log.LogWarning($"Email notifications are not enabled and will not be sent.");
+                return false;
+            }
+
+            // retrieve the offer
+            var offer = await _context.Offers.FirstOrDefaultAsync(o => o.OfferId == offerId);
+            if (offer == null)
+            {
+                _log.LogError($"Offer {offerId} was not found");
+                return false;
+            }
+
+            // retrieve request
+            var request = await _context.Requests.FirstOrDefaultAsync(r => r.RequestId == offer.RequestId);
+            if (request == null)
+            {
+                _log.LogError($"Request {offer.RequestId} was not found");
+                return false;
+            }
+
+            // retrieve user who created the offer
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Uid == offer.VolunteerUid);
+            if (user == null)
+            {
+                _log.LogError($"User {offer.VolunteerUid} was not found");
+                return false;
+            }
+
+            var client = new SendGridClient(ApiKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
+                Subject = "Your offer to help was accepted",
+                HtmlContent = $@"
+                <html>
+                    <body>
+                        <p>Your offer to help {request.Name} on <a href=""{WEBSITE_URL}"">Friendly</a> has been accepted.</p>
+                        {CreateRequestCardHtml(request)}
+                        <p>The information below was provided:</p>
+                        <blockquote>{offer.AcceptRejectReason}</blockquote>
+                        <p>Please contact {request.Name} directly using the phone number {request.Phone} to work out the details.</p>
+                    </body>
+                </html>
+                "
+            };
+            msg.AddTo(new EmailAddress(user.Email, user.Name));
+            var response = await client.SendEmailAsync(msg);
+
+            // Return true for successful response
+            return response?.StatusCode == HttpStatusCode.Accepted ||
+                   response?.StatusCode == HttpStatusCode.OK;
         }
 
         /// <summary>
