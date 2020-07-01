@@ -51,6 +51,8 @@ namespace NYAidWebApp.Services
 
         public async Task<bool> SendNewOfferNotification(string offerId)
         {
+            _log.LogInformation("Sending notification of new offer");
+
             // make sure we have an API key for SendGrid
             if (string.IsNullOrEmpty(ApiKey))
             {
@@ -102,6 +104,9 @@ namespace NYAidWebApp.Services
             msg.AddTo(new EmailAddress(user.Email, user.Name));
             var response = await client.SendEmailAsync(msg);
 
+            // Log response
+            _log.LogInformation($"Email notification sent with response code {response.StatusCode}");
+
             // Return true for successful response
             return response?.StatusCode == HttpStatusCode.Accepted || 
                    response?.StatusCode == HttpStatusCode.OK;
@@ -109,6 +114,8 @@ namespace NYAidWebApp.Services
 
         public async Task<bool> SendOfferDeclinedNotification(string offerId)
         {
+            _log.LogInformation("Sending notification of offer declined");
+
             // make sure we have an API key for SendGrid
             if (string.IsNullOrEmpty(ApiKey))
             {
@@ -160,6 +167,9 @@ namespace NYAidWebApp.Services
             msg.AddTo(new EmailAddress(user.Email, user.Name));
             var response = await client.SendEmailAsync(msg);
 
+            // Log response
+            _log.LogInformation($"Email notification sent with response code {response.StatusCode}");
+
             // Return true for successful response
             return response?.StatusCode == HttpStatusCode.Accepted ||
                    response?.StatusCode == HttpStatusCode.OK;
@@ -167,6 +177,8 @@ namespace NYAidWebApp.Services
 
         public async Task<bool> SendOfferAcceptedNotification(string offerId)
         {
+            _log.LogInformation("Sending notification of offer accepted");
+
             // make sure we have an API key for SendGrid
             if (string.IsNullOrEmpty(ApiKey))
             {
@@ -217,6 +229,9 @@ namespace NYAidWebApp.Services
             };
             msg.AddTo(new EmailAddress(user.Email, user.Name));
             var response = await client.SendEmailAsync(msg);
+
+            // Log response
+            _log.LogInformation($"Email notification sent with response code {response.StatusCode}");
 
             // Return true for successful response
             return response?.StatusCode == HttpStatusCode.Accepted ||

@@ -144,7 +144,7 @@ namespace NYAidWebApp.Controllers
             await _context.AddAsync(offer);
             await _context.SaveChangesAsync();
 
-            _log.LogInformation("Sending notification of new offer");
+            // send new offer notification
             await _notificationService.SendNewOfferNotification(id);
 
             return offer;
@@ -202,7 +202,7 @@ namespace NYAidWebApp.Controllers
                         o.AcceptRejectReason = "Another offer was accepted.";
                         o.State = OfferState.Rejected;
 
-                        // Send notification that offer was rejected
+                        // Send notification that this offer was rejected
                         _notificationService.SendOfferDeclinedNotification(o.OfferId);
                     }
                 });
@@ -211,7 +211,7 @@ namespace NYAidWebApp.Controllers
 
             await _context.SaveChangesAsync();
 
-            // Send notification
+            // Send notification to Offer owner about accepted/rejected state
             if (acceptRejectOffer.IsAccepted)
                 await _notificationService.SendOfferAcceptedNotification(offerId);
             else
