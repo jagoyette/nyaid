@@ -23,12 +23,14 @@ namespace NYAidWebApp.Controllers
         private readonly ILogger _log;
         private readonly ApiDataContext _context;
         private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
 
-        public RequestController(ILoggerFactory loggerFactory, ApiDataContext context, IUserService userService)
+        public RequestController(ILoggerFactory loggerFactory, ApiDataContext context, IUserService userService, INotificationService notificationService)
         {
             _log = loggerFactory.CreateLogger<RequestController>();
             _context = context;
             _userService = userService;
+            _notificationService = notificationService;
         }
 
         // GET: api/request
@@ -199,6 +201,9 @@ namespace NYAidWebApp.Controllers
             {
                 o.State = OfferState.Rejected;
                 o.AcceptRejectReason = "This request has been closed";
+
+                // send notification that offer was declined
+                _notificationService.SendOfferDeclinedNotification(o.OfferId);
             });
 
             await _context.SaveChangesAsync();
