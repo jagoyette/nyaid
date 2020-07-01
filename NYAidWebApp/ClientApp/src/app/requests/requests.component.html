@@ -1,6 +1,13 @@
 <h1>Help Someone</h1>
 
-<div>
+<div [hidden]="!requests">
+    <!-- Message shown when there are no requests to display-->
+    <div [hidden]="requests?.length > 0">
+        <div class="text-center mt-4 text-secondary">
+            Currently, there are no requests available to display. Please try again later.
+        </div>
+    </div>
+
     <div class="card bg-transparent border-secondary mb-3 p-2" *ngFor="let request of requests">
         <app-request-card [request]="request">
             <div class="text-right">
