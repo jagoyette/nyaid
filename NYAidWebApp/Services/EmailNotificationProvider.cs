@@ -238,6 +238,66 @@ namespace NYAidWebApp.Services
                    response?.StatusCode == HttpStatusCode.OK;
         }
 
+        public async Task<bool> SendRequestClosedNotification(string requestId)
+        {
+            _log.LogInformation("Sending notification of a closed request");
+
+            // make sure we have an API key for SendGrid
+            if (string.IsNullOrEmpty(ApiKey))
+            {
+                _log.LogWarning($"Email notifications are not enabled and will not be sent.");
+                return false;
+            }
+
+            // retrieve request
+            var request = await _context.Requests.FirstOrDefaultAsync(r => r.RequestId == requestId);
+            if (request == null)
+            {
+                _log.LogError($"Request {requestId} was not found");
+                return false;
+            }
+
+            // check if someone was assigned to it
+            if (string.IsNullOrEmpty(request.AssignedUid))
+            {
+                _log.LogWarning($"Request {requestId} does not have anyone assigned to it. A notification will not be sent.");
+                return false;
+            }
+
+            // retrieve user who was assigned to the request
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Uid == request.AssignedUid);
+            if (user == null)
+            {
+                _log.LogError($"User {request.AssignedUid} was not found");
+                return false;
+            }
+
+            var client = new SendGridClient(ApiKey);
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
+                Subject = "A request that you helped with has been closed",
+                HtmlContent = $@"
+                <html>
+                    <body>
+                        <p>The request that you helped {request.Name} with on <a href=""{WEBSITE_URL}"">Friendly</a> has been closed.</p>
+                        {CreateRequestCardHtml(request)}
+                        <p>Thank you for using <a href=""{WEBSITE_URL}"">Friendly</a>.</p>
+                    </body>
+                </html>
+                "
+            };
+            msg.AddTo(new EmailAddress(user.Email, user.Name));
+            var response = await client.SendEmailAsync(msg);
+
+            // Log response
+            _log.LogInformation($"Email notification sent with response code {response.StatusCode}");
+
+            // Return true for successful response
+            return response?.StatusCode == HttpStatusCode.Accepted ||
+                   response?.StatusCode == HttpStatusCode.OK;
+        }
+
         /// <summary>
         /// Returns an HTML formatted string representing the Request
         /// </summary>

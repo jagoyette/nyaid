@@ -10,5 +10,7 @@ namespace NYAidWebApp.Interfaces
         Task<bool> SendOfferDeclinedNotification(string offerId);
 
         Task<bool> SendOfferAcceptedNotification(string offerId);
+
+        Task<bool> SendRequestClosedNotification(string requestId);
     }
 }

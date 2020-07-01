@@ -206,6 +206,9 @@ namespace NYAidWebApp.Controllers
                 _notificationService.SendOfferDeclinedNotification(o.OfferId);
             });
 
+            // Send a notification to the volunteer who helped with this request
+            await _notificationService.SendRequestClosedNotification(id);
+
             await _context.SaveChangesAsync();
             return request;
         }
