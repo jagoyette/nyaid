@@ -17,6 +17,7 @@ namespace NYAidWebApp.Services
         private readonly IConfiguration _configuration;
         private readonly ApiDataContext _context;
 
+        private readonly string WEBSITE_URL = "https://nyaid.azurewebsites.net";
         private readonly string FROM_EMAIL_ADDRESS = "no-reply@nyaid.azurewebsites.net";
         private readonly string FROM_EMAIL_NAME = "Friendly";
 
@@ -41,8 +42,7 @@ namespace NYAidWebApp.Services
                 {
                     From = new EmailAddress(FROM_EMAIL_ADDRESS, FROM_EMAIL_NAME),
                     Subject = "Friendly Test Email",
-                    PlainTextContent = "This is a test email notification.",
-                    HtmlContent = "<strong>This is a test email notification</strong>"
+                    PlainTextContent = "This is a test email notification."
                 };
                 msg.AddTo(new EmailAddress(user.Email, user.Name));
                 var response = await client.SendEmailAsync(msg);
@@ -101,7 +101,7 @@ namespace NYAidWebApp.Services
         </div>
         <p>The description of the offer is:</p>
         <blockquote>{offer.Description}</blockquote>
-        <p>Please <a href=""https://nyaid.azurewebsites.net/request/{request.RequestId}/offers"">respond</a> to this offer on <a href=""https://nyaid.azurewebsites.net"">Friendly</a>.
+        <p>Please <a href=""{WEBSITE_URL}/request/{request.RequestId}/offers"">respond</a> to this offer on <a href=""{WEBSITE_URL}"">Friendly</a>.
         </p>
     </body>
 </html>
