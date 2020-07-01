@@ -105,6 +105,16 @@ namespace NYAidWebApp.Services
             return false;
         }
 
+        public Task<bool> SendOfferDeclinedNotification(string offerId)
+        {
+            return Task.FromResult(false);
+        }
+
+        public Task<bool> SendOfferAcceptedNotification(string offerId)
+        {
+            return Task.FromResult(false);
+        }
+
         /// <summary>
         /// Returns an HTML formatted string representing the Request
         /// </summary>
