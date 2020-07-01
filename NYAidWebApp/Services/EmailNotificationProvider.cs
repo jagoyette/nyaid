@@ -16,17 +16,15 @@ namespace NYAidWebApp.Services
         private readonly ILogger _log;
         private readonly IConfiguration _configuration;
         private readonly ApiDataContext _context;
-        private readonly IUserService _userService;
 
         private readonly string FROM_EMAIL_ADDRESS = "no-reply@nyaid.azurewebsites.net";
         private readonly string FROM_EMAIL_NAME = "Friendly";
 
-        public EmailNotificationProvider(ILoggerFactory loggerFactory, IConfiguration configuration, ApiDataContext context, IUserService userService)
+        public EmailNotificationProvider(ILoggerFactory loggerFactory, IConfiguration configuration, ApiDataContext context)
         {
             _log = loggerFactory.CreateLogger<EmailNotificationProvider>();
             _configuration = configuration;
             _context = context;
-            _userService = userService;
         }
 
         /// <summary>
