@@ -36,12 +36,14 @@ namespace NYAidWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add our services
+           // Add our services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<INotificationService, EmailNotificationProvider>();
 
             // Add database context
-            services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
+            // services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
+            // Use SqlLight
+            services.AddDbContext<ApiDataContext>(options => options.UseSqlite("Data Source=blog.db"));
 
             // Add WebAPI controllers
             services.AddControllersWithViews().AddJsonOptions(options =>
