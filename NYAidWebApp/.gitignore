@@ -216,7 +216,7 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
-nyaid.sqlite3.db
+nyaid.sqlite3
 
 # Visual Studio LightSwitch build output
 **/*.HTMLClient/GeneratedArtifacts
