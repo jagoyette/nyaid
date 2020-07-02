@@ -43,7 +43,7 @@ namespace NYAidWebApp
             // Add database context
             // services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
             // Use SqlLight
-            services.AddDbContext<ApiDataContext>(options => options.UseSqlite("Data Source=blog.db"));
+            services.AddDbContext<ApiDataContext>(options => options.UseSqlite("Data Source=nyaid.sqlite3.db"));
 
             // Add WebAPI controllers
             services.AddControllersWithViews().AddJsonOptions(options =>
