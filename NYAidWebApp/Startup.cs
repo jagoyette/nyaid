@@ -41,7 +41,6 @@ namespace NYAidWebApp
             services.AddTransient<INotificationService, EmailNotificationProvider>();
 
             // Add database context
-            // services.AddDbContext<ApiDataContext>(opt => opt.UseInMemoryDatabase(ApiDataContext.DatabaseName));
             // Use SqlLight
             services.AddDbContext<ApiDataContext>(options => options.UseSqlite("Data Source=nyaid.sqlite3.db"));
 
