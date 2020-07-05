@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -75,10 +76,20 @@ namespace NYAidWebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApiDataContext ctx)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApiDataContext ctx, ILoggerFactory loggerFactory)
         {
+            var logger = loggerFactory.CreateLogger<Startup>();
+
             // Apply database migrations
-            ctx.Database.Migrate();
+            try
+            {
+                logger.LogInformation($"Applying database migrations.");
+                ctx.Database.Migrate();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, $"Error running database migrations");
+            }
 
             if (env.IsDevelopment())
             {
