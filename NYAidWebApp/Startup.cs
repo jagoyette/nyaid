@@ -42,7 +42,8 @@ namespace NYAidWebApp
             services.AddTransient<INotificationService, EmailNotificationProvider>();
 
             // Add database context
-            services.AddDbContext<ApiDataContext>(options => options.UseInMemoryDatabase(ApiDataContext.DatabaseName));
+            var connectionString = Configuration["SQL_CONNECTION_STRING"];
+            services.AddDbContext<ApiDataContext>(options => options.UseSqlServer(connectionString));
 
             // Add WebAPI controllers
             services.AddControllersWithViews().AddJsonOptions(options =>
