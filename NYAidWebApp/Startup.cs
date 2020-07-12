@@ -42,6 +42,11 @@ namespace NYAidWebApp
             services.AddTransient<INotificationService, EmailNotificationProvider>();
 
             // Add database context
+            // Extract the connection string with credentials from the configuration settings
+            // Note: Developers can use their own local SQL Server instance for development
+            //       by adding this settings to their configuration. The best way to do this is to
+            //       use dotnet user secrets. At command prompt type:
+            //       dotnet user-secrets set "SQL_CONNECTION_STRING" "your connection string"
             var connectionString = Configuration["SQL_CONNECTION_STRING"];
             services.AddDbContext<ApiDataContext>(options => options.UseSqlServer(connectionString));
 
