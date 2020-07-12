@@ -63,20 +63,21 @@ namespace NYAidWebApp.Controllers
             }
 
             // return the requested offer
-            var offers = _context.Offers
+            var offers = await _context.Offers
                 .Where(o => !shouldFilterByState || o.State == state)
                 .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
-                .OrderByDescending(o => o.Created);
+                .OrderByDescending(o => o.Created)
+                .ToListAsync();
 
             if (includeRequest)
-            {
-                await offers.ForEachAsync(o =>
+            { 
+                offers.ForEach(async o =>
                 {
-                    o.RequestDetail = _context.Requests.First(r => r.RequestId == o.RequestId);
+                    o.RequestDetail = await _context.Requests.FirstAsync(r => r.RequestId == o.RequestId);
                 });
             }
 
-            return await offers.ToArrayAsync();
+            return offers;
         }
 
         // Returns all offers for given requestId
@@ -86,19 +87,20 @@ namespace NYAidWebApp.Controllers
         public async Task<IEnumerable<Offer>> Get(string requestId, bool includeRequest)
         {
             // return all offers for the given request
-            var offers = _context.Offers
+            var offers = await _context.Offers
                 .Where(o => o.RequestId == requestId)
-                .OrderByDescending(o => o.Created);
+                .OrderByDescending(o => o.Created)
+                .ToListAsync();
 
             if (includeRequest)
             {
-                await offers.ForEachAsync(o =>
+                offers.ForEach(async o =>
                 {
-                    o.RequestDetail = _context.Requests.First(r => r.RequestId == o.RequestId);
+                    o.RequestDetail = await _context.Requests.FirstAsync(r => r.RequestId == o.RequestId);
                 });
             }
 
-            return await offers.ToArrayAsync();
+            return offers;
         }
 
 
