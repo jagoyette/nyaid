@@ -38,6 +38,10 @@ namespace NYAidWebApp.DataContext
                     (c1, c2) => c1.SequenceEqual(c2),
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c.ToList()));
+
+            modelBuilder.Entity<Offer>()
+                .HasOne(o => o.RequestDetail)
+                .WithOne();
         }
 
         /// <summary>

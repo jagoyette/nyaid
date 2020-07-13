@@ -64,22 +64,28 @@ namespace NYAidWebApp.Controllers
 
             // retrieve matching offers
             _log.LogInformation($"Querying database for offers");
-            var offers = await _context.Offers
-                .Where(o => !shouldFilterByState || o.State == state)
-                .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
-                .OrderByDescending(o => o.Created)
-                .ToListAsync();
 
-            _log.LogInformation($"Retrieved {offers.Count} offers");
+            List<Offer> offers;
             if (includeRequest)
-            { 
-                _log.LogInformation($"Adding request detail to {offers.Count} offers");
-                offers.ForEach(async o =>
-                {
-                    o.RequestDetail = await _context.Requests.FirstAsync(r => r.RequestId == o.RequestId);
-                });
+            {
+                // Include request detail as part of the LINQ query
+                offers = await _context.Offers
+                    .Where(o => !shouldFilterByState || o.State == state)
+                    .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
+                    .Include(o => o.RequestDetail)
+                    .OrderByDescending(o => o.Created)
+                    .ToListAsync();
+            }
+            else
+            {
+                offers = await _context.Offers
+                    .Where(o => !shouldFilterByState || o.State == state)
+                    .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
+                    .OrderByDescending(o => o.Created)
+                    .ToListAsync();
             }
 
+            _log.LogInformation($"Retrieved {offers.Count} offers");
             return offers;
         }
 
@@ -91,19 +97,18 @@ namespace NYAidWebApp.Controllers
         {
             // return all offers for the given request
             _log.LogInformation($"Retrieving offers for request id {requestId}");
-            var offers = await _context.Offers
-                .Where(o => o.RequestId == requestId)
-                .OrderByDescending(o => o.Created)
-                .ToListAsync();
+            var offers = includeRequest
+                ? await _context.Offers
+                    .Where(o => o.RequestId == requestId)
+                    .Include(o => o.RequestDetail)
+                    .OrderByDescending(o => o.Created)
+                    .ToListAsync()
+                : await _context.Offers
+                    .Where(o => o.RequestId == requestId)
+                    .OrderByDescending(o => o.Created)
+                    .ToListAsync();
 
-            if (includeRequest)
-            {
-                _log.LogInformation($"Adding request detail to {offers.Count} offers");
-                offers.ForEach(async o =>
-                {
-                    o.RequestDetail = await _context.Requests.FirstAsync(r => r.RequestId == o.RequestId);
-                });
-            }
+            _log.LogInformation($"Retrieved {offers.Count} offers");
 
             return offers;
         }
@@ -119,8 +124,12 @@ namespace NYAidWebApp.Controllers
             _log.LogInformation($"Returning offer with id {offerId}");
 
             // return the requested offer
-            var offer = await _context.Offers
-                .FirstOrDefaultAsync(o => o.OfferId == offerId);
+            var offer = includeRequest
+                ? await _context.Offers
+                    .Include(o => o.RequestDetail)
+                    .FirstOrDefaultAsync(o => o.OfferId == offerId)
+                : await _context.Offers
+                    .FirstOrDefaultAsync(o => o.OfferId == offerId);
 
             if (includeRequest)
             {
