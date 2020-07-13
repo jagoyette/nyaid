@@ -70,9 +70,9 @@ namespace NYAidWebApp.Controllers
             {
                 // Include request detail as part of the LINQ query
                 offers = await _context.Offers
+                    .Include(o => o.RequestDetail)
                     .Where(o => !shouldFilterByState || o.State == state)
                     .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
-                    .Include(o => o.RequestDetail)
                     .OrderByDescending(o => o.Created)
                     .ToListAsync();
             }

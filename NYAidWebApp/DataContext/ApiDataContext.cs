@@ -40,8 +40,7 @@ namespace NYAidWebApp.DataContext
                     c => c.ToList()));
 
             modelBuilder.Entity<Offer>()
-                .HasOne(o => o.RequestDetail)
-                .WithOne();
+                .HasOne(o => o.RequestDetail);
         }
 
         /// <summary>
