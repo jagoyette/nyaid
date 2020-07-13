@@ -48,7 +48,12 @@ namespace NYAidWebApp
             //       use dotnet user secrets. At command prompt type:
             //       dotnet user-secrets set "SQL_CONNECTION_STRING" "your connection string"
             var connectionString = Configuration["SQL_CONNECTION_STRING"];
-            services.AddDbContext<ApiDataContext>(options => options.UseSqlServer(connectionString));
+            
+            // check connectionString for string.IsEmptyOrNull() and if it is missing, use InMemory() instead of SQL
+            if (string.IsNullOrEmpty(connectionString))
+                services.AddDbContext<ApiDataContext>(options => options.UseInMemoryDatabase(ApiDataContext.DatabaseName));
+            else
+                services.AddDbContext<ApiDataContext>(options => options.UseSqlServer(connectionString));
 
             // Add WebAPI controllers
             services.AddControllersWithViews().AddJsonOptions(options =>
