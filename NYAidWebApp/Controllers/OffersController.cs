@@ -44,7 +44,7 @@ namespace NYAidWebApp.Controllers
         [Route("/api/offers")]
         public async Task<IEnumerable<Offer>> GetOffers(string volunteerUid, string stateFilter, bool includeRequest)
         {
-            _log.LogInformation($"Returning offers with filters volunteerUid: {volunteerUid}, stateFilter: {stateFilter}");
+            _log.LogInformation($"Retrieving offers with filters volunteerUid: {volunteerUid}, stateFilter: {stateFilter}");
 
             // By default, return all offers
             bool shouldFilterByState = !string.IsNullOrEmpty(stateFilter);
@@ -62,15 +62,18 @@ namespace NYAidWebApp.Controllers
                 }
             }
 
-            // return the requested offer
+            // retrieve matching offers
+            _log.LogInformation($"Querying database for offers");
             var offers = await _context.Offers
                 .Where(o => !shouldFilterByState || o.State == state)
                 .Where(o => string.IsNullOrEmpty(volunteerUid) || o.VolunteerUid == volunteerUid)
                 .OrderByDescending(o => o.Created)
                 .ToListAsync();
 
+            _log.LogInformation($"Retrieved {offers.Count} offers");
             if (includeRequest)
             { 
+                _log.LogInformation($"Adding request detail to {offers.Count} offers");
                 offers.ForEach(async o =>
                 {
                     o.RequestDetail = await _context.Requests.FirstAsync(r => r.RequestId == o.RequestId);
@@ -87,6 +90,7 @@ namespace NYAidWebApp.Controllers
         public async Task<IEnumerable<Offer>> Get(string requestId, bool includeRequest)
         {
             // return all offers for the given request
+            _log.LogInformation($"Retrieving offers for request id {requestId}");
             var offers = await _context.Offers
                 .Where(o => o.RequestId == requestId)
                 .OrderByDescending(o => o.Created)
@@ -94,6 +98,7 @@ namespace NYAidWebApp.Controllers
 
             if (includeRequest)
             {
+                _log.LogInformation($"Adding request detail to {offers.Count} offers");
                 offers.ForEach(async o =>
                 {
                     o.RequestDetail = await _context.Requests.FirstAsync(r => r.RequestId == o.RequestId);
@@ -119,6 +124,7 @@ namespace NYAidWebApp.Controllers
 
             if (includeRequest)
             {
+                _log.LogInformation($"Adding request detail");
                 offer.RequestDetail = await _context.Requests.FirstOrDefaultAsync(r => r.RequestId == offer.RequestId);
             }
 
@@ -145,6 +151,7 @@ namespace NYAidWebApp.Controllers
 
             await _context.AddAsync(offer);
             await _context.SaveChangesAsync();
+            _log.LogInformation($"Finished updating database");
 
             // send new offer notification
             await _notificationService.SendNewOfferNotification(id);
@@ -211,7 +218,9 @@ namespace NYAidWebApp.Controllers
                 _context.Offers.UpdateRange(allOffers);
             }
 
+            _log.LogInformation("Updating database");
             await _context.SaveChangesAsync();
+            _log.LogInformation($"Finished updating database");
 
             // Send notification to Offer owner about accepted/rejected state
             if (acceptRejectOffer.IsAccepted)
@@ -226,6 +235,8 @@ namespace NYAidWebApp.Controllers
         [Route("{offerId}/notes")]
         public async Task<IEnumerable<Note>> GetNotes(string requestId, string offerId)
         {
+            _log.LogInformation($"Retrieving notes for offer {offerId}");
+
             // retrieve the offer offer
             var offer = await _context.Offers
                 .FirstAsync(o => o.OfferId == offerId);
@@ -237,6 +248,8 @@ namespace NYAidWebApp.Controllers
         [Route("{offerId}/notes")]
         public async Task<Note> CreateNote(string requestId, string offerId, [FromBody] string noteText)
         {
+            _log.LogInformation($"Creating note for offer {offerId}");
+
             // retrieve the offer offer
             var offer = await _context.Offers
                 .FirstAsync(o => o.OfferId == offerId);
@@ -258,8 +271,10 @@ namespace NYAidWebApp.Controllers
             offer.Notes = offer.Notes.Append(note).ToList();
 
             // save our changes
+            _log.LogInformation("Updating database");
             _context.Offers.Update(offer);
             await _context.SaveChangesAsync();
+            _log.LogInformation($"Finished updating database");
 
             // return with the note
             return note;

@@ -58,22 +58,28 @@ namespace NYAidWebApp.Controllers
                 }
             }
 
-            _log.LogInformation($"Retrieving all requests using filters (creatorUid: {creatorUid}, assignedUid: {assignedUid}");
-            return await _context.Requests
+            _log.LogInformation($"Retrieving all requests using filters (creatorUid: {creatorUid}, assignedUid: {assignedUid})");
+            var requests = await _context.Requests
                 .Where(r => !shouldFilterByState || r.State == state)
                 .Where(r => string.IsNullOrEmpty(creatorUid) || r.CreatorUid == creatorUid)
                 .Where(r => string.IsNullOrEmpty(assignedUid) || r.AssignedUid == assignedUid)
                 .OrderByDescending(r => r.Created)
-                .ToArrayAsync();
+                .ToListAsync();
+
+            _log.LogInformation($"Query completed with {requests.Count} requests.");
+            return requests;
         }
 
         // GET: api/request/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<Request> Get(string id)
         {
-            _log.LogInformation($"retrieving request id {id}");
-            return await _context.Requests
+            _log.LogInformation($"Retrieving request id {id}");
+            var request = await _context.Requests
                 .FirstOrDefaultAsync(r => r.RequestId == id);
+
+            _log.LogInformation($"Query completed for request id {id}");
+            return request;
         }
 
         // POST: api/request
@@ -107,6 +113,8 @@ namespace NYAidWebApp.Controllers
             // Add it to the data store
             await _context.AddAsync(request);
             await _context.SaveChangesAsync();
+
+            _log.LogInformation($"Finished updating database");
             return request;
         }
 
@@ -137,8 +145,11 @@ namespace NYAidWebApp.Controllers
             request.Phone = requestInfo.Phone;
             request.Description = requestInfo.Description;
 
+            _log.LogInformation($"Updating database");
             _context.Requests.Update(request);
             await _context.SaveChangesAsync();
+
+            _log.LogInformation($"Finished updating database");
             return request;
         }
 
@@ -146,6 +157,7 @@ namespace NYAidWebApp.Controllers
         [HttpDelete("{id}")]
         public async Task Delete(string id)
         {
+            _log.LogInformation($"Deleting request id {id} from database");
             var request = await _context.Requests
                 .FirstAsync(r => r.RequestId == id);
 
@@ -165,13 +177,17 @@ namespace NYAidWebApp.Controllers
                 throw new HttpRequestException($"Current user is not the owner of request id: { request.RequestId }");
             }
 
+            _log.LogInformation($"Updating database.");
             _context.Requests.Remove(request);
             await _context.SaveChangesAsync();
+            _log.LogInformation($"Finished updating database");
+
         }
 
         [HttpPost("{id}/close")]
         public async Task<Request> CloseRequest(string id)
         {
+            _log.LogInformation($"Closing request id {id}");
             var request = await _context.Requests
                 .FirstAsync(r => r.RequestId == id);
 
@@ -209,7 +225,10 @@ namespace NYAidWebApp.Controllers
             // Send a notification to the volunteer who helped with this request
             await _notificationService.SendRequestClosedNotification(id);
 
+            _log.LogInformation("Updating database");
             await _context.SaveChangesAsync();
+            _log.LogInformation($"Finished updating database");
+
             return request;
         }
     }

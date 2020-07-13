@@ -49,6 +49,7 @@ namespace NYAidWebApp.Controllers
                 _log.LogInformation($"Adding user {user.Name} to database.");
                 await _context.Users.AddAsync(user);
                 await _context.SaveChangesAsync();
+                _log.LogInformation($"Finished updating database");
             }
 
             return user;
@@ -68,6 +69,7 @@ namespace NYAidWebApp.Controllers
         [Route("all")]
         public async Task<UserInfo[]> GetAllKnownUsers()
         {
+            _log.LogInformation($"Retrieving all known users");
             return await _context.Users.ToArrayAsync();
         }
     }
