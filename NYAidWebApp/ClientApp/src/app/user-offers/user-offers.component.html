@@ -16,7 +16,7 @@
     
     <div *ngFor="let offer of offers">
         <div class="card bg-transparent border-secondary mb-3 p-2" 
-            [hidden]="showOpenOnly && offer.state !== 'submitted'">
+            [hidden]="showOpenOnly && offer.state === 'rejected'">
             <app-request-card [request]="offer.requestDetail">
                 <p class="card-text">
                     You offered to help on {{ offer.created | date }}
