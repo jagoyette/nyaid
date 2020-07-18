@@ -84,6 +84,13 @@ namespace NYAidWebApp.Services
                 return false;
             }
 
+            // Check for email notifications preference
+            if (user.EmailNotificationsEnabled != true)
+            {
+                _log.LogInformation($"User {user.Uid} does not have email notifications enabled. Skipping notification.");
+                return false;
+            }
+
             var client = new SendGridClient(ApiKey);
             var msg = new SendGridMessage()
             {
@@ -144,6 +151,13 @@ namespace NYAidWebApp.Services
             if (user == null)
             {
                 _log.LogError($"User {offer.VolunteerUid} was not found");
+                return false;
+            }
+
+            // Check for email notifications preference
+            if (user.EmailNotificationsEnabled != true)
+            {
+                _log.LogInformation($"User {user.Uid} does not have email notifications enabled. Skipping notification.");
                 return false;
             }
 
@@ -210,6 +224,13 @@ namespace NYAidWebApp.Services
                 return false;
             }
 
+            // Check for email notifications preference
+            if (user.EmailNotificationsEnabled != true)
+            {
+                _log.LogInformation($"User {user.Uid} does not have email notifications enabled. Skipping notification.");
+                return false;
+            }
+
             var client = new SendGridClient(ApiKey);
             var msg = new SendGridMessage()
             {
@@ -269,6 +290,13 @@ namespace NYAidWebApp.Services
             if (user == null)
             {
                 _log.LogError($"User {request.AssignedUid} was not found");
+                return false;
+            }
+
+            // Check for email notifications preference
+            if (user.EmailNotificationsEnabled != true)
+            {
+                _log.LogInformation($"User {user.Uid} does not have email notifications enabled. Skipping notification.");
                 return false;
             }
 
