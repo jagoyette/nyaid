@@ -63,14 +63,5 @@ namespace NYAidWebApp.Controllers
             return await _context.Users
                 .FirstOrDefaultAsync(u => u.Uid == uid);
         }
-
-        [HttpGet]
-        [Authorize]
-        [Route("all")]
-        public async Task<UserInfo[]> GetAllKnownUsers()
-        {
-            _log.LogInformation($"Retrieving all known users");
-            return await _context.Users.ToArrayAsync();
-        }
     }
 }
