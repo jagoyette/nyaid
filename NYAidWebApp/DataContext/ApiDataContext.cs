@@ -41,6 +41,11 @@ namespace NYAidWebApp.DataContext
 
             modelBuilder.Entity<Offer>()
                 .HasOne(o => o.RequestDetail);
+
+            // Set default value for email notifications
+            modelBuilder.Entity<UserInfo>()
+                .Property(p => p.EmailNotificationsEnabled)
+                .HasDefaultValue(true);
         }
 
         /// <summary>

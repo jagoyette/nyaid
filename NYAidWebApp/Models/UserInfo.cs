@@ -39,5 +39,10 @@ namespace NYAidWebApp.Models
         /// Email for the user
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// Flag to enable / disable notifications
+        /// </summary>
+        public bool? EmailNotificationsEnabled { get; set; }
     }
 }
