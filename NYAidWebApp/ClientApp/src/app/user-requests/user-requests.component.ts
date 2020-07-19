@@ -42,7 +42,7 @@ export class UserRequestsComponent implements OnInit {
   }
 
   onShowOffers(request: RequestInfo): void {
-    this.router.navigate(['request', request.requestId, 'offers']);
+    this.router.navigate(['requests', request.requestId, 'offers']);
   }
 
   onCloseRequest(request: RequestInfo): void {

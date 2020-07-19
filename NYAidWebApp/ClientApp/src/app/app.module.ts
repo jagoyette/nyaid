@@ -48,13 +48,13 @@ import { RequestCardComponent } from './components/request-card/request-card.com
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'login', component: UserLoginComponent },
       { path: 'profile', component: UserProfileComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
-      { path: 'profile/myrequests', component: UserRequestsComponent },
+      { path: 'profile/myrequests', component: UserRequestsComponent, canActivate: [AuthGuardService] },
       { path: 'profile/myoffers', component: UserOffersComponent, canActivate: [AuthGuardService] },
       { path: 'requests', component: RequestsComponent, pathMatch: 'full', canActivate: [AuthGuardService] },
       { path: 'requests/new', component: NewRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/update', component: UpdateRequestComponent, canActivate: [AuthGuardService] },
       { path: 'requests/:Id/offer', component: RequestOfferComponent, canActivate: [AuthGuardService] },
-      { path: 'request/:Id/offers', component: UserRequestOffersComponent, canActivate: [AuthGuardService] },
+      { path: 'requests/:Id/offers', component: UserRequestOffersComponent, canActivate: [AuthGuardService] },
       { path: '**', component: HomeComponent }
     ])
   ],
