@@ -31,10 +31,8 @@ export class RespondToOfferDlgComponent implements OnInit {
     this.nyaidApiService.acceptOffer(this.offer.requestId, this.offer.offerId, ar).subscribe(data => {
       console.log('Offer was accepted' + ' ' + reason);
       this.offer = data;
+      this.activeModal.close(this.offer);
     });
-
-    // Close the dialog
-    this.modalService.dismissAll();
   }
 
   onRejectOffer(reason: string): void {
@@ -46,10 +44,8 @@ export class RespondToOfferDlgComponent implements OnInit {
     this.nyaidApiService.acceptOffer(this.offer.requestId, this.offer.offerId, ar).subscribe(data => {
       console.log('Offer was rejected' + ' ' + reason);
       this.offer = data;
+      this.activeModal.close(this.offer);
     });
-
-    // Close the dialog
-    this.modalService.dismissAll();
   }
 
 }

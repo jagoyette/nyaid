@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { NyaidWebAppApiService } from '../services/nyaid-web-app-api-service';
 import { RequestInfo } from '../models/request-info';
@@ -23,23 +23,43 @@ export class UserRequestOffersComponent implements OnInit {
   ngOnInit() {
     // The desired route Id should be extracted from query params
     // and used to populate this request
-    const requestId = this.route.snapshot.paramMap.get('Id');
-    this.nyaidApiService.getRequest(requestId).subscribe(data => {
+    this.request.requestId = this.route.snapshot.paramMap.get('Id');
+    this.nyaidApiService.getRequest(this.request.requestId).subscribe(data => {
       this.request = data;
 
-      // Retrieve all offers for the request
-      this.nyaidApiService.getAllOffers(this.request.requestId).subscribe(offers => {
-        console.log(`Request ${this.request.requestId} has ${offers.length} offers`);
-        if (offers.length > 0) {
-          this.offers = offers;
-        }
-      });
+      // Get all offers for this request
+      this.retrieveAllOffers(this.request.requestId);
+    });
+  }
+
+  retrieveAllOffers(requestId: string): void {
+    // Retrieve all offers for the request
+    this.nyaidApiService.getAllOffers(requestId).subscribe(offers => {
+      console.log(`Request ${requestId} has ${offers.length} offers`);
+      if (offers.length > 0) {
+        this.offers = offers;
+      }
     });
   }
 
   onRespondToOffer(offer: OfferInfo): void {
-    console.log('onRespondToOffer was called');
+    // Create the dialog and show it
     const modalRef = this.modalService.open(RespondToOfferDlgComponent);
-    (modalRef.componentInstance as RespondToOfferDlgComponent).offer = offer;
+    modalRef.componentInstance.offer = offer;
+
+    // Update the offer data after dialog is closed
+    modalRef.result.then(data => {
+      // Dialog dismissed
+      console.log('Successfully responded to offer');
+
+      // Update the request in case it changed state
+      this.nyaidApiService.getRequest(this.request.requestId).subscribe(request => {
+        this.request = request;
+      });
+
+      // Update the offer info
+      this.retrieveAllOffers(this.request.requestId);
+
+    });
   }
 }

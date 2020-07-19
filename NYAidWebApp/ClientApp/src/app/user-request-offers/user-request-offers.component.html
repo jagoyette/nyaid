@@ -2,7 +2,7 @@
 
 <div>
   <div class="card bg-transparent border-secondary mb-3 p-2">
-    <app-request-card *ngIf="request" [request]="request">
+    <app-request-card *ngIf="request" [request]="request" displayState="true">
       <div class="container" [hidden]="!offers">
         <p class="card-text">Offers</p>
         <div class="card-footer shadow-sm">
