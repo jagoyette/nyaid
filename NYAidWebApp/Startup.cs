@@ -48,12 +48,29 @@ namespace NYAidWebApp
             //       use dotnet user secrets. At command prompt type:
             //       dotnet user-secrets set "SQL_CONNECTION_STRING" "your connection string"
             var connectionString = Configuration["SQL_CONNECTION_STRING"];
-            
-            // check connectionString for string.IsEmptyOrNull() and if it is missing, use InMemory() instead of SQL
-            if (string.IsNullOrEmpty(connectionString))
+
+            try
+            {
+                // check connectionString for string.IsEmptyOrNull() and if it is missing, use InMemory() instead of SQL
+                if (string.IsNullOrEmpty(connectionString))
+                    services.AddDbContext<ApiDataContext>(options => options.UseInMemoryDatabase(ApiDataContext.DatabaseName));
+                else
+                    services.AddDbContext<ApiDataContext>(options =>
+                    {
+                        options.UseSqlServer(connectionString, builder =>
+                        {
+                            // Enable retry strategy in case Azure SQL Server is not available
+                            builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null);
+                        });
+
+                    });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Exception encountered configuring database\n {e}");
+                Console.WriteLine($"Configuring for InMemory database");
                 services.AddDbContext<ApiDataContext>(options => options.UseInMemoryDatabase(ApiDataContext.DatabaseName));
-            else
-                services.AddDbContext<ApiDataContext>(options => options.UseSqlServer(connectionString));
+            }
 
             // Add WebAPI controllers
             services.AddControllersWithViews().AddJsonOptions(options =>
