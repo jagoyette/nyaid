@@ -170,22 +170,26 @@ namespace NYAidWebApp.Controllers
 
         [HttpPost]
         [Route("{offerId}/accept")]
-        public async Task<Offer> AcceptOffer(string requestId, string offerId,
+        public async Task<ActionResult<Offer>> AcceptOffer(string requestId, string offerId,
             [FromBody] AcceptRejectOffer acceptRejectOffer)
         {
             _log.LogInformation($"Accept / Reject API called for request {requestId} and offer {offerId}");
 
-            // retrieve the offer
-            var offer = await _context.Offers
-                .FirstAsync(o => o.OfferId == offerId);
-
             // retrieve the request
             var request = await _context.Requests
-                .FirstAsync(r => r.RequestId == offer.RequestId);
+                .FirstAsync(r => r.RequestId == requestId);
 
             // Retrieve all offers for this request
             var allOffers = _context.Offers
                 .Where(o => o.RequestId == requestId);
+
+            // retrieve the offer being responded to
+            var offer = allOffers.FirstOrDefault(o => o.OfferId == offerId);
+            if (offer == null)
+            {
+                _log.LogError($"Cannot find offer {offerId}");
+                return NotFound();
+            }
 
             // Verify that the current user owns this request
             var user = _userService.CreateUserInfoFromClaims(User);
@@ -202,7 +206,10 @@ namespace NYAidWebApp.Controllers
             offer.State = acceptRejectOffer.IsAccepted ? OfferState.Accepted : OfferState.Rejected;
             offer.AcceptRejectReason = acceptRejectOffer.Reason;
             _context.Offers.Update(offer);
+            await _context.SaveChangesAsync();
 
+            _log.LogInformation($"Offer state changed to {offer.State}. Updating database...");
+            
             // If the offer is accepted, also assign the volunteer to the request
             if (offer.State == OfferState.Accepted)
             {
@@ -212,7 +219,7 @@ namespace NYAidWebApp.Controllers
                 _context.Requests.Update(request);
 
                 _log.LogInformation($"Rejecting all other offers for request {requestId}");
-                await allOffers.ForEachAsync(o =>
+                foreach (var o in allOffers)
                 {
                     // Reject all submitted offers except the one we are accepting
                     if (o.OfferId != offerId && o.State == OfferState.Submitted)
@@ -220,15 +227,17 @@ namespace NYAidWebApp.Controllers
                         o.AcceptRejectReason = "Another offer was accepted.";
                         o.State = OfferState.Rejected;
 
+                        _context.Offers.Update(o);
+                        await _context.SaveChangesAsync();
+
                         // Send notification that this offer was rejected
-                        _notificationService.SendOfferDeclinedNotification(o.OfferId);
+                        // Make sure the database context is updated and saved prior
+                        // to sending notifications.
+                        await _notificationService.SendOfferDeclinedNotification(o.OfferId);
                     }
-                });
-                _context.Offers.UpdateRange(allOffers);
+                }
             }
 
-            _log.LogInformation("Updating database");
-            await _context.SaveChangesAsync();
             _log.LogInformation($"Finished updating database");
 
             // Send notification to Offer owner about accepted/rejected state
