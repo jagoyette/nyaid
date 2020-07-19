@@ -205,18 +205,18 @@ namespace NYAidWebApp.Controllers
             // Update offer state
             offer.State = acceptRejectOffer.IsAccepted ? OfferState.Accepted : OfferState.Rejected;
             offer.AcceptRejectReason = acceptRejectOffer.Reason;
-            _context.Offers.Update(offer);
-            await _context.SaveChangesAsync();
 
-            _log.LogInformation($"Offer state changed to {offer.State}. Updating database...");
+            _log.LogInformation($"Offer state changed to {offer.State}.");
             
+            // track rejected offers so we can send notifications
+            var rejectedOfferIds = new List<string>();
+
             // If the offer is accepted, also assign the volunteer to the request
             if (offer.State == OfferState.Accepted)
             {
                 _log.LogInformation($"Offer accepted, assigning volunteer to request");
                 request.AssignedUid = offer.VolunteerUid;
                 request.State = RequestState.InProcess;
-                _context.Requests.Update(request);
 
                 _log.LogInformation($"Rejecting all other offers for request {requestId}");
                 foreach (var o in allOffers)
@@ -227,17 +227,15 @@ namespace NYAidWebApp.Controllers
                         o.AcceptRejectReason = "Another offer was accepted.";
                         o.State = OfferState.Rejected;
 
-                        _context.Offers.Update(o);
-                        await _context.SaveChangesAsync();
-
-                        // Send notification that this offer was rejected
-                        // Make sure the database context is updated and saved prior
-                        // to sending notifications.
-                        await _notificationService.SendOfferDeclinedNotification(o.OfferId);
+                        // Add offer id to list to send notification
+                        rejectedOfferIds.Add(o.OfferId);
                     }
                 }
             }
 
+            _context.Requests.Update(request);
+            _context.Offers.UpdateRange(allOffers);
+            await _context.SaveChangesAsync();
             _log.LogInformation($"Finished updating database");
 
             // Send notification to Offer owner about accepted/rejected state
@@ -245,6 +243,16 @@ namespace NYAidWebApp.Controllers
                 await _notificationService.SendOfferAcceptedNotification(offerId);
             else
                 await _notificationService.SendOfferDeclinedNotification(offerId);
+
+            // Send out notifications for rejected offers
+            if (rejectedOfferIds.Count > 0)
+            {
+                _log.LogInformation($"Notifying {rejectedOfferIds.Count} users with other offers");
+                foreach (var id in rejectedOfferIds)
+                {
+                    await _notificationService.SendOfferDeclinedNotification(id);
+                }
+            }
 
             return offer;
         }
