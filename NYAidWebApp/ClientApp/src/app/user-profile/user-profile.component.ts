@@ -13,7 +13,10 @@ export class UserProfileComponent implements OnInit {
 
   constructor(public userService: NyaidUserService, private router: Router) { }
 
+  public currentUser: UserInfo;
+
   ngOnInit() {
+    this.currentUser = this.userService.currentUser;
   }
 
   getProviderDisplayName(userInfo: UserInfo): string {
@@ -60,5 +63,13 @@ export class UserProfileComponent implements OnInit {
 
   onMyOffers(): void {
     this.router.navigate(['profile/myoffers']);
+  }
+
+  onNotificationsChanged($e): void {
+    console.log('Setting User Email Notifications Preference to: ' + this.currentUser.emailNotificationsEnabled);
+    this.userService.setUserPreferences(this.currentUser.emailNotificationsEnabled)
+      .subscribe(data => {
+        console.log('User preferences updated');
+      });
   }
 }

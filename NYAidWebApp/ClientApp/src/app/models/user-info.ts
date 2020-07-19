@@ -6,4 +6,5 @@ export class UserInfo {
     readonly givenName: string;
     readonly surname: string;
     readonly email: string;
+    emailNotificationsEnabled: boolean;
 }

@@ -43,4 +43,9 @@ export class NyaidUserService {
     return this.http.get<UserInfo>(this.baseUrl + 'api/user/' + uid);
   }
 
+  public setUserPreferences(emailNotificationsEnabled: boolean): Observable<UserInfo> {
+    return this.http.put<UserInfo>(this.baseUrl + 'api/user/', {
+      'emailNotificationsEnabled': emailNotificationsEnabled
+    });
+  }
 }
