@@ -221,8 +221,8 @@ namespace NYAidWebApp.Controllers
                 _log.LogInformation($"Rejecting all other offers for request {requestId}");
                 foreach (var o in allOffers)
                 {
-                    // Reject all submitted offers except the one we are accepting
-                    if (o.OfferId != offerId && o.State == OfferState.Submitted)
+                    // Reject all submitted offers
+                    if (o.OfferId != offerId)
                     {
                         o.AcceptRejectReason = "Another offer was accepted.";
                         o.State = OfferState.Rejected;
