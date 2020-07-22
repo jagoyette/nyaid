@@ -16,6 +16,12 @@
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-light" [routerLink]="['/requests']" (click)="collapse()">Help Someone</a>
           </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-light" [routerLink]="['profile/myrequests']" (click)="collapse()">My Requests</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-light" [routerLink]="['profile/myoffers']" (click)="collapse()">My Offers</a>
+          </li>
         </ul>
 
           <!-- Displayed when user is logged in -->
